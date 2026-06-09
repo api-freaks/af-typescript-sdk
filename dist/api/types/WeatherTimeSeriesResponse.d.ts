@@ -1,0 +1,207 @@
+export interface WeatherTimeSeriesResponse {
+    /** Location information */
+    location?: WeatherTimeSeriesResponse.Location | undefined;
+    /** Historical data object of the provided date range */
+    historical?: Record<string, WeatherTimeSeriesResponse.Historical.Value> | undefined;
+}
+export declare namespace WeatherTimeSeriesResponse {
+    /**
+     * Location information
+     */
+    type Location = {
+        latitude: number;
+        longitude: number;
+        country_name: string;
+        state_prov: string;
+        city: string;
+        locality?: string | undefined;
+        elevation?: number | undefined;
+        timezone: string;
+        timezone_abbreviation: string;
+    } | {
+        continent_code: string;
+        continent_name: string;
+        country_code2: string;
+        country_code3: string;
+        country_name: string;
+        country_name_official: string;
+        is_eu?: boolean | undefined;
+        state_prov: string;
+        state_code?: string | undefined;
+        district?: string | undefined;
+        city: string;
+        zipcode?: string | undefined;
+        latitude: number;
+        longitude: number;
+        locality?: string | undefined;
+        elevation?: number | undefined;
+        timezone: string;
+        timezone_abbreviation: string;
+    } | {
+        location_string: string;
+        country_name: string;
+        state_prov: string;
+        city: string;
+        locality?: string | undefined;
+        latitude: number;
+        longitude: number;
+        elevation?: number | undefined;
+        timezone: string;
+        timezone_abbreviation: string;
+    };
+    namespace Historical {
+        interface Value {
+            /** Daily historical data */
+            daily?: Value.Daily | undefined;
+            /** Hourly historical data */
+            hourly?: Value.Hourly.Item[] | undefined;
+            /** Astronomy data */
+            astronomy?: Value.Astronomy | undefined;
+        }
+        namespace Value {
+            /**
+             * Daily historical data
+             */
+            interface Daily {
+                /** ISO 8601 formatted timestamp */
+                timestamp?: string | undefined;
+                /** Weather condition code */
+                weather_code?: number | undefined;
+                /** Daily mean air temperature at 2 meters (°C) */
+                temperature_2m_mean?: number | undefined;
+                /** Daily maximum air temperature at 2 meters (°C) */
+                temperature_2m_max?: number | undefined;
+                /** Daily minimum air temperature at 2 meters (°C) */
+                temperature_2m_min?: number | undefined;
+                /** Daily mean perceived temperature (°C) */
+                apparent_temperature_mean?: number | undefined;
+                /** Daily maximum perceived temperature (°C) */
+                apparent_temperature_max?: number | undefined;
+                /** Daily minimum perceived temperature (°C) */
+                apparent_temperature_min?: number | undefined;
+                /** Total precipitation (mm) */
+                precipitation_sum?: number | undefined;
+                /** Total rainfall (mm) */
+                rain_sum?: number | undefined;
+                /** Total snowfall (cm) */
+                snowfall_sum?: number | undefined;
+                /** Maximum wind speed at 10 meters (km/h) */
+                wind_speed_10m_max?: number | undefined;
+                /** Maximum wind gusts at 10 meters (km/h) */
+                wind_gusts_10m_max?: number | undefined;
+                /** Daily mean wind speed at 10 meters (km/h) */
+                wind_speed_10m_mean?: number | undefined;
+                /** Minimum wind speed at 10 meters (km/h) */
+                wind_speed_10m_min?: number | undefined;
+                /** Minimum wind gusts at 10 meters (km/h) */
+                wind_gusts_10m_min?: number | undefined;
+                /** Daily mean wind gusts at 10 meters (km/h) */
+                wind_gusts_10m_mean?: number | undefined;
+                /** Dominant wind direction at 10 meters (°) */
+                wind_direction_10m_dominant?: number | undefined;
+                /** Daily sum of shortwave solar radiation (MJ/m²) */
+                shortwave_radiation_sum?: number | undefined;
+                /** Daily sum of reference evapotranspiration (mm) */
+                et0_fao_evapotranspiration_sum?: number | undefined;
+                /** Daily mean cloud cover percentage (%) */
+                cloud_cover_mean?: number | undefined;
+                /** Daily mean dew point temperature at 2 meters (°C) */
+                dew_point_2m_mean?: number | undefined;
+                /** Daily maximum dew point temperature at 2 meters (°C) */
+                dew_point_2m_max?: number | undefined;
+                /** Daily minimum dew point temperature at 2 meters (°C) */
+                dew_point_2m_min?: number | undefined;
+                /** Daily mean relative humidity at 2 meters (%) */
+                relative_humidity_2m_mean?: number | undefined;
+                /** Daily maximum relative humidity at 2 meters (%) */
+                relative_humidity_2m_max?: number | undefined;
+                /** Daily minimum relative humidity at 2 meters (%) */
+                relative_humidity_2m_min?: number | undefined;
+                /** Daily mean atmospheric pressure at mean sea level (hPa) */
+                pressure_msl_mean?: number | undefined;
+                /** Daily mean surface pressure at ground level (hPa) */
+                surface_pressure_mean?: number | undefined;
+            }
+            type Hourly = Hourly.Item[];
+            namespace Hourly {
+                interface Item {
+                    /** ISO 8601 formatted timestamp */
+                    timestamp?: string | undefined;
+                    /** Air temperature at 2 meters (°C) */
+                    temperature_2m?: number | undefined;
+                    /** Relative humidity at 2 meters (%) */
+                    relative_humidity_2m?: number | undefined;
+                    /** Dew point temperature at 2 meters (°C) */
+                    dew_point_2m?: number | undefined;
+                    /** Perceived temperature (°C) */
+                    apparent_temperature?: number | undefined;
+                    /** Total precipitation in this hour (mm) */
+                    precipitation?: number | undefined;
+                    /** Rainfall in this hour (mm) */
+                    rain?: number | undefined;
+                    /** Snowfall in this hour (cm) */
+                    snowfall?: number | undefined;
+                    /** Weather condition code */
+                    weather_code?: number | undefined;
+                    /** Atmospheric pressure at mean sea level (hPa) */
+                    pressure_msl?: number | undefined;
+                    /** Atmospheric pressure at ground level (hPa) */
+                    surface_pressure?: number | undefined;
+                    /** Cloud cover percentage (%) */
+                    cloud_cover?: number | undefined;
+                    /** Hourly reference evapotranspiration (mm) */
+                    et0_fao_evapotranspiration?: number | undefined;
+                    /** Wind speed at 10 meters (km/h) */
+                    wind_speed_10m?: number | undefined;
+                    /** Wind direction at 10 meters (°) */
+                    wind_direction_10m?: number | undefined;
+                    /** Wind gusts at 10 meters (km/h) */
+                    wind_gusts_10m?: number | undefined;
+                    /** Reflectivity of the Earth's surface */
+                    albedo?: number | undefined;
+                    /** Incoming shortwave solar radiation (W/m²) */
+                    shortwave_radiation?: number | undefined;
+                    /** Direct solar radiation (W/m²) */
+                    direct_radiation?: number | undefined;
+                    /** Diffuse solar radiation (W/m²) */
+                    diffuse_radiation?: number | undefined;
+                    /** Direct solar irradiance (W/m²) */
+                    direct_normal_irradiance?: number | undefined;
+                    /** Total solar irradiance on a tilted surface (W/m²) */
+                    global_tilted_irradiance?: number | undefined;
+                }
+            }
+            /**
+             * Astronomy data
+             */
+            interface Astronomy {
+                /** Calendar date in YYYY-MM-DD format for the astronomical data. */
+                date: string;
+                /** Time of true solar midnight in HH:MM format. */
+                mid_night: string;
+                /** Time when astronomical twilight ends and dawn begins in HH:MM format. */
+                night_end: string;
+                /** Time when the Sun becomes visible above the horizon in HH:MM format. */
+                sunrise: string;
+                /** Time when the Sun reaches its highest point in the sky in HH:MM format. */
+                solar_noon: string;
+                /** Time when the Sun disappears below the horizon in HH:MM format. */
+                sunset: string;
+                /** Time when astronomical twilight begins and night starts in HH:MM format. */
+                night_begin: string;
+                /** Total duration of daylight in HH:MM format. */
+                day_length: string;
+                /** Current position of the Sun relative to the horizon (above_horizon, below_horizon, or -). */
+                sun_status: string;
+                /** Current lunar phase (NEW_MOON, WAXING_CRESCENT, FULL_MOON, WANING_GIBBOUS, etc.). */
+                moon_phase: string;
+                /** Time when the Moon becomes visible above the horizon in HH:MM format. */
+                moonrise: string;
+                /** Time when the Moon disappears below the horizon in HH:MM format. */
+                moonset: string;
+                /** Current visibility status of the Moon (visible, not_visible, or -). */
+                moon_status: string;
+            }
+        }
+    }
+}

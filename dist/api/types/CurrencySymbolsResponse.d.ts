@@ -1,0 +1,4 @@
+export interface CurrencySymbolsResponse {
+    /** A map of all currency symbols keyed by currency code; value is the full currency name. */
+    currencySymbols: Record<string, string>;
+}

@@ -1,0 +1,32 @@
+import type * as ApifreaksApi from "../../index.js";
+/**
+ * @example
+ *     {
+ *         apiKey: "apiKey",
+ *         type: "A",
+ *         value: "value"
+ *     }
+ */
+export interface DomainDnsReverseRequest {
+    /** Your API key */
+    apiKey: string;
+    /** Format of the response. */
+    format?: ApifreaksApi.DomainDnsReverseRequestFormat;
+    /**
+     * The type of reverse DNS lookup to perform. Determines how the value parameter is interpreted:
+     * - A: IPv4 CIDR block
+     * - AAAA: IPv6 CIDR block
+     * - MX: Mail provider domain
+     * - NS: Name server provider hostname
+     * - SOA: SOA record admin domain
+     * - SPF/TXT: Target verification strings
+     * - CNAME: Target hostname
+     */
+    type: ApifreaksApi.DomainDnsReverseRequestType;
+    /** Provide an IP or CIDR for A/AAAA lookups, or a hostname/selector for MX, NS, SOA, SPF, TXT, and CNAME queries. Wildcard regex patterns are also supported (e.g., mail.google.com, m*.google.com, _spf.g*.com, s*.g*.com). */
+    value: string;
+    /** Accepts 'true' or 'false'. "true" returns only records that exactly match the input (NS, MX, CNAME, SOA, SPF, TXT). "false" returns all matches (default when omitted). */
+    exact?: boolean;
+    /** Page number to paginate through results (defaults to 1). */
+    page?: number;
+}

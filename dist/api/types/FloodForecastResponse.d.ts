@@ -1,0 +1,81 @@
+export interface FloodForecastResponse {
+    /** Location information */
+    location?: FloodForecastResponse.Location | undefined;
+    /** Flood forecast data object */
+    forecast?: Record<string, FloodForecastResponse.Forecast.Value> | undefined;
+}
+export declare namespace FloodForecastResponse {
+    /**
+     * Location information
+     */
+    type Location = {
+        latitude: number;
+        longitude: number;
+        country_name: string;
+        state_prov: string;
+        city: string;
+        locality?: string | undefined;
+        elevation?: number | undefined;
+        timezone: string;
+        timezone_abbreviation: string;
+    } | {
+        continent_code: string;
+        continent_name: string;
+        country_code2: string;
+        country_code3: string;
+        country_name: string;
+        country_name_official: string;
+        is_eu?: boolean | undefined;
+        state_prov: string;
+        state_code?: string | undefined;
+        district?: string | undefined;
+        city: string;
+        zipcode?: string | undefined;
+        latitude: number;
+        longitude: number;
+        locality?: string | undefined;
+        elevation?: number | undefined;
+        timezone: string;
+        timezone_abbreviation: string;
+    } | {
+        location_string: string;
+        country_name: string;
+        state_prov: string;
+        city: string;
+        locality?: string | undefined;
+        latitude: number;
+        longitude: number;
+        elevation?: number | undefined;
+        timezone: string;
+        timezone_abbreviation: string;
+    };
+    namespace Forecast {
+        interface Value {
+            /** Daily flood forecast data for the date. */
+            daily?: Value.Daily | undefined;
+        }
+        namespace Value {
+            /**
+             * Daily flood forecast data for the date.
+             */
+            interface Daily {
+                /** ISO 8601 formatted timestamp */
+                timestamp?: string | undefined;
+                /** The observed river discharge value (m³/s) */
+                river_discharge?: number | undefined;
+                /** The mean river discharge (m³/s) */
+                river_discharge_mean?: number | undefined;
+                /** The median river discharge (m³/s) */
+                river_discharge_median?: number | undefined;
+                /** The maximum river discharge (m³/s) */
+                river_discharge_max?: number | undefined;
+                /** The minimum river discharge (m³/s) */
+                river_discharge_min?: number | undefined;
+                /** The 25th percentile of river discharge (m³/s) */
+                river_discharge_p25?: number | undefined;
+                /** The 75th percentile of river discharge (m³/s) */
+                river_discharge_p75?: number | undefined;
+            }
+        }
+    }
+}

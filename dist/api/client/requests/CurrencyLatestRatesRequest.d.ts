@@ -1,0 +1,19 @@
+import type * as ApifreaksApi from "../../index.js";
+/**
+ * @example
+ *     {
+ *         apiKey: "apiKey"
+ *     }
+ */
+export interface CurrencyLatestRatesRequest {
+    /** Your API key */
+    apiKey: string;
+    /** Format of the response. */
+    format?: ApifreaksApi.CurrencyLatestRatesRequestFormat;
+    /** Base currency for rate calculations */
+    base?: string;
+    /** Comma separated list of desired currency codes */
+    symbols?: string | string[];
+    /** Exchange rates update period (1d=daily, 1h=hourly, 10m=10 minutes, 1m=1 minute) */
+    updates?: ApifreaksApi.CurrencyLatestRatesRequestUpdates;
+}

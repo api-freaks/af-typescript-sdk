@@ -1,0 +1,4 @@
+export interface CurrencyHistoricalLimitsResponse {
+    /** Availability date range per currency, formatted "YYYY-MM-DD to YYYY-MM-DD". */
+    availabilityPeriod: Record<string, string>;
+}

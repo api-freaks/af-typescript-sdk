@@ -1,0 +1,268 @@
+export interface WeatherForecastResponse {
+    /** Location information */
+    location?: WeatherForecastResponse.Location | undefined;
+    /** Forecast data object of the provided date range */
+    forecast?: Record<string, WeatherForecastResponse.Forecast.Value> | undefined;
+}
+export declare namespace WeatherForecastResponse {
+    /**
+     * Location information
+     */
+    type Location = {
+        latitude: number;
+        longitude: number;
+        country_name: string;
+        state_prov: string;
+        city: string;
+        locality?: string | undefined;
+        elevation?: number | undefined;
+        timezone: string;
+        timezone_abbreviation: string;
+    } | {
+        continent_code: string;
+        continent_name: string;
+        country_code2: string;
+        country_code3: string;
+        country_name: string;
+        country_name_official: string;
+        is_eu?: boolean | undefined;
+        state_prov: string;
+        state_code?: string | undefined;
+        district?: string | undefined;
+        city: string;
+        zipcode?: string | undefined;
+        latitude: number;
+        longitude: number;
+        locality?: string | undefined;
+        elevation?: number | undefined;
+        timezone: string;
+        timezone_abbreviation: string;
+    } | {
+        location_string: string;
+        country_name: string;
+        state_prov: string;
+        city: string;
+        locality?: string | undefined;
+        latitude: number;
+        longitude: number;
+        elevation?: number | undefined;
+        timezone: string;
+        timezone_abbreviation: string;
+    };
+    namespace Forecast {
+        interface Value {
+            /** Daily forecast data */
+            daily?: Value.Daily | undefined;
+            /** Hourly forecast data */
+            hourly?: Value.Hourly.Item[] | undefined;
+            /** Minutely forecast data */
+            minutely?: Value.Minutely.Item[] | undefined;
+            /** Astronomy data */
+            astronomy?: Value.Astronomy | undefined;
+        }
+        namespace Value {
+            /**
+             * Daily forecast data
+             */
+            interface Daily {
+                /** ISO 8601 formatted timestamp */
+                timestamp?: string | undefined;
+                /** Weather condition code */
+                weather_code?: number | undefined;
+                /** Maximum air temperature at 2m (°C) */
+                temperature_2m_max?: number | undefined;
+                /** Minimum air temperature at 2m (°C) */
+                temperature_2m_min?: number | undefined;
+                /** Mean air temperature at 2m (°C) */
+                temperature_2m_mean?: number | undefined;
+                /** Maximum feels-like temperature (°C) */
+                apparent_temperature_max?: number | undefined;
+                /** Minimum feels-like temperature (°C) */
+                apparent_temperature_min?: number | undefined;
+                /** Mean feels-like temperature (°C) */
+                apparent_temperature_mean?: number | undefined;
+                /** Daily maximum UV index */
+                uv_index_max?: number | undefined;
+                /** UV index clear sky max */
+                uv_index_clear_sky_max?: number | undefined;
+                /** Total rain (mm) */
+                rain_sum?: number | undefined;
+                /** Total showers (mm) */
+                showers_sum?: number | undefined;
+                /** Total snowfall (cm) */
+                snowfall_sum?: number | undefined;
+                /** Total precipitation (mm) */
+                precipitation_sum?: number | undefined;
+                /** Mean probability of precipitation (%) */
+                precipitation_probability_mean?: number | undefined;
+                /** Max wind speed at 10m (km/h) */
+                wind_speed_10m_max?: number | undefined;
+                /** Min wind speed at 10m (km/h) */
+                wind_speed_10m_min?: number | undefined;
+                /** Mean wind speed at 10m (km/h) */
+                wind_speed_10m_mean?: number | undefined;
+                /** Max wind gusts at 10m (km/h) */
+                wind_gusts_10m_max?: number | undefined;
+                /** Min wind gusts at 10m (km/h) */
+                wind_gusts_10m_min?: number | undefined;
+                /** Mean wind gusts at 10m (km/h) */
+                wind_gusts_10m_mean?: number | undefined;
+                /** Dominant wind direction at 10m (°) */
+                wind_direction_10m_dominant?: number | undefined;
+                /** Total shortwave radiation (MJ/m²) */
+                shortwave_radiation_sum?: number | undefined;
+                /** Mean surface pressure (hPa) */
+                surface_pressure_mean?: number | undefined;
+                /** Mean sea-level pressure (hPa) */
+                pressure_msl_mean?: number | undefined;
+                /** Mean visibility distance (m) */
+                visibility_mean?: number | undefined;
+                /** Mean cloud cover (%) */
+                cloud_cover_mean?: number | undefined;
+                /** Max dew point at 2m (°C) */
+                dew_point_2m_max?: number | undefined;
+                /** Min dew point at 2m (°C) */
+                dew_point_2m_min?: number | undefined;
+                /** Mean dew point at 2m (°C) */
+                dew_point_2m_mean?: number | undefined;
+                /** Max relative humidity (%) */
+                relative_humidity_2m_max?: number | undefined;
+                /** Min relative humidity (%) */
+                relative_humidity_2m_min?: number | undefined;
+                /** Mean relative humidity (%) */
+                relative_humidity_2m_mean?: number | undefined;
+                /** ET₀ Reference Evapotranspiration (mm) */
+                et0_fao_evapotranspiration_sum?: number | undefined;
+            }
+            type Hourly = Hourly.Item[];
+            namespace Hourly {
+                interface Item {
+                    /** ISO 8601 formatted timestamp */
+                    timestamp?: string | undefined;
+                    /** Air temperature at 2m (°C) */
+                    temperature_2m?: number | undefined;
+                    /** Relative humidity at 2m (%) */
+                    relative_humidity_2m?: number | undefined;
+                    /** Dew point at 2m (°C) */
+                    dew_point_2m?: number | undefined;
+                    /** Feels-like temperature (°C) */
+                    apparent_temperature?: number | undefined;
+                    /** Total precipitation at this time (mm) */
+                    precipitation?: number | undefined;
+                    /** Probability of precipitation (%) */
+                    precipitation_probability?: number | undefined;
+                    /** Rainfall (mm) */
+                    rain?: number | undefined;
+                    /** Showers (mm) */
+                    showers?: number | undefined;
+                    /** Snowfall (cm) */
+                    snowfall?: number | undefined;
+                    /** Weather condition code */
+                    weather_code?: number | undefined;
+                    /** Sea-level pressure (hPa) */
+                    pressure_msl?: number | undefined;
+                    /** Surface pressure (hPa) */
+                    surface_pressure?: number | undefined;
+                    /** Cloud cover (%) */
+                    cloud_cover?: number | undefined;
+                    /** Visibility distance (m) */
+                    visibility?: number | undefined;
+                    /** Evapotranspiration (mm) */
+                    et0_fao_evapotranspiration?: number | undefined;
+                    /** Wind speed at 10m (km/h) */
+                    wind_speed_10m?: number | undefined;
+                    /** Wind direction at 10m (°) */
+                    wind_direction_10m?: number | undefined;
+                    /** Wind gusts at 10m (km/h) */
+                    wind_gusts_10m?: number | undefined;
+                    /** UV index */
+                    uv_index?: number | undefined;
+                    /** UV index under clear-sky conditions */
+                    uv_index_clear_sky?: number | undefined;
+                    /** Shortwave radiation (W/m²) */
+                    shortwave_radiation?: number | undefined;
+                    /** Direct solar radiation (W/m²) */
+                    direct_radiation?: number | undefined;
+                    /** Diffuse solar radiation (W/m²) */
+                    diffuse_radiation?: number | undefined;
+                    /** Direct normal irradiance (W/m²) */
+                    direct_normal_irradiance?: number | undefined;
+                    /** Global tilted irradiance (W/m²) */
+                    global_tilted_irradiance?: number | undefined;
+                }
+            }
+            type Minutely = Minutely.Item[];
+            namespace Minutely {
+                interface Item {
+                    /** ISO 8601 formatted timestamp */
+                    timestamp?: string | undefined;
+                    /** Air temperature at 2m (°C) */
+                    temperature_2m?: number | undefined;
+                    /** Relative humidity at 2m (%) */
+                    relative_humidity_2m?: number | undefined;
+                    /** Dew point at 2m (°C) */
+                    dew_point_2m?: number | undefined;
+                    /** Feels-like temperature (°C) */
+                    apparent_temperature?: number | undefined;
+                    /** Precipitation at this minute (mm) */
+                    precipitation?: number | undefined;
+                    /** Rainfall (mm) */
+                    rain?: number | undefined;
+                    /** Snowfall (cm) */
+                    snowfall?: number | undefined;
+                    /** Weather condition code */
+                    weather_code?: number | undefined;
+                    /** Wind speed at 10m (km/h) */
+                    wind_speed_10m?: number | undefined;
+                    /** Wind direction at 10m (°) */
+                    wind_direction_10m?: number | undefined;
+                    /** Wind gusts at 10m (km/h) */
+                    wind_gusts_10m?: number | undefined;
+                    /** Visibility distance (m) */
+                    visibility?: number | undefined;
+                    /** Shortwave radiation (W/m²) */
+                    shortwave_radiation?: number | undefined;
+                    /** Direct solar radiation (W/m²) */
+                    direct_radiation?: number | undefined;
+                    /** Diffuse solar radiation (W/m²) */
+                    diffuse_radiation?: number | undefined;
+                    /** Direct normal irradiance (W/m²) */
+                    direct_normal_irradiance?: number | undefined;
+                    /** Global tilted irradiance (W/m²) */
+                    global_tilted_irradiance?: number | undefined;
+                }
+            }
+            /**
+             * Astronomy data
+             */
+            interface Astronomy {
+                /** Calendar date in YYYY-MM-DD format for the astronomical data. */
+                date: string;
+                /** Time of true solar midnight in HH:MM format. */
+                mid_night: string;
+                /** Time when astronomical twilight ends and dawn begins in HH:MM format. */
+                night_end: string;
+                /** Time when the Sun becomes visible above the horizon in HH:MM format. */
+                sunrise: string;
+                /** Time when the Sun reaches its highest point in the sky in HH:MM format. */
+                solar_noon: string;
+                /** Time when the Sun disappears below the horizon in HH:MM format. */
+                sunset: string;
+                /** Time when astronomical twilight begins and night starts in HH:MM format. */
+                night_begin: string;
+                /** Total duration of daylight in HH:MM format. */
+                day_length: string;
+                /** Current position of the Sun relative to the horizon (above_horizon, below_horizon, or -). */
+                sun_status: string;
+                /** Current lunar phase (NEW_MOON, WAXING_CRESCENT, FULL_MOON, WANING_GIBBOUS, etc.). */
+                moon_phase: string;
+                /** Time when the Moon becomes visible above the horizon in HH:MM format. */
+                moonrise: string;
+                /** Time when the Moon disappears below the horizon in HH:MM format. */
+                moonset: string;
+                /** Current visibility status of the Moon (visible, not_visible, or -). */
+                moon_status: string;
+            }
+        }
+    }
+}

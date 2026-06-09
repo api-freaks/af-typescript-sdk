@@ -1,0 +1,18 @@
+import type * as ApifreaksApi from "../../index.js";
+/**
+ * @example
+ *     {
+ *         apiKey: "apiKey",
+ *         text: "The global mental is health crisis is now a serious and compelex problem. It needs quick and ongoing action from policymakers, healthcare workers, and the whole society."
+ *     }
+ */
+export interface ReadabilityScoreRequest {
+    /** Your API key */
+    apiKey: string;
+    /** Target audience used to tune sentence difficulty levels */
+    target?: ApifreaksApi.ReadabilityScoreRequestTarget;
+    /** Comma-separated response sections to omit. Possible values are readability_scores, sentence_readability, readability_grade */
+    exclude?: string;
+    /** Text to analyze for readability */
+    text: string;
+}

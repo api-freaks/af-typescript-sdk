@@ -1,0 +1,6 @@
+export interface PdfUploadBinaryResponse {
+    /** The name of the uploaded file. */
+    fileName?: string | undefined;
+    /** The unique identifier assigned to the uploaded file. */
+    fileId: string;
+}

@@ -1,0 +1,16 @@
+import type * as ApifreaksApi from "../../index.js";
+/**
+ * @example
+ *     {
+ *         apiKey: "apiKey",
+ *         asn: "asn"
+ *     }
+ */
+export interface AsnWhoisLookupRequest {
+    /** Your API key */
+    apiKey: string;
+    /** Format of the response. */
+    format?: ApifreaksApi.AsnWhoisLookupRequestFormat;
+    /** The Autonomous System Number (ASN) to retrieve WHOIS data for. Can be prefixed with 'as' or not. */
+    asn: string;
+}

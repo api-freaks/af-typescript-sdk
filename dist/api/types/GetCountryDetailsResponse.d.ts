@@ -1,0 +1,17 @@
+export interface GetCountryDetailsResponse {
+    name: string;
+    iso_alpha_2: string;
+    iso_alpha_3: string;
+    iso_numeric: number;
+    phone_code: number;
+    capital: string;
+    top_level_domain: string;
+    native_name: string;
+    region: string;
+    subregion: string;
+    nationality: string;
+    flag_emoji: string;
+    currency_code: string;
+    currency_name: string;
+    currency_symbol: string;
+}

@@ -1,0 +1,43 @@
+import type * as ApifreaksApi from "../../index.js";
+/**
+ * @example
+ *     {
+ *         apiKey: "apiKey"
+ *     }
+ */
+export interface TimezoneConvertRequest {
+    /** Your API key */
+    apiKey: string;
+    /** Format of the response . */
+    format?: ApifreaksApi.TimezoneConvertRequestFormat;
+    /** Time to convert in `yyyy-MM-dd HH:mm` or `yyyy-MM-dd HH:mm:ss` format. */
+    time?: string;
+    /** Source timezone name (e.g., `Asia/Kolkata`). */
+    tz_from?: string;
+    /** Target timezone name (e.g., `America/New_York`). */
+    tz_to?: string;
+    /** Latitude of source location. */
+    lat_from?: number;
+    /** Longitude of source location. */
+    long_from?: number;
+    /** Latitude of target location. */
+    lat_to?: number;
+    /** Longitude of target location. */
+    long_to?: number;
+    /** From location (city/country). */
+    location_from?: string;
+    /** To location (city/country). */
+    location_to?: string;
+    /** From IATA airport code (e.g., JFK). */
+    iata_from?: string;
+    /** To IATA airport code. */
+    iata_to?: string;
+    /** From ICAO airport code (e.g., KJFK). */
+    icao_from?: string;
+    /** To ICAO airport code. */
+    icao_to?: string;
+    /** From UN/LO CODE. */
+    locode_from?: string;
+    /** To UN/LO CODE. */
+    locode_to?: string;
+}

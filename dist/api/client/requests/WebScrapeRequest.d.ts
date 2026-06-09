@@ -1,0 +1,123 @@
+import type * as ApifreaksApi from "../../index.js";
+/**
+ * @example
+ *     {
+ *         apiKey: "apiKey",
+ *         url: "https://example.com",
+ *         body: {
+ *             blockUrl: ["https://example.com/ads.js", "https://tracker.example.com/*"],
+ *             cookies: [{
+ *                     name: "sessionid",
+ *                     value: "abc123"
+ *                 }, {
+ *                     name: "user_pref",
+ *                     value: "darkmode"
+ *                 }],
+ *             instructions: [{
+ *                     fill: {
+ *                         place: "#username",
+ *                         value: "myuser"
+ *                     }
+ *                 }, {
+ *                     fill: {
+ *                         place: "#password",
+ *                         value: "mypassword"
+ *                     }
+ *                 }, {
+ *                     click: "#loginButton"
+ *                 }, {
+ *                     wait: 2000
+ *                 }, {
+ *                     extract: {
+ *                         html: "#profile",
+ *                         text: "#welcome-message",
+ *                         user_data: "#user-info"
+ *                     }
+ *                 }, {
+ *                     blockElement: [".ad-banner", "//div[@class='popup']"]
+ *                 }, {
+ *                     generalImageCaptcha: [{
+ *                             imagePath: "#captcha-img",
+ *                             textField: "#captcha-input",
+ *                             imageUpdatePath: "#refresh-captcha",
+ *                             captchaFailedPath: "#captcha-error",
+ *                             model: "mini-ocr-v1"
+ *                         }]
+ *                 }]
+ *         }
+ *     }
+ *
+ * @example
+ *     {
+ *         apiKey: "apiKey",
+ *         url: "https://example.com",
+ *         body: {
+ *             instructions: [{
+ *                     postForm: {
+ *                         selector: "#loginForm"
+ *                     }
+ *                 }, {
+ *                     extract: {
+ *                         html: "#main-content",
+ *                         text: "#welcome-message"
+ *                     }
+ *                 }, {
+ *                     getForm: {
+ *                         selector: "#searchForm"
+ *                     }
+ *                 }, {
+ *                     extract: {
+ *                         text: "#search-results"
+ *                     }
+ *                 }]
+ *         }
+ *     }
+ */
+export interface WebScrapeRequest {
+    /** Your API key */
+    apiKey: string;
+    /** Response format returned by the API. */
+    format?: ApifreaksApi.WebScrapeRequestFormat;
+    /** Target URL to scrape */
+    url: string;
+    /** Set to `true` to return the data in text format else `false` for data in html format with tags. */
+    text?: boolean;
+    /**
+     * Set  `true` to handle websites with JavaScript. Set `false` to handle static html websites.
+     *
+     *
+     *  Default value is `true`.
+     */
+    jsEnabled?: boolean;
+    /** Use proxy for requests */
+    proxy?: ApifreaksApi.WebScrapeRequestProxy;
+    /**
+     * Ignore SSL certificate errors.
+     *
+     *
+     *  Only works if **jsEnabled** is **true**.
+     */
+    sslIgnore?: boolean;
+    /**
+     * Specify the browser window size in the format 'width,height' (e.g., "1920w,1080h"). Default value is the default resolutions provided by web/browser.
+     *
+     *
+     *  Only works if **jsEnabled** is **true**.
+     */
+    windowSize?: string;
+    /**
+     * Set to `true` to apply ad-blocker to the specified URL else false or ignore to not apply.
+     *
+     *
+     *  Only works if **jsEnabled** is **true**.
+     */
+    adBlock?: boolean;
+    /**
+     * if true user can provide captcha instructions in the instructions to solve image captchas.
+     *
+     *
+     *   Only works if **jsEnabled** is **true**.
+     */
+    captcha?: boolean;
+    body: ApifreaksApi.WebScrapeRequestBody;
+}

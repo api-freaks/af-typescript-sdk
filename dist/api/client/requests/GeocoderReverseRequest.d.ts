@@ -1,0 +1,21 @@
+import type * as ApifreaksApi from "../../index.js";
+/**
+ * @example
+ *     {
+ *         apiKey: "apiKey",
+ *         lat: 1.1,
+ *         lon: 1.1
+ *     }
+ */
+export interface GeocoderReverseRequest {
+    /** Your API key */
+    apiKey: string;
+    /** Format of the response. */
+    format?: ApifreaksApi.GeocoderReverseRequestFormat;
+    /** WGS84 latitude value ranging from -90 to 90. */
+    lat: number;
+    /** WGS84 longitude value ranging from -180 to 180. */
+    lon: number;
+    /** Preferred language order for showing search results. This may either be a simple comma-separated list of language codes or a single entry. The results will be in the 1st language which is matched from the header. As a fallback if the results are not supported in the given language, en will be used. */
+    "Accept-Language"?: string;
+}

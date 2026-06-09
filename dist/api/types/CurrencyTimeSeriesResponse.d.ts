@@ -1,0 +1,21 @@
+export interface CurrencyTimeSeriesResponse {
+    /** Starting date of the interval (provided via input). */
+    startDate: string;
+    /** Ending date of the interval (provided via input). */
+    endDate: string;
+    /** Base currency with respect to which all rates are calculated. */
+    base: string;
+    /** List of historical exchange rates within the specified interval. */
+    historicalRatesList: CurrencyTimeSeriesResponse.HistoricalRatesList.Item[];
+}
+export declare namespace CurrencyTimeSeriesResponse {
+    type HistoricalRatesList = HistoricalRatesList.Item[];
+    namespace HistoricalRatesList {
+        interface Item {
+            /** Date of the specific exchange rates. */
+            date: string;
+            /** A map of currency symbols to their respective exchange rates for the given date. */
+            rates: Record<string, string>;
+        }
+    }
+}

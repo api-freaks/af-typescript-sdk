@@ -1,0 +1,13 @@
+import type * as ApifreaksApi from "../../index.js";
+/**
+ * @example
+ *     {
+ *         apiKey: "apiKey"
+ *     }
+ */
+export interface PdfListFilesRequest {
+    /** Your API key */
+    apiKey: string;
+    /** Specifies the desired format for the API response. Choose 'json' for a JSON object or 'xml' for an XML structure. */
+    format?: ApifreaksApi.PdfListFilesRequestFormat;
+}

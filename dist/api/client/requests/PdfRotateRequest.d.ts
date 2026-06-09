@@ -1,0 +1,33 @@
+import type * as core from "../../../core/index.js";
+import type * as ApifreaksApi from "../../index.js";
+/**
+ * @example
+ *     {
+ *         apiKey: "apiKey",
+ *         rotate: 1
+ *     }
+ */
+export interface PdfRotateRequest {
+    /** Your API key */
+    apiKey: string;
+    /** Specifies the desired format for the API response. Choose 'json' for a JSON object or 'xml' for an XML structure. */
+    format?: ApifreaksApi.PdfRotateRequestFormat;
+    /** The unique ID of a PDF file already uploaded to the API Freaks server. Use this as an alternative to uploading a new file directly. */
+    file_id?: string;
+    /** If set to `true`, the input file(s) will be permanently deleted from the server immediately after the output PDF is generated. */
+    destroy?: boolean;
+    /** The desired name for the output PDF file after rotation. If not provided, a default name will be assigned. */
+    output?: string;
+    /** Specifies which pages to rotate. Accepts individual page numbers (e.g., '1,7') and/or ascending page ranges (e.g., '3-5'). Use commas to separate entries and hyphens for ranges. Reverse ranges (e.g., '5-3') are not allowed. Alternatively, provide only one of the following keywords: 'even' (rotate all even-numbered pages), 'odd' (rotate all odd-numbered pages), 'last' (rotate only the last page), or 'all' (rotate all pages). Examples: '1,3-5', 'odd', 'all'. Mixing special keywords with specific pages/ranges is not allowed. */
+    pages?: string;
+    /** The angle in degrees to rotate the selected pages. Must be one of the following values: 0, 90, 180, 270, -90, -180, or -270. All rotations are applied clockwise. */
+    rotate: number;
+    /** The URL to which the webhook notification will be sent after the task is completed. */
+    webhook_url?: string;
+    /** If true, a notification will also be sent by email in case the webhook request fails all the retries.  The email notification will be sent to the requesting user or their organization’s admin if part of one. */
+    webhook_failure_notification?: boolean;
+    /** Optional custom header for webhook requests. Format: `Key:Value` (e.g., `Authorization:Bearer token123`). This will be sent as an HTTP header in the webhook call. */
+    "X-Webhook-Authorization"?: string;
+    /** The PDF file to be processed. If this parameter is not provided, you must specify `file_id` to use a previously uploaded file. */
+    file?: core.file.Uploadable | undefined;
+}

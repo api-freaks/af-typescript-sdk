@@ -1,0 +1,13 @@
+/**
+ * @example
+ *     {
+ *         apiKey: "apiKey",
+ *         text: "The global mental is health crisis is now a serious and compelex problem. It need quick and ongoing action from policymakers, healthcare workers, and the whole society."
+ *     }
+ */
+export interface GrammarCorrectRequest {
+    /** Your API key */
+    apiKey: string;
+    /** Text to correct */
+    text: string;
+}

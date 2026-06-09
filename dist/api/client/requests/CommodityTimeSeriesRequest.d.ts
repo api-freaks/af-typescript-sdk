@@ -1,0 +1,22 @@
+import type * as ApifreaksApi from "../../index.js";
+/**
+ * @example
+ *     {
+ *         apiKey: "apiKey",
+ *         symbols: ["symbols"],
+ *         startDate: "2023-01-15",
+ *         endDate: "2023-01-15"
+ *     }
+ */
+export interface CommodityTimeSeriesRequest {
+    /** Your API key */
+    apiKey: string;
+    /** Format of the response. */
+    format?: ApifreaksApi.CommodityTimeSeriesRequestFormat;
+    /** Comma-separated list of commodity symbols */
+    symbols?: string | string[];
+    /** Start date (YYYY-MM-DD) */
+    startDate: string;
+    /** End date (YYYY-MM-DD) */
+    endDate: string;
+}

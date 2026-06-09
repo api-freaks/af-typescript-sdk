@@ -1,0 +1,24 @@
+import type * as ApifreaksApi from "../../index.js";
+/**
+ * @example
+ *     {
+ *         apiKey: "apiKey",
+ *         ips: ["ips"]
+ *     }
+ */
+export interface BulkGeolocationLookupRequest {
+    /** Your API key */
+    apiKey: string;
+    /** Format of the response. */
+    format?: ApifreaksApi.BulkGeolocationLookupRequestFormat;
+    /** Language of the response. */
+    lang?: string;
+    /** Comma-separated list of fields to include in the response. Can include "geo". */
+    fields?: string;
+    /** Comma-separated list of fields to exclude from the response (except "ip"). */
+    excludes?: string;
+    /** Comma-separated list of additional information to include in the response. */
+    include?: string;
+    /** List of IP addresses or hostnames to lookup */
+    ips: string[];
+}

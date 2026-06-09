@@ -1,0 +1,18 @@
+import type * as ApifreaksApi from "../../index.js";
+/**
+ * @example
+ *     {
+ *         apiKey: "apiKey",
+ *         country: "country"
+ *     }
+ */
+export interface GetCitiesRequest {
+    /** Your API key */
+    apiKey: string;
+    /** Format of the response. */
+    format?: ApifreaksApi.GetCitiesRequestFormat;
+    /** Country code in ISO 3166-1 alpha-2 format. */
+    country: string;
+    /** Administrative unit code used to filter cities within a specific region. */
+    admin_unit?: string;
+}

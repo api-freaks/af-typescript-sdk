@@ -1,0 +1,15 @@
+import type * as ApifreaksApi from "../../index.js";
+/**
+ * @example
+ *     {
+ *         apiKey: "apiKey",
+ *         resource_id: "resource_id"
+ *     }
+ */
+export interface PdfDownloadResourceRequest {
+    /** Your API key */
+    apiKey: string;
+    format?: ApifreaksApi.PdfDownloadResourceRequestFormat;
+    /** The unique identifier of the file or ZIP archive to download. */
+    resource_id: string;
+}

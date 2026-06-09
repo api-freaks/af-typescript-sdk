@@ -1,0 +1,16 @@
+import type * as ApifreaksApi from "../../index.js";
+/**
+ * @example
+ *     {
+ *         apiKey: "apiKey",
+ *         domainNames: ["domainNames"]
+ *     }
+ */
+export interface BulkDomainWhoisLookupRequest {
+    /** Your API key */
+    apiKey: string;
+    /** Format of the response. */
+    format?: ApifreaksApi.BulkDomainWhoisLookupRequestFormat;
+    /** A list of domain names for which WHOIS data is requested. */
+    domainNames: string[];
+}

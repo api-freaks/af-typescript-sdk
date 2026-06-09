@@ -1,0 +1,178 @@
+export interface MarineWeatherResponse {
+    /** Location information */
+    location?: MarineWeatherResponse.Location | undefined;
+    /** Current marine data */
+    current?: MarineWeatherResponse.Current | undefined;
+    /** Marine forecast data object keyed by date in YYYY-MM-DD format */
+    forecast?: Record<string, MarineWeatherResponse.Forecast.Value> | undefined;
+}
+export declare namespace MarineWeatherResponse {
+    /**
+     * Location information
+     */
+    type Location = {
+        latitude: number;
+        longitude: number;
+        country_name: string;
+        state_prov: string;
+        city: string;
+        locality?: string | undefined;
+        elevation?: number | undefined;
+        timezone: string;
+        timezone_abbreviation: string;
+    } | {
+        continent_code: string;
+        continent_name: string;
+        country_code2: string;
+        country_code3: string;
+        country_name: string;
+        country_name_official: string;
+        is_eu?: boolean | undefined;
+        state_prov: string;
+        state_code?: string | undefined;
+        district?: string | undefined;
+        city: string;
+        zipcode?: string | undefined;
+        latitude: number;
+        longitude: number;
+        locality?: string | undefined;
+        elevation?: number | undefined;
+        timezone: string;
+        timezone_abbreviation: string;
+    } | {
+        location_string: string;
+        country_name: string;
+        state_prov: string;
+        city: string;
+        locality?: string | undefined;
+        latitude: number;
+        longitude: number;
+        elevation?: number | undefined;
+        timezone: string;
+        timezone_abbreviation: string;
+    };
+    /**
+     * Current marine data
+     */
+    interface Current {
+        /** ISO 8601 formatted timestamp */
+        timestamp?: string | undefined;
+        /** Significant height of combined sea waves (m) */
+        wave_height?: number | undefined;
+        /** Direction from which the combined waves are coming (°) */
+        wave_direction?: number | undefined;
+        /** Average period of combined sea waves (s) */
+        wave_period?: number | undefined;
+        /** Height of locally generated wind waves (m) */
+        wind_wave_height?: number | undefined;
+        /** Direction from which the wind waves are coming (°) */
+        wind_wave_direction?: number | undefined;
+        /** Average period of locally generated wind waves (s) */
+        wind_wave_period?: number | undefined;
+        /** Height of swell waves (m) */
+        swell_wave_height?: number | undefined;
+        /** Direction from which the swell waves are coming (°) */
+        swell_wave_direction?: number | undefined;
+        /** Average period of swell waves (s) */
+        swell_wave_period?: number | undefined;
+        /** Sea level height relative to mean sea level (m) */
+        sea_level_height_msl?: number | undefined;
+        /** Temperature of the ocean surface (°C) */
+        sea_surface_temperature?: number | undefined;
+        /** Speed of the ocean current (km/h) */
+        ocean_current_velocity?: number | undefined;
+        /** Direction of the ocean current (°) */
+        ocean_current_direction?: number | undefined;
+    }
+    namespace Forecast {
+        interface Value {
+            /** Daily marine forecast data */
+            daily?: Value.Daily | undefined;
+            /** Hourly marine forecast data */
+            hourly?: Value.Hourly.Item[] | undefined;
+            /** Minutely marine forecast data */
+            minutely?: Value.Minutely.Item[] | undefined;
+        }
+        namespace Value {
+            /**
+             * Daily marine forecast data
+             */
+            interface Daily {
+                /** ISO 8601 formatted timestamp */
+                timestamp?: string | undefined;
+                /** Maximum significant wave height (m) */
+                wave_height_max?: number | undefined;
+                /** Dominant direction of waves (°) */
+                wave_direction_dominant?: number | undefined;
+                /** Maximum wave period (s) */
+                wave_period_max?: number | undefined;
+                /** Maximum wind-driven wave height (m) */
+                wind_wave_height_max?: number | undefined;
+                /** Dominant wind-wave direction (°) */
+                wind_wave_direction_dominant?: number | undefined;
+                /** Maximum wind-wave period (s) */
+                wind_wave_period_max?: number | undefined;
+                /** Maximum peak period of wind-driven waves (s) */
+                wind_wave_peak_period_max?: number | undefined;
+                /** Maximum swell wave height (m) */
+                swell_wave_height_max?: number | undefined;
+                /** Dominant swell wave direction (°) */
+                swell_wave_direction_dominant?: number | undefined;
+                /** Maximum swell wave period (s) */
+                swell_wave_period_max?: number | undefined;
+                /** Maximum peak period of swell waves (s) */
+                swell_wave_peak_period_max?: number | undefined;
+            }
+            type Hourly = Hourly.Item[];
+            namespace Hourly {
+                interface Item {
+                    /** ISO 8601 formatted timestamp */
+                    timestamp?: string | undefined;
+                    /** Significant wave height at the given time (m) */
+                    wave_height?: number | undefined;
+                    /** Wave direction (°) */
+                    wave_direction?: number | undefined;
+                    /** Wave period at the given time (s) */
+                    wave_period?: number | undefined;
+                    /** Wind-driven wave height at the given time (m) */
+                    wind_wave_height?: number | undefined;
+                    /** Peak period of wind-driven waves (s) */
+                    wind_wave_peak_period?: number | undefined;
+                    /** Wind-wave direction (°) */
+                    wind_wave_direction?: number | undefined;
+                    /** Wind-wave period (s) */
+                    wind_wave_period?: number | undefined;
+                    /** Swell wave height at the given time (m) */
+                    swell_wave_height?: number | undefined;
+                    /** Swell wave direction (°) */
+                    swell_wave_direction?: number | undefined;
+                    /** Swell wave period (s) */
+                    swell_wave_period?: number | undefined;
+                    /** Peak period of swell waves (s) */
+                    swell_wave_peak_period?: number | undefined;
+                    /** Sea surface temperature (°C) */
+                    sea_surface_temperature?: number | undefined;
+                    /** Sea level height relative to mean sea level (m) */
+                    sea_level_height_msl?: number | undefined;
+                    /** Speed of ocean current (km/h) */
+                    ocean_current_velocity?: number | undefined;
+                    /** Direction of ocean current (°) */
+                    ocean_current_direction?: number | undefined;
+                }
+            }
+            type Minutely = Minutely.Item[];
+            namespace Minutely {
+                interface Item {
+                    /** ISO 8601 formatted timestamp */
+                    timestamp?: string | undefined;
+                    /** Speed of ocean current (km/h) */
+                    ocean_current_velocity?: number | undefined;
+                    /** Direction of ocean current (°) */
+                    ocean_current_direction?: number | undefined;
+                    /** Sea level height relative to mean sea level (m) */
+                    sea_level_height_msl?: number | undefined;
+                }
+            }
+        }
+    }
+}

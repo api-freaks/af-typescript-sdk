@@ -1,0 +1,6 @@
+export interface PdfCompressResponse {
+    /** Task id of the requested task which can be used to check the task status */
+    taskId: string;
+    /** File Ids for the input files provided for the task. Not given with destroy param. */
+    inputIds?: string[] | undefined;
+}

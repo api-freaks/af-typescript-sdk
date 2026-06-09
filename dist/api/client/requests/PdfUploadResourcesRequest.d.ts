@@ -1,0 +1,16 @@
+import type * as core from "../../../core/index.js";
+import type * as ApifreaksApi from "../../index.js";
+/**
+ * @example
+ *     {
+ *         apiKey: "apiKey"
+ *     }
+ */
+export interface PdfUploadResourcesRequest {
+    /** Your API key */
+    apiKey: string;
+    /** Specifies the desired format for the API response. Choose 'json' for a JSON object or 'xml' for an XML structure. */
+    format?: ApifreaksApi.PdfUploadResourcesRequestFormat;
+    /** The PDF files to be uploaded to the API Freaks server. Multiple files can be provided in an array. */
+    file?: core.file.Uploadable[] | undefined;
+}

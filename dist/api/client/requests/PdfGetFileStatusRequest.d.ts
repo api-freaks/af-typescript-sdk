@@ -1,0 +1,16 @@
+import type * as ApifreaksApi from "../../index.js";
+/**
+ * @example
+ *     {
+ *         apiKey: "apiKey",
+ *         file_id: "file_id"
+ *     }
+ */
+export interface PdfGetFileStatusRequest {
+    /** Your API key */
+    apiKey: string;
+    /** Specifies the desired format for the API response. Choose 'json' for a JSON object or 'xml' for an XML structure. */
+    format?: ApifreaksApi.PdfGetFileStatusRequestFormat;
+    /** The unique ID of the file whose status is requested. */
+    file_id: string;
+}

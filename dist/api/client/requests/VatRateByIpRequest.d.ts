@@ -1,0 +1,15 @@
+import type * as ApifreaksApi from "../../index.js";
+/**
+ * @example
+ *     {
+ *         apiKey: "apiKey"
+ *     }
+ */
+export interface VatRateByIpRequest {
+    /** Your API key */
+    apiKey: string;
+    /** Specify the desired response format. Options: 'json' (default) or 'xml'. */
+    format?: ApifreaksApi.VatRateByIpRequestFormat;
+    /** IPv4 or IPv6 address to look up VAT rate for. If omitted, the originating IP address will be used. */
+    ipAddress?: string;
+}

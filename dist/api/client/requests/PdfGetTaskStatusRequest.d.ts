@@ -1,0 +1,16 @@
+import type * as ApifreaksApi from "../../index.js";
+/**
+ * @example
+ *     {
+ *         apiKey: "apiKey",
+ *         task_id: "task_id"
+ *     }
+ */
+export interface PdfGetTaskStatusRequest {
+    /** Your API key */
+    apiKey: string;
+    /** Specifies the desired format for the API response. Choose 'json' for a JSON object or 'xml' for an XML structure. */
+    format?: ApifreaksApi.PdfGetTaskStatusRequestFormat;
+    /** The unique ID of the PDF processing task for which the status is requested. */
+    task_id: string;
+}

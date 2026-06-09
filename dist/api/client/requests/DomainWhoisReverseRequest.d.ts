@@ -1,0 +1,26 @@
+import type * as ApifreaksApi from "../../index.js";
+/**
+ * @example
+ *     {
+ *         apiKey: "apiKey"
+ *     }
+ */
+export interface DomainWhoisReverseRequest {
+    /** Your API key */
+    apiKey: string;
+    /** Format of the response. */
+    format?: ApifreaksApi.DomainWhoisReverseRequestFormat;
+    /** Keyword search term for reverse WHOIS by keyword (case-insensitive pattern matching). */
+    keyword?: string;
+    /** Email search term for reverse WHOIS by email address (case-insensitive exact or regex match; * wildcard supported). */
+    email?: string;
+    /** Registrant or owner name for reverse WHOIS (a full-text search phrase matching technique to retrieve results). */
+    owner?: string;
+    /** Organization or company name for reverse WHOIS (full-text search phrase matching technique to retrieve results). */
+    company?: string;
+    /** Accepts 'true' or 'false'. "true" returns only records that exactly match the input (keyword, owner/registrant, or company). "false" returns all matches and is the default when omitted. */
+    exact?: boolean;
+    mode?: ApifreaksApi.DomainWhoisReverseRequestMode;
+    /** Page number for paginated results. */
+    page?: number;
+}

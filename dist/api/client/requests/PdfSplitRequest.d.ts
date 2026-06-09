@@ -1,0 +1,50 @@
+import type * as core from "../../../core/index.js";
+import type * as ApifreaksApi from "../../index.js";
+/**
+ * @example
+ *     {
+ *         apiKey: "apiKey"
+ *     }
+ */
+export interface PdfSplitRequest {
+    /** Your API key */
+    apiKey: string;
+    /** Specifies the desired format for the API response. Choose 'json' for a JSON object or 'xml' for an XML structure. */
+    format?: ApifreaksApi.PdfSplitRequestFormat;
+    /** The unique ID of a PDF file already uploaded to the API Freaks server. Use this as an alternative to uploading a new file directly. */
+    file_id?: string;
+    /** If set to `true`, the input file(s) will be permanently deleted from the server immediately after the output PDF is generated. */
+    destroy?: boolean;
+    /** The desired base name for the output PDF files after splitting. If not provided, a default naming convention will be used. */
+    output?: string;
+    /**
+     * Defines the page numbers or ranges where the PDF should be split. Provide individual pages and/or ranges in any order (for example: "1-4,9-5,16-last"). Separate entries with commas and use hyphens for ranges.
+     *
+     * Special keywords (use alone):
+     *
+     * • `even` — split at every even-numbered page
+     *
+     * • `odd` — split at every odd-numbered page
+     *
+     * • `all` — split the PDF into single-page files
+     *
+     * The keyword `last` can be used anywhere in the string, in combination with page numbers or ranges (for example: "5-last", "last-2", "1,last,9").
+     *
+     * Examples:
+     * - "1,4-2,last"
+     * - "odd"
+     * - "all"
+     * - "last,2-5"
+     *
+     * Invalid example: "1,odd" (mixing a keyword other than "last" with specific pages/ranges is not allowed). You can pass multiple pages entries to produce multiple output files.
+     */
+    pages?: string | string[];
+    /** The URL to which the webhook notification will be sent after the task is completed. */
+    webhook_url?: string;
+    /** If true, a notification will also be sent by email in case the webhook request fails all the retries.  The email notification will be sent to the requesting user or their organization’s admin if part of one. */
+    webhook_failure_notification?: boolean;
+    /** Optional custom header for webhook requests. Format: `Key:Value` (e.g., `Authorization:Bearer token123`). This will be sent as an HTTP header in the webhook call. */
+    "X-Webhook-Authorization"?: string;
+    /** The PDF file to be processed. If this parameter is not provided, you must specify `file_id` to use a previously uploaded file. */
+    file?: core.file.Uploadable | undefined;
+}

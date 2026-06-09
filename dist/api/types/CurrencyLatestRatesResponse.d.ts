@@ -1,0 +1,8 @@
+export interface CurrencyLatestRatesResponse {
+    /** For the latest currencies exchange rates endpoint, it is the date and time with timezone (UTC) at which these rates were recorded. For historical currencies exchange rates endpoint, it is the specific date in YYYY-MM-DD format. */
+    date: string;
+    /** Base currency used for calculating exchange rates. */
+    base: string;
+    /** A map of currency codes to their exchange rate against the base currency. */
+    rates: Record<string, string>;
+}
