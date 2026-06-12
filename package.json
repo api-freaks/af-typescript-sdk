@@ -1,5 +1,5 @@
 {
-  "name": "@api-freaks/sdk",
+  "name": "@apifreaks/sdk",
   "version": "1.0.0",
   "description": "TypeScript SDK for APIFreaks APIs",
   "main": "dist/index.js",
