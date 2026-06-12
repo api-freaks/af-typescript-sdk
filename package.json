@@ -1,24 +1,52 @@
 {
   "name": "@apifreaks/sdk",
   "version": "1.0.0",
-  "description": "TypeScript SDK for APIFreaks APIs",
+  "description": "Official TypeScript SDK for APIFreaks APIs.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
-    "dist"
+  "dist"
   ],
   "scripts": {
-    "build": "tsc",
-    "test": "npm run build"
-  },
-  "devDependencies": {
-    "@types/node": "^25.9.2",
-    "typescript": "^5.0.0"
+  "build": "tsc",
+  "test": "npm run build",
+  "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "undici-types": "^7.24.6"
+  "undici-types": "^7.24.6"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC"
-}
+  "devDependencies": {
+  "@types/node": "^25.9.2",
+  "typescript": "^5.0.0"
+  },
+  "keywords": [
+  "apifreaks",
+  "api",
+  "sdk",
+  "typescript",
+  "javascript",
+  "geolocation",
+  "whois",
+  "dns",
+  "ssl",
+  "currency",
+  "domain",
+  "screenshot",
+  "timezone",
+  "user-agent"
+  ],
+  "author": "Afraz Ahmed [afraz@jfreaks.com](mailto:afraz@jfreaks.com)",
+  "license": "ISC",
+  "homepage": "https://github.com/api-freaks/af-typescript-sdk#readme",
+  "repository": {
+  "type": "git",
+  "url": "https://github.com/api-freaks/af-typescript-sdk"
+  },
+  "bugs": {
+  "url": "https://github.com/api-freaks/af-typescript-sdk/issues"
+  },
+  "publishConfig": {
+  "access": "public"
+  }
+  }
+  
