@@ -15,13 +15,15 @@ export declare namespace BulkEmailValidateResponse {
             domain: Item.Domain;
             account: Item.Account;
             dns: Item.Dns;
-            ip?: string | undefined;
+            ipAddress?: string | undefined;
             address?: Item.Address | undefined;
         }
         namespace Item {
             const ValidEmail: {
                 readonly Valid: "valid";
-                readonly Invalid: "invalid";
+                readonly Invalid: "Invalid";
+                readonly Unknown: "Unknown";
+                readonly Risky: "Risky";
             };
             type ValidEmail = (typeof ValidEmail)[keyof typeof ValidEmail];
             interface Domain {
@@ -39,7 +41,7 @@ export declare namespace BulkEmailValidateResponse {
             interface Dns {
                 mxRecords: string[];
                 /** Collection of A (Address) records for the domain. */
-                aRecords?: string[] | undefined;
+                aRecords: string[];
             }
             interface Address {
                 security?: Address.Security | undefined;

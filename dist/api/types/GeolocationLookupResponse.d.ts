@@ -8,7 +8,7 @@ export interface GeolocationLookupResponse {
     network?: GeolocationLookupResponse.Network | undefined;
     currency?: GeolocationLookupResponse.Currency | undefined;
     security?: GeolocationLookupResponse.Security | undefined;
-    abuse?: GeolocationLookupResponse.Abuse.Item[] | undefined;
+    abuse?: GeolocationLookupResponse.Abuse.Item | undefined;
     time_zone?: GeolocationLookupResponse.TimeZone | undefined;
     user_agent?: GeolocationLookupResponse.UserAgent | undefined;
 }

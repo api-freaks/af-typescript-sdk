@@ -18,7 +18,7 @@ export interface DomainDnsHistoryRequest {
      * A comma-separated list of DNS record types for lookup.
      * Possible values: A, AAAA, MX, NS, SOA, SPF, TXT, CNAME, or all
      */
-    type?: string | string[];
+    type: string | string[];
     /** Page number for paginated results */
     page?: number;
 }

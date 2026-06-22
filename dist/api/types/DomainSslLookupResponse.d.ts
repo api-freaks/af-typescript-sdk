@@ -38,11 +38,11 @@ export declare namespace DomainSslLookupResponse {
             }
             interface Issuer {
                 commonName: string;
-                organization?: string | undefined;
+                organization: string;
                 organizationalUnit?: string | undefined;
                 locality?: string | undefined;
                 state?: string | undefined;
-                country?: string | undefined;
+                country: string;
                 incCountry?: string | undefined;
                 incState?: string | undefined;
                 businessCategory?: string | undefined;
@@ -67,8 +67,8 @@ export declare namespace DomainSslLookupResponse {
             }
             namespace Extensions {
                 interface AuthorityInfoAccess {
-                    issuers: string[];
-                    ocsp: string[];
+                    issuers?: string[] | undefined;
+                    ocsp?: string[] | undefined;
                 }
                 interface SubjectAlternativeNames {
                     dnsNames?: string[] | undefined;

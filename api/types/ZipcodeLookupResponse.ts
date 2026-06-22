@@ -12,7 +12,6 @@ export namespace ZipcodeLookupResponse {
             code?: string | undefined;
             country_code?: string | undefined;
             region?: string | undefined;
-            region_code?: string | undefined;
             city?: string | undefined;
             locality?: string | undefined;
             latitude?: number | undefined;

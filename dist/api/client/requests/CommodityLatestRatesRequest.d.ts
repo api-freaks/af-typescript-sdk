@@ -13,7 +13,7 @@ export interface CommodityLatestRatesRequest {
     /** Format of the Response */
     format?: ApifreaksApi.CommodityLatestRatesRequestFormat;
     /** Comma separated list of desired commodities symbols *(e.g. XAU,XAG,WTI,BRENT)* **Required** */
-    symbols?: string | string[];
+    symbols: string | string[];
     /** Exchange rates update period. Possible values are: (1) `10m` - 10 minute update (2) `1m` - 1 minute update **Required** */
     updates: ApifreaksApi.CommodityLatestRatesRequestUpdates;
     /** Specifies the target currency for the exchange rate; default quote currency is the market currency of commodity *(e.g. USD, EUR, INR)* */

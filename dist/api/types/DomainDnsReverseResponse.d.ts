@@ -10,7 +10,7 @@ export declare namespace DomainDnsReverseResponse {
         interface Item {
             queryTime: string;
             domainName: string;
-            domainRegistered: boolean;
+            domainRegistered?: boolean | undefined;
             dnsTypes: Item.DnsTypes;
             dnsRecords: Item.DnsRecords.Item[];
         }

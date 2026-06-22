@@ -1,7 +1,7 @@
 export interface DomainWhoisReverseResponse {
-    totalResult?: number | undefined;
-    totalPages?: number | undefined;
-    currentPage?: number | undefined;
+    total_Result?: number | undefined;
+    total_Pages?: number | undefined;
+    current_Page?: number | undefined;
     whois_domains_historical?: DomainWhoisReverseResponse.WhoisDomainsHistorical.Item[] | undefined;
 }
 export declare namespace DomainWhoisReverseResponse {
@@ -126,7 +126,7 @@ export declare namespace DomainWhoisReverseResponse {
             expiry_date?: string | undefined;
             name?: string | undefined;
             email?: string | undefined;
-            companyname?: string | undefined;
+            company_name?: string | undefined;
         };
     }
 }

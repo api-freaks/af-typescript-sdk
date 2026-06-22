@@ -1,6 +1,6 @@
 export interface ZipcodeDistanceMatchResponse {
     /** Number of matching ZIP/postal code pairs returned */
-    results_count?: string | undefined;
+    result_count?: number | undefined;
     results?: ZipcodeDistanceMatchResponse.Results.Item[] | undefined;
 }
 export declare namespace ZipcodeDistanceMatchResponse {

@@ -1,8 +1,8 @@
 export interface DomainDnsHistoryResponse {
-    totalRecords?: number | undefined;
-    totalPages?: number | undefined;
-    currentPage?: number | undefined;
-    historicalDnsRecords?: DomainDnsHistoryResponse.HistoricalDnsRecords.Item[] | undefined;
+    totalRecords: number;
+    totalPages: number;
+    currentPage: number;
+    historicalDnsRecords: DomainDnsHistoryResponse.HistoricalDnsRecords.Item[];
 }
 export declare namespace DomainDnsHistoryResponse {
     type HistoricalDnsRecords = HistoricalDnsRecords.Item[];
@@ -10,7 +10,6 @@ export declare namespace DomainDnsHistoryResponse {
         interface Item {
             queryTime: string;
             domainName: string;
-            domainRegistered: boolean;
             dnsTypes: Item.DnsTypes;
             dnsRecords: Item.DnsRecords.Item[];
         }

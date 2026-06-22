@@ -20,7 +20,7 @@ export interface CurrencyConvertLatestRequest {
     /** Target currency code */
     to: string;
     /** Amount to convert */
-    amount?: number;
+    amount?: string;
     /** Exchange rates update period (1d=daily, 1h=hourly, 10m=10 minutes, 1m=1 minute) */
     updates?: ApifreaksApi.CurrencyConvertLatestRequestUpdates;
 }

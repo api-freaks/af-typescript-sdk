@@ -10,7 +10,9 @@ var BulkEmailValidateResponse;
         (function (Item) {
             Item.ValidEmail = {
                 Valid: "valid",
-                Invalid: "invalid",
+                Invalid: "Invalid",
+                Unknown: "Unknown",
+                Risky: "Risky",
             };
         })(Item = EmailValidationResponses.Item || (EmailValidationResponses.Item = {}));
     })(EmailValidationResponses = BulkEmailValidateResponse.EmailValidationResponses || (BulkEmailValidateResponse.EmailValidationResponses = {}));

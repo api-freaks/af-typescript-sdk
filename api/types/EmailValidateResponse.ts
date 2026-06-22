@@ -10,14 +10,16 @@ export interface EmailValidateResponse {
     domain: EmailValidateResponse.Domain;
     account: EmailValidateResponse.Account;
     dns: EmailValidateResponse.Dns;
-    ip?: string | undefined;
+    ipAddress?: string | undefined;
     address?: EmailValidateResponse.Address | undefined;
 }
 
 export namespace EmailValidateResponse {
     export const ValidEmail = {
         Valid: "valid",
-        Invalid: "invalid",
+        Invalid: "Invalid",
+        Unknown: "Unknown",
+        Risky: "Risky",
     } as const;
     export type ValidEmail = (typeof ValidEmail)[keyof typeof ValidEmail];
 
@@ -38,7 +40,7 @@ export namespace EmailValidateResponse {
     export interface Dns {
         mxRecords: string[];
         /** Collection of A (Address) records for the domain. */
-        aRecords?: string[] | undefined;
+        aRecords: string[];
     }
 
     export interface Address {

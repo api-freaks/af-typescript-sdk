@@ -14,6 +14,6 @@ export interface CommodityHistoricalRatesRequest {
     format?: ApifreaksApi.CommodityHistoricalRatesRequestFormat;
     /** Historical date (YYYY-MM-DD) */
     date: string;
-    /** Comma-separated list of commodity symbols */
-    symbols?: string | string[];
+    /** Comma-separated list of commodity symbols **Required** */
+    symbols: string | string[];
 }

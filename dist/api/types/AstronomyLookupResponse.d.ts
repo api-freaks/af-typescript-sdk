@@ -1,6 +1,6 @@
 export interface AstronomyLookupResponse {
     ip?: string | undefined;
-    location: AstronomyLookupResponse.Location;
+    location?: AstronomyLookupResponse.Location | undefined;
     astronomy: AstronomyLookupResponse.Astronomy;
 }
 export declare namespace AstronomyLookupResponse {
@@ -11,18 +11,18 @@ export declare namespace AstronomyLookupResponse {
         continent_name?: string | undefined;
         country_code2?: string | undefined;
         country_code3?: string | undefined;
-        country_name: string;
+        country_name?: string | undefined;
         country_name_official?: string | undefined;
         is_eu?: boolean | undefined;
-        state_prov: string;
+        state_prov?: string | undefined;
         state_code?: string | undefined;
         district?: string | undefined;
-        city: string;
+        city?: string | undefined;
         zipcode?: string | undefined;
-        latitude: string;
-        longitude: string;
-        locality: string;
-        elevation: string;
+        latitude?: string | undefined;
+        longitude?: string | undefined;
+        locality?: string | undefined;
+        elevation?: string | undefined;
         /** Accepts any additional properties */
         [key: string]: any;
     }

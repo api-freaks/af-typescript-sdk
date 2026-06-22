@@ -6,6 +6,8 @@ var EmailValidateResponse;
 (function (EmailValidateResponse) {
     EmailValidateResponse.ValidEmail = {
         Valid: "valid",
-        Invalid: "invalid",
+        Invalid: "Invalid",
+        Unknown: "Unknown",
+        Risky: "Risky",
     };
 })(EmailValidateResponse || (exports.EmailValidateResponse = EmailValidateResponse = {}));

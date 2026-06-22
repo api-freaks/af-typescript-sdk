@@ -16,5 +16,5 @@ export interface DomainDnsLookupRequest {
     /** The IP address for requested DNS's PTR record. 'type' parameter must be set to 'all'. */
     ipAddress?: string;
     /** A comma-separated list of DNS record types for lookup. Possible values: A, AAAA, MX, NS, SOA, SPF, TXT, CNAME, or all. When ipAddress is provided, type must be "all". */
-    type?: string | string[];
+    type: string | string[];
 }

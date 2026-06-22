@@ -1766,6 +1766,7 @@ class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.ForbiddenError}
      * @throws {@link ApifreaksApi.NotFoundError}
      * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.RequestTimeoutError}
      * @throws {@link ApifreaksApi.ContentTooLargeError}
      * @throws {@link ApifreaksApi.TooManyRequestsError}
      * @throws {@link ApifreaksApi.InternalServerError}
@@ -1825,6 +1826,8 @@ class ApifreaksApiClient {
                     throw new ApifreaksApi.NotFoundError(_response.error.body, _response.rawResponse);
                 case 406:
                     throw new ApifreaksApi.NotAcceptableError(_response.error.body, _response.rawResponse);
+                case 408:
+                    throw new ApifreaksApi.RequestTimeoutError(_response.error.body, _response.rawResponse);
                 case 413:
                     throw new ApifreaksApi.ContentTooLargeError(_response.error.body, _response.rawResponse);
                 case 429:
@@ -1857,6 +1860,7 @@ class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.ForbiddenError}
      * @throws {@link ApifreaksApi.NotFoundError}
      * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.RequestTimeoutError}
      * @throws {@link ApifreaksApi.ContentTooLargeError}
      * @throws {@link ApifreaksApi.TooManyRequestsError}
      * @throws {@link ApifreaksApi.InternalServerError}
@@ -1921,6 +1925,8 @@ class ApifreaksApiClient {
                     throw new ApifreaksApi.NotFoundError(_response.error.body, _response.rawResponse);
                 case 406:
                     throw new ApifreaksApi.NotAcceptableError(_response.error.body, _response.rawResponse);
+                case 408:
+                    throw new ApifreaksApi.RequestTimeoutError(_response.error.body, _response.rawResponse);
                 case 413:
                     throw new ApifreaksApi.ContentTooLargeError(_response.error.body, _response.rawResponse);
                 case 429:
@@ -1952,7 +1958,9 @@ class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.PaymentRequiredError}
      * @throws {@link ApifreaksApi.ForbiddenError}
      * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.MethodNotAllowedError}
      * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.RequestTimeoutError}
      * @throws {@link ApifreaksApi.ContentTooLargeError}
      * @throws {@link ApifreaksApi.TooManyRequestsError}
      * @throws {@link ApifreaksApi.InternalServerError}
@@ -2024,8 +2032,12 @@ class ApifreaksApiClient {
                     throw new ApifreaksApi.ForbiddenError(_response.error.body, _response.rawResponse);
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body, _response.rawResponse);
+                case 405:
+                    throw new ApifreaksApi.MethodNotAllowedError(_response.error.body, _response.rawResponse);
                 case 406:
                     throw new ApifreaksApi.NotAcceptableError(_response.error.body, _response.rawResponse);
+                case 408:
+                    throw new ApifreaksApi.RequestTimeoutError(_response.error.body, _response.rawResponse);
                 case 413:
                     throw new ApifreaksApi.ContentTooLargeError(_response.error.body, _response.rawResponse);
                 case 429:
@@ -2057,7 +2069,9 @@ class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.PaymentRequiredError}
      * @throws {@link ApifreaksApi.ForbiddenError}
      * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.MethodNotAllowedError}
      * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.RequestTimeoutError}
      * @throws {@link ApifreaksApi.ContentTooLargeError}
      * @throws {@link ApifreaksApi.TooManyRequestsError}
      * @throws {@link ApifreaksApi.InternalServerError}
@@ -2153,8 +2167,12 @@ class ApifreaksApiClient {
                     throw new ApifreaksApi.ForbiddenError(_response.error.body, _response.rawResponse);
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body, _response.rawResponse);
+                case 405:
+                    throw new ApifreaksApi.MethodNotAllowedError(_response.error.body, _response.rawResponse);
                 case 406:
                     throw new ApifreaksApi.NotAcceptableError(_response.error.body, _response.rawResponse);
+                case 408:
+                    throw new ApifreaksApi.RequestTimeoutError(_response.error.body, _response.rawResponse);
                 case 413:
                     throw new ApifreaksApi.ContentTooLargeError(_response.error.body, _response.rawResponse);
                 case 429:
@@ -2468,6 +2486,7 @@ class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.ForbiddenError}
      * @throws {@link ApifreaksApi.NotFoundError}
      * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.RequestTimeoutError}
      * @throws {@link ApifreaksApi.ContentTooLargeError}
      * @throws {@link ApifreaksApi.TooManyRequestsError}
      * @throws {@link ApifreaksApi.InternalServerError}
@@ -2531,6 +2550,8 @@ class ApifreaksApiClient {
                     throw new ApifreaksApi.NotFoundError(_response.error.body, _response.rawResponse);
                 case 406:
                     throw new ApifreaksApi.NotAcceptableError(_response.error.body, _response.rawResponse);
+                case 408:
+                    throw new ApifreaksApi.RequestTimeoutError(_response.error.body, _response.rawResponse);
                 case 413:
                     throw new ApifreaksApi.ContentTooLargeError(_response.error.body, _response.rawResponse);
                 case 429:
@@ -2563,6 +2584,7 @@ class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.ForbiddenError}
      * @throws {@link ApifreaksApi.NotFoundError}
      * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.RequestTimeoutError}
      * @throws {@link ApifreaksApi.ContentTooLargeError}
      * @throws {@link ApifreaksApi.TooManyRequestsError}
      * @throws {@link ApifreaksApi.InternalServerError}
@@ -2579,13 +2601,14 @@ class ApifreaksApiClient {
         return core.HttpResponsePromise.fromPromise(this.__domainAvailabilitySuggestions(request, requestOptions));
     }
     async __domainAvailabilitySuggestions(request, requestOptions) {
-        const { apiKey, format, domain, source, count } = request;
+        const { apiKey, format, domain, source, count, sug } = request;
         const _queryParams = {
             apiKey,
             format: format != null ? format : undefined,
             domain,
             source: source != null ? source : undefined,
             count,
+            sug: sug != null ? sug : undefined,
         };
         const _headers = (0, headers_js_1.mergeHeaders)(this._options?.headers, requestOptions?.headers);
         const _response = await core.fetcher({
@@ -2625,6 +2648,8 @@ class ApifreaksApiClient {
                     throw new ApifreaksApi.NotFoundError(_response.error.body, _response.rawResponse);
                 case 406:
                     throw new ApifreaksApi.NotAcceptableError(_response.error.body, _response.rawResponse);
+                case 408:
+                    throw new ApifreaksApi.RequestTimeoutError(_response.error.body, _response.rawResponse);
                 case 413:
                     throw new ApifreaksApi.ContentTooLargeError(_response.error.body, _response.rawResponse);
                 case 429:
@@ -2657,6 +2682,7 @@ class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.ForbiddenError}
      * @throws {@link ApifreaksApi.NotFoundError}
      * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.RequestTimeoutError}
      * @throws {@link ApifreaksApi.ContentTooLargeError}
      * @throws {@link ApifreaksApi.TooManyRequestsError}
      * @throws {@link ApifreaksApi.InternalServerError}
@@ -2721,6 +2747,8 @@ class ApifreaksApiClient {
                     throw new ApifreaksApi.NotFoundError(_response.error.body, _response.rawResponse);
                 case 406:
                     throw new ApifreaksApi.NotAcceptableError(_response.error.body, _response.rawResponse);
+                case 408:
+                    throw new ApifreaksApi.RequestTimeoutError(_response.error.body, _response.rawResponse);
                 case 413:
                     throw new ApifreaksApi.ContentTooLargeError(_response.error.body, _response.rawResponse);
                 case 429:
@@ -10033,19 +10061,22 @@ class ApifreaksApiClient {
      *
      * @example
      *     await client.userAgentLookup({
-     *         apiKey: "apiKey"
+     *         apiKey: "apiKey",
+     *         userAgent: "userAgent"
      *     })
      */
     userAgentLookup(request, requestOptions) {
         return core.HttpResponsePromise.fromPromise(this.__userAgentLookup(request, requestOptions));
     }
     async __userAgentLookup(request, requestOptions) {
-        const { apiKey, format } = request;
+        const { apiKey, format, userAgent } = request;
         const _queryParams = {
             apiKey,
             format: format != null ? format : undefined,
         };
-        const _headers = (0, headers_js_1.mergeHeaders)(this._options?.headers, requestOptions?.headers);
+        const _headers = (0, headers_js_1.mergeHeaders)(this._options?.headers, requestOptions?.headers, {
+            "User-Agent": userAgent,
+        });
         const _response = await core.fetcher({
             url: core.url.join((await core.Supplier.get(this._options.baseUrl)) ??
                 (await core.Supplier.get(this._options.environment)) ??

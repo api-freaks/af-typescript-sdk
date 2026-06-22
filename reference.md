@@ -1131,7 +1131,7 @@ const response = await client.domainDnsLookup({
 <dl>
 <dd>
 
-**type:** `string | string[]` optional — A comma-separated list of DNS record types for lookup. Possible values: A, AAAA, MX, NS, SOA, SPF, TXT, CNAME, or all. When ipAddress is provided, type must be "all".
+**type:** `string | string[]` — A comma-separated list of DNS record types for lookup. Possible values: A, AAAA, MX, NS, SOA, SPF, TXT, CNAME, or all. When ipAddress is provided, type must be "all". **Required**
     
 </dd>
 </dl>
@@ -1206,7 +1206,15 @@ const response = await client.bulkDomainDnsLookup({
 <dl>
 <dd>
 
-**type:** `string | string[]` optional — A comma-separated list of DNS record types for lookup. Possible values: A, AAAA, MX, NS, SOA, SPF, TXT, CNAME, or all
+**type:** `string | string[]` — A comma-separated list of DNS record types for lookup. Possible values: A, AAAA, MX, NS, SOA, SPF, TXT, CNAME, or all **Required**
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**ipAddresses:** `string[]` optional — List of IP addresses to look up.
     
 </dd>
 </dl>
@@ -1289,7 +1297,7 @@ const response = await client.domainDnsHistory({
 <dl>
 <dd>
 
-**type:** `string | string[]` optional — Hostname or URL whose historical DNS records are required */ "host-name": string; /** A comma-separated list of DNS record types for lookup. Possible values: A, AAAA, MX, NS, SOA, SPF, TXT, CNAME, or all
+**type:** `string | string[]` — Hostname or URL whose historical DNS records are required */ "host-name": string; /** A comma-separated list of DNS record types for lookup. Possible values: A, AAAA, MX, NS, SOA, SPF, TXT, CNAME, or all **Required**
     
 </dd>
 </dl>
@@ -2362,6 +2370,14 @@ const response = await client.domainAvailabilitySuggestions({
 <dd>
 
 **count:** `number` optional — Number of suggestions to retrieve.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**sug:** `boolean` optional — Whether to return domain suggestions.
     
 </dd>
 </dl>
@@ -4668,7 +4684,7 @@ await client.pdfUploadResources({
 <dl>
 <dd>
 
-**file:** `core.file.Uploadable[] | undefined` optional — The PDF files to be uploaded to the API Freaks server. Multiple files can be provided in an array.
+**file:** `core.file.Uploadable[]` — The PDF files to be uploaded to the API Freaks server. Multiple files can be provided in an array. **Required**
     
 </dd>
 </dl>
@@ -5917,7 +5933,7 @@ const response = await client.currencyConvertLatest({
 <dl>
 <dd>
 
-**amount:** `number` optional — Amount to convert
+**amount:** `string` optional — Amount to convert
     
 </dd>
 </dl>
@@ -6016,7 +6032,7 @@ const response = await client.currencyConvertHistorical({
 <dl>
 <dd>
 
-**amount:** `number` optional — The Amount to be converted
+**amount:** `string` optional — The Amount to be converted
     
 </dd>
 </dl>
@@ -6316,7 +6332,7 @@ const response = await client.currencyConvertByIp({
 <dl>
 <dd>
 
-**amount:** `number` optional — Amount to convert
+**amount:** `string` optional — Amount to convert
     
 </dd>
 </dl>
@@ -6582,7 +6598,7 @@ const response = await client.commodityLatestRates({
 <dl>
 <dd>
 
-**symbols:** `string | string[]` optional — Comma separated list of desired commodities symbols *(e.g. XAU,XAG,WTI,BRENT)* **Required**
+**symbols:** `string | string[]` — Comma separated list of desired commodities symbols *(e.g. XAU,XAG,WTI,BRENT)* **Required**
     
 </dd>
 </dl>
@@ -6680,7 +6696,7 @@ const response = await client.commodityHistoricalRates({
 <dl>
 <dd>
 
-**symbols:** `string | string[]` optional — Comma-separated list of commodity symbols
+**symbols:** `string | string[]` — Comma-separated list of commodity symbols **Required**
     
 </dd>
 </dl>
@@ -6755,7 +6771,7 @@ const response = await client.commodityFluctuation({
 <dl>
 <dd>
 
-**symbols:** `string | string[]` optional — Comma-separated list of commodity symbols
+**symbols:** `string | string[]` — Comma-separated list of commodity symbols **Required**
     
 </dd>
 </dl>
@@ -6846,7 +6862,7 @@ const response = await client.commodityTimeSeries({
 <dl>
 <dd>
 
-**symbols:** `string | string[]` optional — Comma-separated list of commodity symbols
+**symbols:** `string | string[]` — Comma-separated list of commodity symbols **Required**
     
 </dd>
 </dl>
@@ -10260,7 +10276,8 @@ Parse User Agent string to get detailed browser, device, and operating system in
 
 ```typescript
 const response = await client.userAgentLookup({
-    apiKey: "apiKey"
+    apiKey: "apiKey",
+    userAgent: "userAgent"
 })
 ```
 </dd>
@@ -10277,6 +10294,14 @@ const response = await client.userAgentLookup({
 <dd>
 
 **apiKey:** `string` — Your API key
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**userAgent:** `string` — The User-Agent string to look up. Sent as the "User-Agent" HTTP header. **Required**
     
 </dd>
 </dl>

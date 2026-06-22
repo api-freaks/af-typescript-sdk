@@ -8,13 +8,15 @@ export interface EmailValidateResponse {
     domain: EmailValidateResponse.Domain;
     account: EmailValidateResponse.Account;
     dns: EmailValidateResponse.Dns;
-    ip?: string | undefined;
+    ipAddress?: string | undefined;
     address?: EmailValidateResponse.Address | undefined;
 }
 export declare namespace EmailValidateResponse {
     const ValidEmail: {
         readonly Valid: "valid";
-        readonly Invalid: "invalid";
+        readonly Invalid: "Invalid";
+        readonly Unknown: "Unknown";
+        readonly Risky: "Risky";
     };
     type ValidEmail = (typeof ValidEmail)[keyof typeof ValidEmail];
     interface Domain {
@@ -32,7 +34,7 @@ export declare namespace EmailValidateResponse {
     interface Dns {
         mxRecords: string[];
         /** Collection of A (Address) records for the domain. */
-        aRecords?: string[] | undefined;
+        aRecords: string[];
     }
     interface Address {
         security?: Address.Security | undefined;

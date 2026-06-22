@@ -13,8 +13,8 @@ export interface CommodityFluctuationRequest {
     apiKey: string;
     /** Format of the response. */
     format?: ApifreaksApi.CommodityFluctuationRequestFormat;
-    /** Comma-separated list of commodity symbols */
-    symbols?: string | string[];
+    /** Comma-separated list of commodity symbols **Required** */
+    symbols: string | string[];
     /** Start date (YYYY-MM-DD) */
     startDate: string;
     /** End date (YYYY-MM-DD) */

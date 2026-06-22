@@ -3,8 +3,8 @@
 export interface TimezoneLookupResponse {
     ip?: string | undefined;
     location?: TimezoneLookupResponse.Location | undefined;
-    time_zone: TimezoneLookupResponse.TimeZone;
-    airport_details?: TimezoneLookupResponse.AirportDetails | undefined;
+    time_zone?: TimezoneLookupResponse.TimeZone | undefined;
+    airport_detail?: TimezoneLookupResponse.AirportDetails | undefined;
     lo_code_details?: TimezoneLookupResponse.LoCodeDetails | undefined;
 }
 
@@ -46,15 +46,11 @@ export namespace TimezoneLookupResponse {
         month: number;
         year: number;
         year_abbr: string;
-        current_tz_abbreviation: string;
-        current_tz_full_name: string;
-        standard_tz_abbreviation: string;
-        standard_tz_full_name: string;
         is_dst: boolean;
         dst_savings: number;
         dst_exists: boolean;
-        dst_start?: TimeZone.DstStart | undefined;
-        dst_end?: TimeZone.DstEnd | undefined;
+        dst_start: TimeZone.DstStart;
+        dst_end: TimeZone.DstEnd;
         /** Accepts any additional properties */
         [key: string]: any;
     }
@@ -84,28 +80,28 @@ export namespace TimezoneLookupResponse {
     }
 
     export interface AirportDetails {
-        type: string;
-        name: string;
-        longitude: string;
-        latitude: string;
-        elevation_ft: number;
-        continent_code: string;
-        country_code: string;
-        state_code: string;
-        city: string;
-        iata_code: string;
-        icao_code: string;
-        faa_code: string;
+        type?: string | undefined;
+        name?: string | undefined;
+        longitude?: number | undefined;
+        latitude?: number | undefined;
+        elevation_ft?: number | undefined;
+        continent_code?: string | undefined;
+        country_code?: string | undefined;
+        state_code?: string | undefined;
+        city?: string | undefined;
+        iata_code?: string | undefined;
+        icao_code?: string | undefined;
+        faa_code?: string | undefined;
     }
 
     export interface LoCodeDetails {
-        lo_code: string;
-        city: string;
-        longitude: string;
-        latitude: string;
-        state_code: string;
-        country_code: string;
-        country_name: string;
-        location_type: string;
+        lo_code?: string | undefined;
+        city?: string | undefined;
+        longitude?: number | undefined;
+        latitude?: number | undefined;
+        state_code?: string | undefined;
+        country_code?: string | undefined;
+        country_name?: string | undefined;
+        location_type?: string | undefined;
     }
 }

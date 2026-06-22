@@ -18,5 +18,5 @@ export interface CurrencyConvertByIpRequest {
     /** IPv4 or IPv6 geolocated currency */
     ip?: string;
     /** Amount to convert */
-    amount?: number;
+    amount?: string;
 }

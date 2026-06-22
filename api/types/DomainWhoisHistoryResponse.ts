@@ -92,10 +92,10 @@ export namespace DomainWhoisHistoryResponse {
                 zip_code?: string | undefined;
                 country_name?: string | undefined;
                 country_code?: string | undefined;
-                emailaddress?: string | undefined;
+                email_address?: string | undefined;
                 phone?: string | undefined;
                 fax?: string | undefined;
-                mailingaddress?: string | undefined;
+                mailing_address?: string | undefined;
             }
 
             export interface AdministrativeContact {
@@ -107,10 +107,10 @@ export namespace DomainWhoisHistoryResponse {
                 zip_code?: string | undefined;
                 country_name?: string | undefined;
                 country_code?: string | undefined;
-                emailaddress?: string | undefined;
+                email_address?: string | undefined;
                 phone?: string | undefined;
                 fax?: string | undefined;
-                mailingaddress?: string | undefined;
+                mailing_address?: string | undefined;
             }
 
             export interface TechnicalContact {
@@ -122,10 +122,10 @@ export namespace DomainWhoisHistoryResponse {
                 zip_code?: string | undefined;
                 country_name?: string | undefined;
                 country_code?: string | undefined;
-                emailaddress?: string | undefined;
+                email_address?: string | undefined;
                 phone?: string | undefined;
                 fax?: string | undefined;
-                mailingaddress?: string | undefined;
+                mailing_address?: string | undefined;
             }
 
             export interface BillingContact {
@@ -137,10 +137,10 @@ export namespace DomainWhoisHistoryResponse {
                 zip_code?: string | undefined;
                 country_name?: string | undefined;
                 country_code?: string | undefined;
-                emailaddress?: string | undefined;
+                email_address?: string | undefined;
                 phone?: string | undefined;
                 fax?: string | undefined;
-                mailingaddress?: string | undefined;
+                mailing_address?: string | undefined;
             }
 
             export interface RegistryData {

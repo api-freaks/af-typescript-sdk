@@ -14,9 +14,11 @@ export namespace BulkDomainDnsLookupResponse {
             /** Time at which the query was made (Format:YYYY-MM-DD HH:mm:ss). */
             queryTime: string;
             /** Queried domain. */
-            domainName: string;
+            domainName?: string | undefined;
             /** Indicates whether the domain is registered. */
-            domainRegistered: boolean;
+            domainRegistered?: boolean | undefined;
+            /** IP address associated with the record. */
+            ipAddress?: string | undefined;
             dnsTypes: Item.DnsTypes;
             /** List of DNS records, each based on its type. */
             dnsRecords: Item.DnsRecords.Item[];
@@ -32,6 +34,7 @@ export namespace BulkDomainDnsLookupResponse {
                 SOA?: number | undefined;
                 TXT?: number | undefined;
                 SPF?: number | undefined;
+                PTR?: number | undefined;
             }
 
             export type DnsRecords = DnsRecords.Item[];

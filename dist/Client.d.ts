@@ -548,6 +548,7 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.ForbiddenError}
      * @throws {@link ApifreaksApi.NotFoundError}
      * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.RequestTimeoutError}
      * @throws {@link ApifreaksApi.ContentTooLargeError}
      * @throws {@link ApifreaksApi.TooManyRequestsError}
      * @throws {@link ApifreaksApi.InternalServerError}
@@ -574,6 +575,7 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.ForbiddenError}
      * @throws {@link ApifreaksApi.NotFoundError}
      * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.RequestTimeoutError}
      * @throws {@link ApifreaksApi.ContentTooLargeError}
      * @throws {@link ApifreaksApi.TooManyRequestsError}
      * @throws {@link ApifreaksApi.InternalServerError}
@@ -601,7 +603,9 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.PaymentRequiredError}
      * @throws {@link ApifreaksApi.ForbiddenError}
      * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.MethodNotAllowedError}
      * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.RequestTimeoutError}
      * @throws {@link ApifreaksApi.ContentTooLargeError}
      * @throws {@link ApifreaksApi.TooManyRequestsError}
      * @throws {@link ApifreaksApi.InternalServerError}
@@ -641,7 +645,9 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.PaymentRequiredError}
      * @throws {@link ApifreaksApi.ForbiddenError}
      * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.MethodNotAllowedError}
      * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.RequestTimeoutError}
      * @throws {@link ApifreaksApi.ContentTooLargeError}
      * @throws {@link ApifreaksApi.TooManyRequestsError}
      * @throws {@link ApifreaksApi.InternalServerError}
@@ -784,6 +790,7 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.ForbiddenError}
      * @throws {@link ApifreaksApi.NotFoundError}
      * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.RequestTimeoutError}
      * @throws {@link ApifreaksApi.ContentTooLargeError}
      * @throws {@link ApifreaksApi.TooManyRequestsError}
      * @throws {@link ApifreaksApi.InternalServerError}
@@ -810,6 +817,7 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.ForbiddenError}
      * @throws {@link ApifreaksApi.NotFoundError}
      * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.RequestTimeoutError}
      * @throws {@link ApifreaksApi.ContentTooLargeError}
      * @throws {@link ApifreaksApi.TooManyRequestsError}
      * @throws {@link ApifreaksApi.InternalServerError}
@@ -836,6 +844,7 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.ForbiddenError}
      * @throws {@link ApifreaksApi.NotFoundError}
      * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.RequestTimeoutError}
      * @throws {@link ApifreaksApi.ContentTooLargeError}
      * @throws {@link ApifreaksApi.TooManyRequestsError}
      * @throws {@link ApifreaksApi.InternalServerError}
@@ -2814,7 +2823,8 @@ export declare class ApifreaksApiClient {
      *
      * @example
      *     await client.userAgentLookup({
-     *         apiKey: "apiKey"
+     *         apiKey: "apiKey",
+     *         userAgent: "userAgent"
      *     })
      */
     userAgentLookup(request: ApifreaksApi.UserAgentLookupRequest, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.UserAgentLookupResponse>;

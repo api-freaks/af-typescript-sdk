@@ -1,6 +1,6 @@
 export interface ZipcodeDistanceResponse {
     /** Number of distance results returned */
-    results_count?: string | undefined;
+    result_count?: number | undefined;
     results?: ZipcodeDistanceResponse.Results.Item[] | undefined;
 }
 export declare namespace ZipcodeDistanceResponse {

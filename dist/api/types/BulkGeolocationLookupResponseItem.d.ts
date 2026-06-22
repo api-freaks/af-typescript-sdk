@@ -8,7 +8,7 @@ export interface BulkGeolocationLookupResponseItem {
     network?: BulkGeolocationLookupResponseItem.Network | undefined;
     currency?: BulkGeolocationLookupResponseItem.Currency | undefined;
     security?: BulkGeolocationLookupResponseItem.Security | undefined;
-    abuse?: BulkGeolocationLookupResponseItem.Abuse.Item[] | undefined;
+    abuse?: BulkGeolocationLookupResponseItem.Abuse.Item | undefined;
     time_zone?: BulkGeolocationLookupResponseItem.TimeZone | undefined;
     user_agent?: BulkGeolocationLookupResponseItem.UserAgent | undefined;
 }

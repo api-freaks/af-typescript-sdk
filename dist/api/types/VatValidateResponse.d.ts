@@ -1,8 +1,8 @@
 export interface VatValidateResponse {
     country_code: string;
     vat_number: string;
-    requester_country_code?: string | undefined;
-    requester_vat_number?: string | undefined;
+    requester_country_code: string;
+    requester_vat_number: string;
     requested_at: string;
     validation: VatValidateResponse.Validation;
     company: VatValidateResponse.Company;
