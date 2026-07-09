@@ -1,0 +1,115 @@
+export interface TimezoneLookupV2Response {
+    ip?: string | undefined;
+    time_zone?: TimezoneLookupV2Response.TimeZone | undefined;
+    location?: TimezoneLookupV2Response.Location | undefined;
+    airport_details?: TimezoneLookupV2Response.AirportDetails | undefined;
+    lo_code_details?: TimezoneLookupV2Response.LoCodeDetails | undefined;
+}
+export declare namespace TimezoneLookupV2Response {
+    interface TimeZone {
+        /** IANA timezone identifier */
+        name?: string | undefined;
+        /** Standard UTC offset in hours */
+        offset?: number | undefined;
+        /** UTC offset with DST adjustment */
+        offset_with_dst?: number | undefined;
+        /** Date in YYYY-MM-DD format */
+        date?: string | undefined;
+        /** Date-time in YYYY-MM-DD HH:mm:ss format */
+        date_time?: string | undefined;
+        /** Date-time in descriptive text format */
+        date_time_txt?: string | undefined;
+        /** Date-time in RFC format with timezone */
+        date_time_wti?: string | undefined;
+        /** Date-time in ISO 8601 format */
+        date_time_ymd?: string | undefined;
+        /** Full timestamp with offset */
+        current_time?: string | undefined;
+        /** Unix timestamp */
+        current_time_unix?: number | undefined;
+        /** Time in 24-hour format */
+        time_24?: string | undefined;
+        /** Time in 12-hour format with AM/PM */
+        time_12?: string | undefined;
+        /** Week number (1-52) */
+        week?: number | undefined;
+        /** Month (1-12) */
+        month?: number | undefined;
+        /** 4-digit year */
+        year?: number | undefined;
+        /** 2-digit year */
+        year_abbr?: string | undefined;
+        current_tz_abbreviation?: string | undefined;
+        current_tz_full_name?: string | undefined;
+        standard_tz_abbreviation?: string | undefined;
+        standard_tz_full_name?: string | undefined;
+        is_dst?: boolean | undefined;
+        dst_tz_abbreviation?: string | undefined;
+        dst_tz_full_name?: string | undefined;
+        /** Hours added for DST */
+        dst_savings?: number | undefined;
+        dst_exists?: boolean | undefined;
+        dst_start?: TimeZone.DstStart | undefined;
+        dst_end?: TimeZone.DstEnd | undefined;
+    }
+    namespace TimeZone {
+        interface DstStart {
+            utc_time?: string | undefined;
+            duration?: string | undefined;
+            gap?: boolean | undefined;
+            date_time_after?: string | undefined;
+            date_time_before?: string | undefined;
+            overlap?: boolean | undefined;
+        }
+        interface DstEnd {
+            utc_time?: string | undefined;
+            duration?: string | undefined;
+            gap?: boolean | undefined;
+            date_time_after?: string | undefined;
+            date_time_before?: string | undefined;
+            overlap?: boolean | undefined;
+        }
+    }
+    interface Location {
+        location_string?: string | undefined;
+        continent_code?: string | undefined;
+        continent_name?: string | undefined;
+        country_code2?: string | undefined;
+        country_code3?: string | undefined;
+        country_name?: string | undefined;
+        country_name_official?: string | undefined;
+        is_eu?: boolean | undefined;
+        state_prov?: string | undefined;
+        state_code?: string | undefined;
+        district?: string | undefined;
+        city?: string | undefined;
+        locality?: string | undefined;
+        zipcode?: string | undefined;
+        latitude?: string | undefined;
+        longitude?: string | undefined;
+    }
+    interface AirportDetails {
+        type?: string | undefined;
+        name?: string | undefined;
+        latitude?: string | undefined;
+        longitude?: string | undefined;
+        elevation_ft?: number | undefined;
+        continent_code?: string | undefined;
+        country_code?: string | undefined;
+        state_code?: string | undefined;
+        city?: string | undefined;
+        iata_code?: string | undefined;
+        icao_code?: string | undefined;
+        faa_code?: string | undefined;
+    }
+    interface LoCodeDetails {
+        lo_code?: string | undefined;
+        city?: string | undefined;
+        state_code?: string | undefined;
+        country_code?: string | undefined;
+        country_name?: string | undefined;
+        location_type?: string | undefined;
+        latitude?: string | undefined;
+        longitude?: string | undefined;
+    }
+}

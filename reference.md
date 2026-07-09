@@ -210,6 +210,216 @@ const response = await client.bulkGeolocationLookup({
 </dl>
 </details>
 
+<details><summary><code>client.geolocationLookupV2(request) -> Promise<ApifreaksApi.GeolocationLookupV2Response></code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Get detailed geolocation data (v2.0) for an IP address, hostname or domain including country, city, timezone, currency, ASN, company, and optional security, abuse and user-agent information. Uses the `/v2.0/geolocation/lookup` endpoint.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+const response = await client.geolocationLookupV2({
+    apiKey: "apiKey"
+})
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**apiKey:** `string` — Your API key
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**format:** `ApifreaksApi.GeolocationLookupV2RequestFormat` optional — Format of the response.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**ip:** `string` optional — IPv4, IPv6, or domain name for geolocation lookup. Omit to detect the caller's IP.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**lang:** `ApifreaksApi.GeolocationLookupV2RequestLang` optional — Response language for location fields
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**fields:** `string` optional — Comma separated list of fields to include in response
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**excludes:** `string` optional — Comma separated list of fields to exclude from response
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**include:** `string` optional — Additional modules to include (geo_accuracy, dma_code, user_agent, security, abuse, hostname, liveHostname, hostnameFallbackLive, or `*` for all)
+    
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.bulkGeolocationLookupV2(request) -> Promise<ApifreaksApi.BulkGeolocationLookupV2ResponseItem[]></code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve detailed geolocation data (v2.0) for multiple IP addresses, hostnames or domain names in a single request.
+Supports up to `50,000` IP-addresses/host-names per request. Uses the `/v2.0/geolocation/lookup` endpoint.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+const response = await client.bulkGeolocationLookupV2({
+    apiKey: "apiKey",
+    ips: ["ips"]
+})
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**apiKey:** `string` — Your API key
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**format:** `ApifreaksApi.BulkGeolocationLookupV2RequestFormat` optional — Format of the response.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**lang:** `string` optional — Language of the response.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**fields:** `string` optional — Comma-separated list of fields to include in the response.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**excludes:** `string` optional — Comma-separated list of fields to exclude from the response (except "ip").
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**include:** `string` optional — Comma-separated list of additional modules to include in the response.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**ips:** `string[]` — List of IP addresses, hostnames or domain names to lookup
+    
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.ipSecurityLookup(request) -> Promise<ApifreaksApi.IpSecurityLookupResponse></code></summary>
 <dl>
 <dd>
@@ -711,6 +921,152 @@ const response = await client.bulkDomainWhoisLookup({
 <dd>
 
 **format:** `ApifreaksApi.BulkDomainWhoisLookupRequestFormat` optional — Format of the response.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**domainNames:** `string[]` — A list of domain names for which WHOIS data is requested.
+    
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.domainWhoisLookupV2(request) -> Promise<ApifreaksApi.DomainWhoisLookupV2Response></code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Get live WHOIS registration details (v2.0) for a domain name, including registrar, contacts, secure DNS, eligibility and registry data. Uses the `/v2.0/domain/whois/live` endpoint.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+const response = await client.domainWhoisLookupV2({
+    apiKey: "apiKey",
+    domainName: "domainName"
+})
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**apiKey:** `string` — Your API key
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**format:** `ApifreaksApi.DomainWhoisLookupV2RequestFormat` optional — Response format (defaults to json)
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**domainName:** `string` — Domain name for WHOIS lookup
+    
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.bulkDomainWhoisLookupV2(request) -> Promise<ApifreaksApi.BulkDomainWhoisLookupV2Response></code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve live WHOIS information (v2.0) for `100 Domains per Request`. Uses the `/v2.0/domain/whois/live` endpoint.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+const response = await client.bulkDomainWhoisLookupV2({
+    apiKey: "apiKey",
+    domainNames: ["domainNames"]
+})
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**apiKey:** `string` — Your API key
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**format:** `ApifreaksApi.BulkDomainWhoisLookupV2RequestFormat` optional — Format of the response.
     
 </dd>
 </dl>
@@ -10064,6 +10420,142 @@ const response = await client.timezoneLookup({
 </dl>
 </details>
 
+<details><summary><code>client.timezoneLookupV2(request) -> Promise<ApifreaksApi.TimezoneLookupV2Response></code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Get detailed timezone information (v2.0) by IP, timezone name, coordinates, location, airport code or UN/LOCODE, including DST transitions and localized date-time fields. Uses the `/v2.0/geolocation/timezone` endpoint.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+const response = await client.timezoneLookupV2({
+    apiKey: "apiKey"
+})
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**apiKey:** `string` — Your API key
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**format:** `ApifreaksApi.TimezoneLookupV2RequestFormat` optional — Format of the response
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**ip:** `string` optional — IPv4 or IPv6 address to extract timezone information.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**tz:** `string` optional — Timezone name (e.g., "Asia/Kolkata") to retrieve information directly.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**location:** `string` optional — Location string (preferably city and country) to extract timezone.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**lat:** `number` optional — Latitude for geolocation lookup.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**long:** `number` optional — Longitude for geolocation lookup.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**lang:** `ApifreaksApi.TimezoneLookupV2RequestLang` optional — Language code for response localization (default is "en").
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**iata_code:** `string` optional — 3-letter IATA airport code (e.g., JFK).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**icao_code:** `string` optional — 4-letter ICAO airport code (e.g., KJFK).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**lo_code:** `string` optional — 5-letter UN/LO city code.
+    
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
 <details><summary><code>client.timezoneConvert(request) -> Promise<ApifreaksApi.TimezoneConvertResponse></code></summary>
 <dl>
 <dd>
@@ -10877,6 +11369,134 @@ const response = await client.astronomyLookup({
 <dd>
 
 **elevation:** `number` optional — Timezone of the location for which astronomy data is required
+    
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.astronomyLookupV2(request) -> Promise<ApifreaksApi.AstronomyLookupV2Response></code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Get astronomy data (v2.0) — sun and moon rise/set times, twilight, golden/blue hour, moon phase and illumination — for a location, coordinates or IP. Uses the `/v2.0/geolocation/astronomy` endpoint.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+const response = await client.astronomyLookupV2({
+    apiKey: "apiKey"
+})
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**apiKey:** `string` — Your API key
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**format:** `ApifreaksApi.AstronomyLookupV2RequestFormat` optional — Format of the response.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**location:** `string` optional — Location name or address
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**lat:** `number` optional — Latitude for location coordinates
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**long:** `number` optional — Longitude for location coordinates
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**ip:** `string` optional — IP address for location detection
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**lang:** `string` optional — Language code for response localization (default is "en").
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**date:** `string` optional — Date for astronomy data (YYYY-MM-DD)
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**elevation:** `number` optional — Elevation in meters (default 0, maximum 10,000)
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**time_zone:** `string` optional — Timezone of the location for which astronomy data is required
     
 </dd>
 </dl>

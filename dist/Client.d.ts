@@ -64,6 +64,59 @@ export declare class ApifreaksApiClient {
     bulkGeolocationLookup(request: ApifreaksApi.BulkGeolocationLookupRequest, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.BulkGeolocationLookupResponseItem[]>;
     private __bulkGeolocationLookup;
     /**
+     * Get detailed geolocation data (v2.0) for an IP address, hostname or domain including country, city, timezone, currency, ASN, company, and optional security, abuse and user-agent information
+     *
+     * @param {ApifreaksApi.GeolocationLookupV2Request} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.LockedError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     *
+     * @example
+     *     await client.geolocationLookupV2({
+     *         apiKey: "apiKey"
+     *     })
+     */
+    geolocationLookupV2(request: ApifreaksApi.GeolocationLookupV2Request, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.GeolocationLookupV2Response>;
+    private __geolocationLookupV2;
+    /**
+     * Retrieve detailed geolocation data (v2.0) for multiple IP addresses, hostnames or domain names in a single request.
+     * Supports up to `50,000` IP-addresses/host-names per request.
+     *
+     * @param {ApifreaksApi.BulkGeolocationLookupV2Request} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     *
+     * @example
+     *     await client.bulkGeolocationLookupV2({
+     *         apiKey: "apiKey",
+     *         ips: ["ips"]
+     *     })
+     */
+    bulkGeolocationLookupV2(request: ApifreaksApi.BulkGeolocationLookupV2Request, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.BulkGeolocationLookupV2ResponseItem[]>;
+    private __bulkGeolocationLookupV2;
+    /**
      * Get comprehensive security information for a given IP address. Detects VPNs, proxies, Tor nodes, and other security threats.
      *
      * @param {ApifreaksApi.IpSecurityLookupRequest} request
@@ -223,6 +276,59 @@ export declare class ApifreaksApiClient {
      */
     bulkDomainWhoisLookup(request: ApifreaksApi.BulkDomainWhoisLookupRequest, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.BulkDomainWhoisLookupResponse>;
     private __bulkDomainWhoisLookup;
+    /**
+     * Get live WHOIS registration details (v2.0) for a domain name, including registrar, contacts, secure DNS, eligibility and registry data.
+     *
+     * @param {ApifreaksApi.DomainWhoisLookupV2Request} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.RequestTimeoutError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     *
+     * @example
+     *     await client.domainWhoisLookupV2({
+     *         apiKey: "apiKey",
+     *         domainName: "domainName"
+     *     })
+     */
+    domainWhoisLookupV2(request: ApifreaksApi.DomainWhoisLookupV2Request, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.DomainWhoisLookupV2Response>;
+    private __domainWhoisLookupV2;
+    /**
+     * Retrieve live WHOIS information (v2.0) for `100 Domains per Request`.
+     *
+     * @param {ApifreaksApi.BulkDomainWhoisLookupV2Request} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     *
+     * @example
+     *     await client.bulkDomainWhoisLookupV2({
+     *         apiKey: "apiKey",
+     *         domainNames: ["domainNames"]
+     *     })
+     */
+    bulkDomainWhoisLookupV2(request: ApifreaksApi.BulkDomainWhoisLookupV2Request, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.BulkDomainWhoisLookupV2Response>;
+    private __bulkDomainWhoisLookupV2;
     /**
      * Returns WHOIS registration details for a specified IP address (IPv4 or IPv6).
      *
@@ -2779,6 +2885,31 @@ export declare class ApifreaksApiClient {
     timezoneLookup(request: ApifreaksApi.TimezoneLookupRequest, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.TimezoneLookupResponse>;
     private __timezoneLookup;
     /**
+     * Get detailed timezone information (v2.0) by IP, timezone name, coordinates, location, airport code or UN/LOCODE, including DST transitions and localized date-time fields.
+     *
+     * @param {ApifreaksApi.TimezoneLookupV2Request} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     *
+     * @example
+     *     await client.timezoneLookupV2({
+     *         apiKey: "apiKey"
+     *     })
+     */
+    timezoneLookupV2(request: ApifreaksApi.TimezoneLookupV2Request, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.TimezoneLookupV2Response>;
+    private __timezoneLookupV2;
+    /**
      * Converts a given time from one timezone to another using various input types like timezone name, coordinates, location, or codes.
      *
      * @param {ApifreaksApi.TimezoneConvertRequest} request
@@ -3019,6 +3150,31 @@ export declare class ApifreaksApiClient {
      */
     astronomyLookup(request: ApifreaksApi.AstronomyLookupRequest, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.AstronomyLookupResponse>;
     private __astronomyLookup;
+    /**
+     * Get astronomy data (v2.0) — sun and moon rise/set times, twilight, golden/blue hour, moon phase and illumination — for a location, coordinates or IP.
+     *
+     * @param {ApifreaksApi.AstronomyLookupV2Request} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     *
+     * @example
+     *     await client.astronomyLookupV2({
+     *         apiKey: "apiKey"
+     *     })
+     */
+    astronomyLookupV2(request: ApifreaksApi.AstronomyLookupV2Request, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.AstronomyLookupV2Response>;
+    private __astronomyLookupV2;
     /**
      * Make a passthrough request using the SDK's configured auth, retry, logging, etc.
      * This is useful for making requests to endpoints not yet supported in the SDK.

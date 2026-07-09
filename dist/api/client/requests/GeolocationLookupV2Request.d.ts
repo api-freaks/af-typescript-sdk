@@ -1,0 +1,23 @@
+import type * as ApifreaksApi from "../../index.js";
+/**
+ * @example
+ *     {
+ *         apiKey: "apiKey"
+ *     }
+ */
+export interface GeolocationLookupV2Request {
+    /** Your API key */
+    apiKey: string;
+    /** Format of the response. */
+    format?: ApifreaksApi.GeolocationLookupV2RequestFormat;
+    /** IPv4, IPv6, or domain name for geolocation lookup. Omit to detect the caller's IP. */
+    ip?: string;
+    /** Response language for location fields */
+    lang?: ApifreaksApi.GeolocationLookupV2RequestLang;
+    /** Comma separated list of fields to include in response */
+    fields?: string;
+    /** Comma separated list of fields to exclude from response */
+    excludes?: string;
+    /** Additional modules to include (geo_accuracy, dma_code, user_agent, security, abuse, hostname, liveHostname, hostnameFallbackLive, or `*` for all) */
+    include?: string;
+}
