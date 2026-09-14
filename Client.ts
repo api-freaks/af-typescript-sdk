@@ -253,235 +253,6 @@ export class ApifreaksApiClient {
     }
 
     /**
-     * Get detailed geolocation data (v2.0) for an IP address, hostname or domain including country, city, timezone, currency, ASN, company, and optional security, abuse and user-agent information
-     *
-     * @param {ApifreaksApi.GeolocationLookupV2Request} request
-     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @throws {@link ApifreaksApi.BadRequestError}
-     * @throws {@link ApifreaksApi.UnauthorizedError}
-     * @throws {@link ApifreaksApi.PaymentRequiredError}
-     * @throws {@link ApifreaksApi.ForbiddenError}
-     * @throws {@link ApifreaksApi.NotFoundError}
-     * @throws {@link ApifreaksApi.NotAcceptableError}
-     * @throws {@link ApifreaksApi.ContentTooLargeError}
-     * @throws {@link ApifreaksApi.LockedError}
-     * @throws {@link ApifreaksApi.TooManyRequestsError}
-     * @throws {@link ApifreaksApi.InternalServerError}
-     * @throws {@link ApifreaksApi.ServiceUnavailableError}
-     * @throws {@link ApifreaksApi.GatewayTimeoutError}
-     *
-     * @example
-     *     await client.geolocationLookupV2({
-     *         apiKey: "apiKey"
-     *     })
-     */
-    public geolocationLookupV2(
-        request: ApifreaksApi.GeolocationLookupV2Request,
-        requestOptions?: ApifreaksApiClient.RequestOptions,
-    ): core.HttpResponsePromise<ApifreaksApi.GeolocationLookupV2Response> {
-        return core.HttpResponsePromise.fromPromise(this.__geolocationLookupV2(request, requestOptions));
-    }
-
-    private async __geolocationLookupV2(
-        request: ApifreaksApi.GeolocationLookupV2Request,
-        requestOptions?: ApifreaksApiClient.RequestOptions,
-    ): Promise<core.WithRawResponse<ApifreaksApi.GeolocationLookupV2Response>> {
-        const { apiKey, format, ip, lang, fields, excludes, include } = request;
-        const _queryParams: Record<string, unknown> = {
-            apiKey,
-            format: format != null ? format : undefined,
-            ip,
-            lang: lang != null ? lang : undefined,
-            fields,
-            excludes,
-            include,
-        };
-        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(this._options?.headers, requestOptions?.headers);
-        const _response = await core.fetcher({
-            url: core.url.join(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    (await core.Supplier.get(this._options.environment)) ??
-                    environments.ApifreaksApiEnvironment.Default,
-                "v2.0/geolocation/lookup",
-            ),
-            method: "GET",
-            headers: _headers,
-            queryString: core.url
-                .queryBuilder()
-                .addMany(_queryParams)
-                .mergeAdditional(requestOptions?.queryParams)
-                .build(),
-            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-            fetchFn: this._options?.fetch,
-            logging: this._options.logging,
-        });
-        if (_response.ok) {
-            return {
-                data: _response.body as ApifreaksApi.GeolocationLookupV2Response,
-                rawResponse: _response.rawResponse,
-            };
-        }
-
-        if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
-                case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
-                case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
-                case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
-                case 404:
-                    throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
-                case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
-                case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
-                case 423:
-                    throw new ApifreaksApi.LockedError(_response.error.body as unknown, _response.rawResponse);
-                case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
-                case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
-                case 503:
-                    throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
-                        _response.rawResponse,
-                    );
-                case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
-                default:
-                    throw new errors.ApifreaksApiError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                        rawResponse: _response.rawResponse,
-                    });
-            }
-        }
-
-        return handleNonStatusCodeError(_response.error, _response.rawResponse, "GET", "/v2.0/geolocation/lookup");
-    }
-
-    /**
-     * Retrieve detailed geolocation data (v2.0) for multiple IP addresses, hostnames or domain names in a single request.
-     * Supports up to `50,000` IP-addresses/host-names per request.
-     *
-     * @param {ApifreaksApi.BulkGeolocationLookupV2Request} request
-     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @throws {@link ApifreaksApi.BadRequestError}
-     * @throws {@link ApifreaksApi.UnauthorizedError}
-     * @throws {@link ApifreaksApi.PaymentRequiredError}
-     * @throws {@link ApifreaksApi.ForbiddenError}
-     * @throws {@link ApifreaksApi.NotFoundError}
-     * @throws {@link ApifreaksApi.NotAcceptableError}
-     * @throws {@link ApifreaksApi.ContentTooLargeError}
-     * @throws {@link ApifreaksApi.TooManyRequestsError}
-     * @throws {@link ApifreaksApi.InternalServerError}
-     * @throws {@link ApifreaksApi.ServiceUnavailableError}
-     * @throws {@link ApifreaksApi.GatewayTimeoutError}
-     *
-     * @example
-     *     await client.bulkGeolocationLookupV2({
-     *         apiKey: "apiKey",
-     *         ips: ["ips"]
-     *     })
-     */
-    public bulkGeolocationLookupV2(
-        request: ApifreaksApi.BulkGeolocationLookupV2Request,
-        requestOptions?: ApifreaksApiClient.RequestOptions,
-    ): core.HttpResponsePromise<ApifreaksApi.BulkGeolocationLookupV2ResponseItem[]> {
-        return core.HttpResponsePromise.fromPromise(this.__bulkGeolocationLookupV2(request, requestOptions));
-    }
-
-    private async __bulkGeolocationLookupV2(
-        request: ApifreaksApi.BulkGeolocationLookupV2Request,
-        requestOptions?: ApifreaksApiClient.RequestOptions,
-    ): Promise<core.WithRawResponse<ApifreaksApi.BulkGeolocationLookupV2ResponseItem[]>> {
-        const { apiKey, format, lang, fields, excludes, include, ..._body } = request;
-        const _queryParams: Record<string, unknown> = {
-            apiKey,
-            format: format != null ? format : undefined,
-            lang,
-            fields,
-            excludes,
-            include,
-        };
-        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(this._options?.headers, requestOptions?.headers);
-        const _response = await core.fetcher({
-            url: core.url.join(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    (await core.Supplier.get(this._options.environment)) ??
-                    environments.ApifreaksApiEnvironment.Default,
-                "v2.0/geolocation/lookup",
-            ),
-            method: "POST",
-            headers: _headers,
-            contentType: "application/json",
-            queryString: core.url
-                .queryBuilder()
-                .addMany(_queryParams)
-                .mergeAdditional(requestOptions?.queryParams)
-                .build(),
-            requestType: "json",
-            body: _body,
-            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-            fetchFn: this._options?.fetch,
-            logging: this._options.logging,
-        });
-        if (_response.ok) {
-            return {
-                data: _response.body as ApifreaksApi.BulkGeolocationLookupV2ResponseItem[],
-                rawResponse: _response.rawResponse,
-            };
-        }
-
-        if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
-                case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
-                case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
-                case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
-                case 404:
-                    throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
-                case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
-                case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
-                case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
-                case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
-                case 503:
-                    throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
-                        _response.rawResponse,
-                    );
-                case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
-                default:
-                    throw new errors.ApifreaksApiError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                        rawResponse: _response.rawResponse,
-                    });
-            }
-        }
-
-        return handleNonStatusCodeError(_response.error, _response.rawResponse, "POST", "/v2.0/geolocation/lookup");
-    }
-
-    /**
      * Get comprehensive security information for a given IP address. Detects VPNs, proxies, Tor nodes, and other security threats.
      *
      * @param {ApifreaksApi.IpSecurityLookupRequest} request
@@ -1164,227 +935,6 @@ export class ApifreaksApiClient {
         }
 
         return handleNonStatusCodeError(_response.error, _response.rawResponse, "POST", "/v1.0/domain/whois/live");
-    }
-
-    /**
-     * Get live WHOIS registration details (v2.0) for a domain name, including registrar, contacts, secure DNS, eligibility and registry data.
-     *
-     * @param {ApifreaksApi.DomainWhoisLookupV2Request} request
-     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @throws {@link ApifreaksApi.BadRequestError}
-     * @throws {@link ApifreaksApi.UnauthorizedError}
-     * @throws {@link ApifreaksApi.PaymentRequiredError}
-     * @throws {@link ApifreaksApi.ForbiddenError}
-     * @throws {@link ApifreaksApi.NotFoundError}
-     * @throws {@link ApifreaksApi.NotAcceptableError}
-     * @throws {@link ApifreaksApi.RequestTimeoutError}
-     * @throws {@link ApifreaksApi.ContentTooLargeError}
-     * @throws {@link ApifreaksApi.TooManyRequestsError}
-     * @throws {@link ApifreaksApi.InternalServerError}
-     * @throws {@link ApifreaksApi.ServiceUnavailableError}
-     * @throws {@link ApifreaksApi.GatewayTimeoutError}
-     *
-     * @example
-     *     await client.domainWhoisLookupV2({
-     *         apiKey: "apiKey",
-     *         domainName: "domainName"
-     *     })
-     */
-    public domainWhoisLookupV2(
-        request: ApifreaksApi.DomainWhoisLookupV2Request,
-        requestOptions?: ApifreaksApiClient.RequestOptions,
-    ): core.HttpResponsePromise<ApifreaksApi.DomainWhoisLookupV2Response> {
-        return core.HttpResponsePromise.fromPromise(this.__domainWhoisLookupV2(request, requestOptions));
-    }
-
-    private async __domainWhoisLookupV2(
-        request: ApifreaksApi.DomainWhoisLookupV2Request,
-        requestOptions?: ApifreaksApiClient.RequestOptions,
-    ): Promise<core.WithRawResponse<ApifreaksApi.DomainWhoisLookupV2Response>> {
-        const { apiKey, format, domainName } = request;
-        const _queryParams: Record<string, unknown> = {
-            apiKey,
-            format: format != null ? format : undefined,
-            domainName,
-        };
-        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(this._options?.headers, requestOptions?.headers);
-        const _response = await core.fetcher({
-            url: core.url.join(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    (await core.Supplier.get(this._options.environment)) ??
-                    environments.ApifreaksApiEnvironment.Default,
-                "v2.0/domain/whois/live",
-            ),
-            method: "GET",
-            headers: _headers,
-            queryString: core.url
-                .queryBuilder()
-                .addMany(_queryParams)
-                .mergeAdditional(requestOptions?.queryParams)
-                .build(),
-            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-            fetchFn: this._options?.fetch,
-            logging: this._options.logging,
-        });
-        if (_response.ok) {
-            return {
-                data: _response.body as ApifreaksApi.DomainWhoisLookupV2Response,
-                rawResponse: _response.rawResponse,
-            };
-        }
-
-        if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
-                case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
-                case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
-                case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
-                case 404:
-                    throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
-                case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
-                case 408:
-                    throw new ApifreaksApi.RequestTimeoutError(_response.error.body as unknown, _response.rawResponse);
-                case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
-                case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
-                case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
-                case 503:
-                    throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
-                        _response.rawResponse,
-                    );
-                case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
-                default:
-                    throw new errors.ApifreaksApiError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                        rawResponse: _response.rawResponse,
-                    });
-            }
-        }
-
-        return handleNonStatusCodeError(_response.error, _response.rawResponse, "GET", "/v2.0/domain/whois/live");
-    }
-
-    /**
-     * Retrieve live WHOIS information (v2.0) for `100 Domains per Request`.
-     *
-     * @param {ApifreaksApi.BulkDomainWhoisLookupV2Request} request
-     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @throws {@link ApifreaksApi.BadRequestError}
-     * @throws {@link ApifreaksApi.UnauthorizedError}
-     * @throws {@link ApifreaksApi.PaymentRequiredError}
-     * @throws {@link ApifreaksApi.ForbiddenError}
-     * @throws {@link ApifreaksApi.NotFoundError}
-     * @throws {@link ApifreaksApi.NotAcceptableError}
-     * @throws {@link ApifreaksApi.ContentTooLargeError}
-     * @throws {@link ApifreaksApi.TooManyRequestsError}
-     * @throws {@link ApifreaksApi.InternalServerError}
-     * @throws {@link ApifreaksApi.ServiceUnavailableError}
-     * @throws {@link ApifreaksApi.GatewayTimeoutError}
-     *
-     * @example
-     *     await client.bulkDomainWhoisLookupV2({
-     *         apiKey: "apiKey",
-     *         domainNames: ["domainNames"]
-     *     })
-     */
-    public bulkDomainWhoisLookupV2(
-        request: ApifreaksApi.BulkDomainWhoisLookupV2Request,
-        requestOptions?: ApifreaksApiClient.RequestOptions,
-    ): core.HttpResponsePromise<ApifreaksApi.BulkDomainWhoisLookupV2Response> {
-        return core.HttpResponsePromise.fromPromise(this.__bulkDomainWhoisLookupV2(request, requestOptions));
-    }
-
-    private async __bulkDomainWhoisLookupV2(
-        request: ApifreaksApi.BulkDomainWhoisLookupV2Request,
-        requestOptions?: ApifreaksApiClient.RequestOptions,
-    ): Promise<core.WithRawResponse<ApifreaksApi.BulkDomainWhoisLookupV2Response>> {
-        const { apiKey, format, ..._body } = request;
-        const _queryParams: Record<string, unknown> = {
-            apiKey,
-            format: format != null ? format : undefined,
-        };
-        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(this._options?.headers, requestOptions?.headers);
-        const _response = await core.fetcher({
-            url: core.url.join(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    (await core.Supplier.get(this._options.environment)) ??
-                    environments.ApifreaksApiEnvironment.Default,
-                "v2.0/domain/whois/live",
-            ),
-            method: "POST",
-            headers: _headers,
-            contentType: "application/json",
-            queryString: core.url
-                .queryBuilder()
-                .addMany(_queryParams)
-                .mergeAdditional(requestOptions?.queryParams)
-                .build(),
-            requestType: "json",
-            body: _body,
-            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-            fetchFn: this._options?.fetch,
-            logging: this._options.logging,
-        });
-        if (_response.ok) {
-            return {
-                data: _response.body as ApifreaksApi.BulkDomainWhoisLookupV2Response,
-                rawResponse: _response.rawResponse,
-            };
-        }
-
-        if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
-                case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
-                case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
-                case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
-                case 404:
-                    throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
-                case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
-                case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
-                case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
-                case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
-                case 503:
-                    throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
-                        _response.rawResponse,
-                    );
-                case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
-                default:
-                    throw new errors.ApifreaksApiError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                        rawResponse: _response.rawResponse,
-                    });
-            }
-        }
-
-        return handleNonStatusCodeError(_response.error, _response.rawResponse, "POST", "/v2.0/domain/whois/live");
     }
 
     /**
@@ -2497,7 +2047,6 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.ForbiddenError}
      * @throws {@link ApifreaksApi.NotFoundError}
      * @throws {@link ApifreaksApi.NotAcceptableError}
-     * @throws {@link ApifreaksApi.RequestTimeoutError}
      * @throws {@link ApifreaksApi.ContentTooLargeError}
      * @throws {@link ApifreaksApi.TooManyRequestsError}
      * @throws {@link ApifreaksApi.InternalServerError}
@@ -2568,8 +2117,6 @@ export class ApifreaksApiClient {
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
                     throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
-                case 408:
-                    throw new ApifreaksApi.RequestTimeoutError(_response.error.body as unknown, _response.rawResponse);
                 case 413:
                     throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
                 case 429:
@@ -2612,7 +2159,6 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.ForbiddenError}
      * @throws {@link ApifreaksApi.NotFoundError}
      * @throws {@link ApifreaksApi.NotAcceptableError}
-     * @throws {@link ApifreaksApi.RequestTimeoutError}
      * @throws {@link ApifreaksApi.ContentTooLargeError}
      * @throws {@link ApifreaksApi.TooManyRequestsError}
      * @throws {@link ApifreaksApi.InternalServerError}
@@ -2688,8 +2234,6 @@ export class ApifreaksApiClient {
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
                     throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
-                case 408:
-                    throw new ApifreaksApi.RequestTimeoutError(_response.error.body as unknown, _response.rawResponse);
                 case 413:
                     throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
                 case 429:
@@ -2726,9 +2270,7 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.PaymentRequiredError}
      * @throws {@link ApifreaksApi.ForbiddenError}
      * @throws {@link ApifreaksApi.NotFoundError}
-     * @throws {@link ApifreaksApi.MethodNotAllowedError}
      * @throws {@link ApifreaksApi.NotAcceptableError}
-     * @throws {@link ApifreaksApi.RequestTimeoutError}
      * @throws {@link ApifreaksApi.ContentTooLargeError}
      * @throws {@link ApifreaksApi.TooManyRequestsError}
      * @throws {@link ApifreaksApi.InternalServerError}
@@ -2811,15 +2353,8 @@ export class ApifreaksApiClient {
                     throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
-                case 405:
-                    throw new ApifreaksApi.MethodNotAllowedError(
-                        _response.error.body as ApifreaksApi.MethodNotAllowedErrorBody,
-                        _response.rawResponse,
-                    );
                 case 406:
                     throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
-                case 408:
-                    throw new ApifreaksApi.RequestTimeoutError(_response.error.body as unknown, _response.rawResponse);
                 case 413:
                     throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
                 case 429:
@@ -2856,9 +2391,7 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.PaymentRequiredError}
      * @throws {@link ApifreaksApi.ForbiddenError}
      * @throws {@link ApifreaksApi.NotFoundError}
-     * @throws {@link ApifreaksApi.MethodNotAllowedError}
      * @throws {@link ApifreaksApi.NotAcceptableError}
-     * @throws {@link ApifreaksApi.RequestTimeoutError}
      * @throws {@link ApifreaksApi.ContentTooLargeError}
      * @throws {@link ApifreaksApi.TooManyRequestsError}
      * @throws {@link ApifreaksApi.InternalServerError}
@@ -2965,15 +2498,8 @@ export class ApifreaksApiClient {
                     throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
-                case 405:
-                    throw new ApifreaksApi.MethodNotAllowedError(
-                        _response.error.body as ApifreaksApi.MethodNotAllowedErrorBody,
-                        _response.rawResponse,
-                    );
                 case 406:
                     throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
-                case 408:
-                    throw new ApifreaksApi.RequestTimeoutError(_response.error.body as unknown, _response.rawResponse);
                 case 413:
                     throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
                 case 429:
@@ -3340,7 +2866,6 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.ForbiddenError}
      * @throws {@link ApifreaksApi.NotFoundError}
      * @throws {@link ApifreaksApi.NotAcceptableError}
-     * @throws {@link ApifreaksApi.RequestTimeoutError}
      * @throws {@link ApifreaksApi.ContentTooLargeError}
      * @throws {@link ApifreaksApi.TooManyRequestsError}
      * @throws {@link ApifreaksApi.InternalServerError}
@@ -3415,8 +2940,6 @@ export class ApifreaksApiClient {
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
                     throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
-                case 408:
-                    throw new ApifreaksApi.RequestTimeoutError(_response.error.body as unknown, _response.rawResponse);
                 case 413:
                     throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
                 case 429:
@@ -3454,7 +2977,6 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.ForbiddenError}
      * @throws {@link ApifreaksApi.NotFoundError}
      * @throws {@link ApifreaksApi.NotAcceptableError}
-     * @throws {@link ApifreaksApi.RequestTimeoutError}
      * @throws {@link ApifreaksApi.ContentTooLargeError}
      * @throws {@link ApifreaksApi.TooManyRequestsError}
      * @throws {@link ApifreaksApi.InternalServerError}
@@ -3478,14 +3000,13 @@ export class ApifreaksApiClient {
         request: ApifreaksApi.DomainAvailabilitySuggestionsRequest,
         requestOptions?: ApifreaksApiClient.RequestOptions,
     ): Promise<core.WithRawResponse<ApifreaksApi.DomainAvailabilitySuggestionsResponse>> {
-        const { apiKey, format, domain, source, count, sug } = request;
+        const { apiKey, format, domain, source, count } = request;
         const _queryParams: Record<string, unknown> = {
             apiKey,
             format: format != null ? format : undefined,
             domain,
             source: source != null ? source : undefined,
             count,
-            sug: sug != null ? sug : undefined,
         };
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(this._options?.headers, requestOptions?.headers);
         const _response = await core.fetcher({
@@ -3529,8 +3050,6 @@ export class ApifreaksApiClient {
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
                     throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
-                case 408:
-                    throw new ApifreaksApi.RequestTimeoutError(_response.error.body as unknown, _response.rawResponse);
                 case 413:
                     throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
                 case 429:
@@ -3573,7 +3092,6 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.ForbiddenError}
      * @throws {@link ApifreaksApi.NotFoundError}
      * @throws {@link ApifreaksApi.NotAcceptableError}
-     * @throws {@link ApifreaksApi.RequestTimeoutError}
      * @throws {@link ApifreaksApi.ContentTooLargeError}
      * @throws {@link ApifreaksApi.TooManyRequestsError}
      * @throws {@link ApifreaksApi.InternalServerError}
@@ -3649,8 +3167,6 @@ export class ApifreaksApiClient {
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
                     throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
-                case 408:
-                    throw new ApifreaksApi.RequestTimeoutError(_response.error.body as unknown, _response.rawResponse);
                 case 413:
                     throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
                 case 429:
@@ -3674,6 +3190,1464 @@ export class ApifreaksApiClient {
         }
 
         return handleNonStatusCodeError(_response.error, _response.rawResponse, "GET", "/v1.0/subdomains/lookup");
+    }
+
+    /**
+     * The Domain Typosquatting API searches for registered domains that are typo or look-alike variants of a brand keyword, or that match a wildcard pattern. Results include registration lifecycle data and drop status across 1529+ TLDs, paginated at 100 domains per page.
+     *
+     * @param {ApifreaksApi.DomainTyposquattingRequest} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     *
+     * @example
+     *     await client.domainTyposquatting({
+     *         apiKey: "apiKey"
+     *     })
+     */
+    public domainTyposquatting(
+        request: ApifreaksApi.DomainTyposquattingRequest,
+        requestOptions?: ApifreaksApiClient.RequestOptions,
+    ): core.HttpResponsePromise<ApifreaksApi.DomainTyposquattingResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__domainTyposquatting(request, requestOptions));
+    }
+
+    private async __domainTyposquatting(
+        request: ApifreaksApi.DomainTyposquattingRequest,
+        requestOptions?: ApifreaksApiClient.RequestOptions,
+    ): Promise<core.WithRawResponse<ApifreaksApi.DomainTyposquattingResponse>> {
+        const { apiKey, format, keyword, pattern, pageToken } = request;
+        const _queryParams: Record<string, unknown> = {
+            apiKey,
+            format: format != null ? format : undefined,
+            keyword,
+            pattern,
+            pageToken,
+        };
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(this._options?.headers, requestOptions?.headers);
+        const _response = await core.fetcher({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ApifreaksApiEnvironment.Default,
+                "v1.0/domain/typosquatting",
+            ),
+            method: "GET",
+            headers: _headers,
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as ApifreaksApi.DomainTyposquattingResponse,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                case 402:
+                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                case 403:
+                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                case 404:
+                    throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 406:
+                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                case 413:
+                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                case 429:
+                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                case 503:
+                    throw new ApifreaksApi.ServiceUnavailableError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
+                case 504:
+                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                default:
+                    throw new errors.ApifreaksApiError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(_response.error, _response.rawResponse, "GET", "/v1.0/domain/typosquatting");
+    }
+
+    /**
+     * The Domain Reputation API evaluates a domain against threat intelligence sources, DGA (domain generation algorithm) scoring, trust signals, and email deliverability configuration, returning a consolidated risk assessment with a verdict, severity, and supporting evidence.
+     *
+     * @param {ApifreaksApi.DomainReputationRequest} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     *
+     * @example
+     *     await client.domainReputation({
+     *         apiKey: "apiKey",
+     *         domainName: "domainName"
+     *     })
+     */
+    public domainReputation(
+        request: ApifreaksApi.DomainReputationRequest,
+        requestOptions?: ApifreaksApiClient.RequestOptions,
+    ): core.HttpResponsePromise<ApifreaksApi.DomainReputationResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__domainReputation(request, requestOptions));
+    }
+
+    private async __domainReputation(
+        request: ApifreaksApi.DomainReputationRequest,
+        requestOptions?: ApifreaksApiClient.RequestOptions,
+    ): Promise<core.WithRawResponse<ApifreaksApi.DomainReputationResponse>> {
+        const { apiKey, format, domainName } = request;
+        const _queryParams: Record<string, unknown> = {
+            apiKey,
+            format: format != null ? format : undefined,
+            domainName,
+        };
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(this._options?.headers, requestOptions?.headers);
+        const _response = await core.fetcher({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ApifreaksApiEnvironment.Default,
+                "v1.0/domain/reputation",
+            ),
+            method: "GET",
+            headers: _headers,
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as ApifreaksApi.DomainReputationResponse,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                case 402:
+                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                case 403:
+                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                case 404:
+                    throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 406:
+                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                case 413:
+                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                case 429:
+                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                case 503:
+                    throw new ApifreaksApi.ServiceUnavailableError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
+                case 504:
+                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                default:
+                    throw new errors.ApifreaksApiError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(_response.error, _response.rawResponse, "GET", "/v1.0/domain/reputation");
+    }
+
+    /**
+     * Retrieve sunrise and sunset times, current position of the moon, and other related information by specifying a location address, location coordinates, IP address, or using the client IP address if no parameter is passed.
+     *
+     * @param {ApifreaksApi.AstronomyLookupV2Request} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     *
+     * @example
+     *     await client.astronomyLookupV2({
+     *         apiKey: "apiKey"
+     *     })
+     */
+    public astronomyLookupV2(
+        request: ApifreaksApi.AstronomyLookupV2Request,
+        requestOptions?: ApifreaksApiClient.RequestOptions,
+    ): core.HttpResponsePromise<ApifreaksApi.AstronomyLookupV2Response> {
+        return core.HttpResponsePromise.fromPromise(this.__astronomyLookupV2(request, requestOptions));
+    }
+
+    private async __astronomyLookupV2(
+        request: ApifreaksApi.AstronomyLookupV2Request,
+        requestOptions?: ApifreaksApiClient.RequestOptions,
+    ): Promise<core.WithRawResponse<ApifreaksApi.AstronomyLookupV2Response>> {
+        const { apiKey, format, location, lat, long, ip, lang, date, elevation, time_zone: timeZone } = request;
+        const _queryParams: Record<string, unknown> = {
+            apiKey,
+            format: format != null ? format : undefined,
+            location,
+            lat,
+            long,
+            ip,
+            lang: lang != null ? lang : undefined,
+            date: date != null ? date : undefined,
+            elevation,
+            time_zone: timeZone,
+        };
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(this._options?.headers, requestOptions?.headers);
+        const _response = await core.fetcher({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ApifreaksApiEnvironment.Default,
+                "v2.0/geolocation/astronomy",
+            ),
+            method: "GET",
+            headers: _headers,
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as ApifreaksApi.AstronomyLookupV2Response,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                case 402:
+                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                case 403:
+                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                case 404:
+                    throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 406:
+                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                case 413:
+                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                case 429:
+                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                case 503:
+                    throw new ApifreaksApi.ServiceUnavailableError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
+                case 504:
+                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                default:
+                    throw new errors.ApifreaksApiError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(_response.error, _response.rawResponse, "GET", "/v2.0/geolocation/astronomy");
+    }
+
+    /**
+     * Get current time, date, and timezone details by specifying a timezone name, location address, GPS coordinates, IP address, IATA/ICAO airport code, UN/LOCODE, or use the client IP if no parameter is provided.
+     *
+     * @param {ApifreaksApi.TimezoneLookupV2Request} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     *
+     * @example
+     *     await client.timezoneLookupV2({
+     *         apiKey: "apiKey"
+     *     })
+     */
+    public timezoneLookupV2(
+        request: ApifreaksApi.TimezoneLookupV2Request,
+        requestOptions?: ApifreaksApiClient.RequestOptions,
+    ): core.HttpResponsePromise<ApifreaksApi.TimezoneLookupV2Response> {
+        return core.HttpResponsePromise.fromPromise(this.__timezoneLookupV2(request, requestOptions));
+    }
+
+    private async __timezoneLookupV2(
+        request: ApifreaksApi.TimezoneLookupV2Request,
+        requestOptions?: ApifreaksApiClient.RequestOptions,
+    ): Promise<core.WithRawResponse<ApifreaksApi.TimezoneLookupV2Response>> {
+        const {
+            apiKey,
+            format,
+            ip,
+            tz,
+            location,
+            lat,
+            long,
+            lang,
+            iata_code: iataCode,
+            icao_code: icaoCode,
+            lo_code: loCode,
+        } = request;
+        const _queryParams: Record<string, unknown> = {
+            apiKey,
+            format: format != null ? format : undefined,
+            ip,
+            tz,
+            location,
+            lat,
+            long,
+            lang: lang != null ? lang : undefined,
+            iata_code: iataCode,
+            icao_code: icaoCode,
+            lo_code: loCode,
+        };
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(this._options?.headers, requestOptions?.headers);
+        const _response = await core.fetcher({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ApifreaksApiEnvironment.Default,
+                "v2.0/geolocation/timezone",
+            ),
+            method: "GET",
+            headers: _headers,
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as ApifreaksApi.TimezoneLookupV2Response,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                case 402:
+                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                case 403:
+                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                case 404:
+                    throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 406:
+                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                case 413:
+                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                case 429:
+                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                case 503:
+                    throw new ApifreaksApi.ServiceUnavailableError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
+                case 504:
+                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                default:
+                    throw new errors.ApifreaksApiError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(_response.error, _response.rawResponse, "GET", "/v2.0/geolocation/timezone");
+    }
+
+    /**
+     * Get detailed IP geolocation data for an IP address including country, city, timezone, currency, and optional threat intelligence and user-agent information.
+     *
+     * @param {ApifreaksApi.GeolocationLookupV2Request} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.LockedError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     *
+     * @example
+     *     await client.geolocationLookupV2({
+     *         apiKey: "apiKey"
+     *     })
+     */
+    public geolocationLookupV2(
+        request: ApifreaksApi.GeolocationLookupV2Request,
+        requestOptions?: ApifreaksApiClient.RequestOptions,
+    ): core.HttpResponsePromise<ApifreaksApi.GeolocationLookupV2Response> {
+        return core.HttpResponsePromise.fromPromise(this.__geolocationLookupV2(request, requestOptions));
+    }
+
+    private async __geolocationLookupV2(
+        request: ApifreaksApi.GeolocationLookupV2Request,
+        requestOptions?: ApifreaksApiClient.RequestOptions,
+    ): Promise<core.WithRawResponse<ApifreaksApi.GeolocationLookupV2Response>> {
+        const { apiKey, format, ip, lang, fields, excludes, include } = request;
+        const _queryParams: Record<string, unknown> = {
+            apiKey,
+            format: format != null ? format : undefined,
+            ip,
+            lang: lang != null ? lang : undefined,
+            fields,
+            excludes,
+            include,
+        };
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(this._options?.headers, requestOptions?.headers);
+        const _response = await core.fetcher({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ApifreaksApiEnvironment.Default,
+                "v2.0/geolocation/lookup",
+            ),
+            method: "GET",
+            headers: _headers,
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as ApifreaksApi.GeolocationLookupV2Response,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                case 402:
+                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                case 403:
+                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                case 404:
+                    throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 406:
+                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                case 413:
+                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                case 423:
+                    throw new ApifreaksApi.LockedError(_response.error.body as unknown, _response.rawResponse);
+                case 429:
+                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                case 503:
+                    throw new ApifreaksApi.ServiceUnavailableError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
+                case 504:
+                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                default:
+                    throw new errors.ApifreaksApiError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(_response.error, _response.rawResponse, "GET", "/v2.0/geolocation/lookup");
+    }
+
+    /**
+     * Get detailed IP geolocation data for multiple IP addresses including country, city, timezone, currency, and optional threat intelligence information. Supports up to 50,000 IP addresses per request.
+     *
+     * @param {ApifreaksApi.BulkGeolocationLookupV2Request} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     *
+     * @example
+     *     await client.bulkGeolocationLookupV2({
+     *         apiKey: "apiKey",
+     *         ips: ["ips"]
+     *     })
+     */
+    public bulkGeolocationLookupV2(
+        request: ApifreaksApi.BulkGeolocationLookupV2Request,
+        requestOptions?: ApifreaksApiClient.RequestOptions,
+    ): core.HttpResponsePromise<ApifreaksApi.BulkGeolocationLookupV2ResponseItem[]> {
+        return core.HttpResponsePromise.fromPromise(this.__bulkGeolocationLookupV2(request, requestOptions));
+    }
+
+    private async __bulkGeolocationLookupV2(
+        request: ApifreaksApi.BulkGeolocationLookupV2Request,
+        requestOptions?: ApifreaksApiClient.RequestOptions,
+    ): Promise<core.WithRawResponse<ApifreaksApi.BulkGeolocationLookupV2ResponseItem[]>> {
+        const { apiKey, format, lang, fields, excludes, include, ..._body } = request;
+        const _queryParams: Record<string, unknown> = {
+            apiKey,
+            format: format != null ? format : undefined,
+            lang: lang != null ? lang : undefined,
+            fields,
+            excludes,
+            include,
+        };
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(this._options?.headers, requestOptions?.headers);
+        const _response = await core.fetcher({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ApifreaksApiEnvironment.Default,
+                "v2.0/geolocation/lookup",
+            ),
+            method: "POST",
+            headers: _headers,
+            contentType: "application/json",
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
+            requestType: "json",
+            body: _body,
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as ApifreaksApi.BulkGeolocationLookupV2ResponseItem[],
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                case 402:
+                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                case 403:
+                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                case 404:
+                    throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 406:
+                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                case 413:
+                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                case 429:
+                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                case 503:
+                    throw new ApifreaksApi.ServiceUnavailableError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
+                case 504:
+                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                default:
+                    throw new errors.ApifreaksApiError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(_response.error, _response.rawResponse, "POST", "/v2.0/geolocation/lookup");
+    }
+
+    /**
+     * Returns the current WHOIS record for the specified domain, including registrar details, registrant/administrative/technical/billing/reseller contacts, name servers, status codes, and raw WHOIS text.
+     *
+     * @param {ApifreaksApi.DomainWhoisLookupV2Request} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     *
+     * @example
+     *     await client.domainWhoisLookupV2({
+     *         apiKey: "apiKey",
+     *         domainName: "domainName"
+     *     })
+     */
+    public domainWhoisLookupV2(
+        request: ApifreaksApi.DomainWhoisLookupV2Request,
+        requestOptions?: ApifreaksApiClient.RequestOptions,
+    ): core.HttpResponsePromise<ApifreaksApi.DomainWhoisLookupV2Response> {
+        return core.HttpResponsePromise.fromPromise(this.__domainWhoisLookupV2(request, requestOptions));
+    }
+
+    private async __domainWhoisLookupV2(
+        request: ApifreaksApi.DomainWhoisLookupV2Request,
+        requestOptions?: ApifreaksApiClient.RequestOptions,
+    ): Promise<core.WithRawResponse<ApifreaksApi.DomainWhoisLookupV2Response>> {
+        const { apiKey, format, domainName } = request;
+        const _queryParams: Record<string, unknown> = {
+            apiKey,
+            format: format != null ? format : undefined,
+            domainName,
+        };
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(this._options?.headers, requestOptions?.headers);
+        const _response = await core.fetcher({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ApifreaksApiEnvironment.Default,
+                "v2.0/domain/whois/live",
+            ),
+            method: "GET",
+            headers: _headers,
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as ApifreaksApi.DomainWhoisLookupV2Response,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                case 402:
+                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                case 403:
+                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                case 404:
+                    throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 406:
+                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                case 413:
+                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                case 429:
+                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                case 503:
+                    throw new ApifreaksApi.ServiceUnavailableError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
+                case 504:
+                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                default:
+                    throw new errors.ApifreaksApiError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(_response.error, _response.rawResponse, "GET", "/v2.0/domain/whois/live");
+    }
+
+    /**
+     * Returns the current WHOIS record for each requested domain, in request order. Supports up to 100 domain names per request; a domain that fails to resolve yields an error item instead of failing the whole batch.
+     *
+     * @param {ApifreaksApi.BulkDomainWhoisLookupV2Request} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     *
+     * @example
+     *     await client.bulkDomainWhoisLookupV2({
+     *         apiKey: "apiKey",
+     *         domainNames: ["domainNames"]
+     *     })
+     */
+    public bulkDomainWhoisLookupV2(
+        request: ApifreaksApi.BulkDomainWhoisLookupV2Request,
+        requestOptions?: ApifreaksApiClient.RequestOptions,
+    ): core.HttpResponsePromise<ApifreaksApi.BulkDomainWhoisLookupV2Response> {
+        return core.HttpResponsePromise.fromPromise(this.__bulkDomainWhoisLookupV2(request, requestOptions));
+    }
+
+    private async __bulkDomainWhoisLookupV2(
+        request: ApifreaksApi.BulkDomainWhoisLookupV2Request,
+        requestOptions?: ApifreaksApiClient.RequestOptions,
+    ): Promise<core.WithRawResponse<ApifreaksApi.BulkDomainWhoisLookupV2Response>> {
+        const { apiKey, format, ..._body } = request;
+        const _queryParams: Record<string, unknown> = {
+            apiKey,
+            format: format != null ? format : undefined,
+        };
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(this._options?.headers, requestOptions?.headers);
+        const _response = await core.fetcher({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ApifreaksApiEnvironment.Default,
+                "v2.0/domain/whois/live",
+            ),
+            method: "POST",
+            headers: _headers,
+            contentType: "application/json",
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
+            requestType: "json",
+            body: _body,
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as ApifreaksApi.BulkDomainWhoisLookupV2Response,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                case 402:
+                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                case 403:
+                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                case 404:
+                    throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 406:
+                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                case 413:
+                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                case 429:
+                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                case 503:
+                    throw new ApifreaksApi.ServiceUnavailableError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
+                case 504:
+                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                default:
+                    throw new errors.ApifreaksApiError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(_response.error, _response.rawResponse, "POST", "/v2.0/domain/whois/live");
+    }
+
+    /**
+     * Returns the current live price for the requested commodity symbols. Unresolved symbols degrade to a 206 partial response instead of failing the whole request.
+     *
+     * @param {ApifreaksApi.CommodityLatestRatesV2Request} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     *
+     * @example
+     *     await client.commodityLatestRatesV2({
+     *         apiKey: "apiKey",
+     *         symbols: ["symbols"]
+     *     })
+     */
+    public commodityLatestRatesV2(
+        request: ApifreaksApi.CommodityLatestRatesV2Request,
+        requestOptions?: ApifreaksApiClient.RequestOptions,
+    ): core.HttpResponsePromise<ApifreaksApi.CommodityLatestRatesV2Response> {
+        return core.HttpResponsePromise.fromPromise(this.__commodityLatestRatesV2(request, requestOptions));
+    }
+
+    private async __commodityLatestRatesV2(
+        request: ApifreaksApi.CommodityLatestRatesV2Request,
+        requestOptions?: ApifreaksApiClient.RequestOptions,
+    ): Promise<core.WithRawResponse<ApifreaksApi.CommodityLatestRatesV2Response>> {
+        const { apiKey, format, symbols, quote } = request;
+        const _queryParams: Record<string, unknown> = {
+            apiKey,
+            format: format != null ? format : undefined,
+            symbols,
+            quote,
+        };
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(this._options?.headers, requestOptions?.headers);
+        const _response = await core.fetcher({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ApifreaksApiEnvironment.Default,
+                "v2.0/commodity/rates/latest",
+            ),
+            method: "GET",
+            headers: _headers,
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as ApifreaksApi.CommodityLatestRatesV2Response,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                case 402:
+                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                case 403:
+                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                case 404:
+                    throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 406:
+                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                case 413:
+                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                case 429:
+                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                case 503:
+                    throw new ApifreaksApi.ServiceUnavailableError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
+                case 504:
+                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                default:
+                    throw new errors.ApifreaksApiError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(_response.error, _response.rawResponse, "GET", "/v2.0/commodity/rates/latest");
+    }
+
+    /**
+     * Returns OHLC price data for the requested commodity symbols on a specific date. Falls back to the nearest earlier rate if none exists for the exact date. Unresolved symbols degrade to a 206 partial response instead of failing the whole request.
+     *
+     * @param {ApifreaksApi.CommodityHistoricalRatesV2Request} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     *
+     * @example
+     *     await client.commodityHistoricalRatesV2({
+     *         apiKey: "apiKey",
+     *         symbols: ["symbols"],
+     *         date: "2023-01-15"
+     *     })
+     */
+    public commodityHistoricalRatesV2(
+        request: ApifreaksApi.CommodityHistoricalRatesV2Request,
+        requestOptions?: ApifreaksApiClient.RequestOptions,
+    ): core.HttpResponsePromise<ApifreaksApi.CommodityHistoricalRatesV2Response> {
+        return core.HttpResponsePromise.fromPromise(this.__commodityHistoricalRatesV2(request, requestOptions));
+    }
+
+    private async __commodityHistoricalRatesV2(
+        request: ApifreaksApi.CommodityHistoricalRatesV2Request,
+        requestOptions?: ApifreaksApiClient.RequestOptions,
+    ): Promise<core.WithRawResponse<ApifreaksApi.CommodityHistoricalRatesV2Response>> {
+        const { apiKey, format, symbols, date } = request;
+        const _queryParams: Record<string, unknown> = {
+            apiKey,
+            format: format != null ? format : undefined,
+            symbols,
+            date,
+        };
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(this._options?.headers, requestOptions?.headers);
+        const _response = await core.fetcher({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ApifreaksApiEnvironment.Default,
+                "v2.0/commodity/rates/historical",
+            ),
+            method: "GET",
+            headers: _headers,
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as ApifreaksApi.CommodityHistoricalRatesV2Response,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                case 402:
+                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                case 403:
+                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                case 404:
+                    throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 406:
+                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                case 413:
+                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                case 429:
+                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                case 503:
+                    throw new ApifreaksApi.ServiceUnavailableError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
+                case 504:
+                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                default:
+                    throw new errors.ApifreaksApiError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "GET",
+            "/v2.0/commodity/rates/historical",
+        );
+    }
+
+    /**
+     * Returns price fluctuation metrics (start, end, change, percent change) for the requested commodity symbols over a date range. For monthly-updated commodities the range snaps to month boundaries. Unresolved symbols degrade to a 206 partial response instead of failing the whole request.
+     *
+     * @param {ApifreaksApi.CommodityFluctuationV2Request} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     *
+     * @example
+     *     await client.commodityFluctuationV2({
+     *         apiKey: "apiKey",
+     *         symbols: ["symbols"],
+     *         startDate: "2023-01-15",
+     *         endDate: "2023-01-15"
+     *     })
+     */
+    public commodityFluctuationV2(
+        request: ApifreaksApi.CommodityFluctuationV2Request,
+        requestOptions?: ApifreaksApiClient.RequestOptions,
+    ): core.HttpResponsePromise<ApifreaksApi.CommodityFluctuationV2Response> {
+        return core.HttpResponsePromise.fromPromise(this.__commodityFluctuationV2(request, requestOptions));
+    }
+
+    private async __commodityFluctuationV2(
+        request: ApifreaksApi.CommodityFluctuationV2Request,
+        requestOptions?: ApifreaksApiClient.RequestOptions,
+    ): Promise<core.WithRawResponse<ApifreaksApi.CommodityFluctuationV2Response>> {
+        const { apiKey, format, symbols, startDate, endDate } = request;
+        const _queryParams: Record<string, unknown> = {
+            apiKey,
+            format: format != null ? format : undefined,
+            symbols,
+            startDate,
+            endDate,
+        };
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(this._options?.headers, requestOptions?.headers);
+        const _response = await core.fetcher({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ApifreaksApiEnvironment.Default,
+                "v2.0/commodity/fluctuation",
+            ),
+            method: "GET",
+            headers: _headers,
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as ApifreaksApi.CommodityFluctuationV2Response,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                case 402:
+                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                case 403:
+                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                case 404:
+                    throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 406:
+                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                case 413:
+                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                case 429:
+                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                case 503:
+                    throw new ApifreaksApi.ServiceUnavailableError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
+                case 504:
+                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                default:
+                    throw new errors.ApifreaksApiError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(_response.error, _response.rawResponse, "GET", "/v2.0/commodity/fluctuation");
+    }
+
+    /**
+     * Returns day-by-day OHLC data for the requested commodity symbols within a date range, indexed by date. Non-trading days are excluded. Unresolved symbols degrade to a 206 partial response instead of failing the whole request.
+     *
+     * @param {ApifreaksApi.CommodityTimeSeriesV2Request} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     *
+     * @example
+     *     await client.commodityTimeSeriesV2({
+     *         apiKey: "apiKey",
+     *         symbols: ["symbols"],
+     *         startDate: "2023-01-15",
+     *         endDate: "2023-01-15"
+     *     })
+     */
+    public commodityTimeSeriesV2(
+        request: ApifreaksApi.CommodityTimeSeriesV2Request,
+        requestOptions?: ApifreaksApiClient.RequestOptions,
+    ): core.HttpResponsePromise<ApifreaksApi.CommodityTimeSeriesV2Response> {
+        return core.HttpResponsePromise.fromPromise(this.__commodityTimeSeriesV2(request, requestOptions));
+    }
+
+    private async __commodityTimeSeriesV2(
+        request: ApifreaksApi.CommodityTimeSeriesV2Request,
+        requestOptions?: ApifreaksApiClient.RequestOptions,
+    ): Promise<core.WithRawResponse<ApifreaksApi.CommodityTimeSeriesV2Response>> {
+        const { apiKey, format, symbols, startDate, endDate } = request;
+        const _queryParams: Record<string, unknown> = {
+            apiKey,
+            format: format != null ? format : undefined,
+            symbols,
+            startDate,
+            endDate,
+        };
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(this._options?.headers, requestOptions?.headers);
+        const _response = await core.fetcher({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ApifreaksApiEnvironment.Default,
+                "v2.0/commodity/time-series",
+            ),
+            method: "GET",
+            headers: _headers,
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as ApifreaksApi.CommodityTimeSeriesV2Response,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                case 402:
+                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                case 403:
+                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                case 404:
+                    throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 406:
+                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                case 413:
+                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                case 429:
+                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                case 503:
+                    throw new ApifreaksApi.ServiceUnavailableError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
+                case 504:
+                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                default:
+                    throw new errors.ApifreaksApiError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(_response.error, _response.rawResponse, "GET", "/v2.0/commodity/time-series");
+    }
+
+    /**
+     * Returns the list of supported commodity symbols with metadata. Deprecated symbols stay listed with status "inactive" and a deprecationDate.
+     *
+     * @param {ApifreaksApi.CommoditySymbolsV2Request} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     *
+     * @example
+     *     await client.commoditySymbolsV2({
+     *         apiKey: "apiKey"
+     *     })
+     */
+    public commoditySymbolsV2(
+        request: ApifreaksApi.CommoditySymbolsV2Request,
+        requestOptions?: ApifreaksApiClient.RequestOptions,
+    ): core.HttpResponsePromise<ApifreaksApi.CommoditySymbolsV2Response> {
+        return core.HttpResponsePromise.fromPromise(this.__commoditySymbolsV2(request, requestOptions));
+    }
+
+    private async __commoditySymbolsV2(
+        request: ApifreaksApi.CommoditySymbolsV2Request,
+        requestOptions?: ApifreaksApiClient.RequestOptions,
+    ): Promise<core.WithRawResponse<ApifreaksApi.CommoditySymbolsV2Response>> {
+        const { apiKey, format } = request;
+        const _queryParams: Record<string, unknown> = {
+            apiKey,
+            format: format != null ? format : undefined,
+        };
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(this._options?.headers, requestOptions?.headers);
+        const _response = await core.fetcher({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ApifreaksApiEnvironment.Default,
+                "v2.0/commodity/symbols",
+            ),
+            method: "GET",
+            headers: _headers,
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as ApifreaksApi.CommoditySymbolsV2Response,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                case 401:
+                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                case 402:
+                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                case 403:
+                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                case 404:
+                    throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 406:
+                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                case 413:
+                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                case 429:
+                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                case 500:
+                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                case 503:
+                    throw new ApifreaksApi.ServiceUnavailableError(
+                        _response.error.body as unknown,
+                        _response.rawResponse,
+                    );
+                case 504:
+                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                default:
+                    throw new errors.ApifreaksApiError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(_response.error, _response.rawResponse, "GET", "/v2.0/commodity/symbols");
     }
 
     /**
@@ -12280,133 +13254,6 @@ export class ApifreaksApiClient {
     }
 
     /**
-     * Get detailed timezone information (v2.0) by IP, timezone name, coordinates, location, airport code or UN/LOCODE, including DST transitions and localized date-time fields.
-     *
-     * @param {ApifreaksApi.TimezoneLookupV2Request} request
-     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @throws {@link ApifreaksApi.BadRequestError}
-     * @throws {@link ApifreaksApi.UnauthorizedError}
-     * @throws {@link ApifreaksApi.PaymentRequiredError}
-     * @throws {@link ApifreaksApi.ForbiddenError}
-     * @throws {@link ApifreaksApi.NotFoundError}
-     * @throws {@link ApifreaksApi.NotAcceptableError}
-     * @throws {@link ApifreaksApi.ContentTooLargeError}
-     * @throws {@link ApifreaksApi.TooManyRequestsError}
-     * @throws {@link ApifreaksApi.InternalServerError}
-     * @throws {@link ApifreaksApi.ServiceUnavailableError}
-     * @throws {@link ApifreaksApi.GatewayTimeoutError}
-     *
-     * @example
-     *     await client.timezoneLookupV2({
-     *         apiKey: "apiKey"
-     *     })
-     */
-    public timezoneLookupV2(
-        request: ApifreaksApi.TimezoneLookupV2Request,
-        requestOptions?: ApifreaksApiClient.RequestOptions,
-    ): core.HttpResponsePromise<ApifreaksApi.TimezoneLookupV2Response> {
-        return core.HttpResponsePromise.fromPromise(this.__timezoneLookupV2(request, requestOptions));
-    }
-
-    private async __timezoneLookupV2(
-        request: ApifreaksApi.TimezoneLookupV2Request,
-        requestOptions?: ApifreaksApiClient.RequestOptions,
-    ): Promise<core.WithRawResponse<ApifreaksApi.TimezoneLookupV2Response>> {
-        const {
-            apiKey,
-            format,
-            ip,
-            tz,
-            location,
-            lat,
-            long,
-            lang,
-            iata_code: iataCode,
-            icao_code: icaoCode,
-            lo_code: loCode,
-        } = request;
-        const _queryParams: Record<string, unknown> = {
-            apiKey,
-            format: format != null ? format : undefined,
-            ip,
-            tz,
-            location,
-            lat,
-            long,
-            lang: lang != null ? lang : undefined,
-            iata_code: iataCode,
-            icao_code: icaoCode,
-            lo_code: loCode,
-        };
-        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(this._options?.headers, requestOptions?.headers);
-        const _response = await core.fetcher({
-            url: core.url.join(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    (await core.Supplier.get(this._options.environment)) ??
-                    environments.ApifreaksApiEnvironment.Default,
-                "v2.0/geolocation/timezone",
-            ),
-            method: "GET",
-            headers: _headers,
-            queryString: core.url
-                .queryBuilder()
-                .addMany(_queryParams)
-                .mergeAdditional(requestOptions?.queryParams)
-                .build(),
-            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-            fetchFn: this._options?.fetch,
-            logging: this._options.logging,
-        });
-        if (_response.ok) {
-            return {
-                data: _response.body as ApifreaksApi.TimezoneLookupV2Response,
-                rawResponse: _response.rawResponse,
-            };
-        }
-
-        if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
-                case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
-                case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
-                case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
-                case 404:
-                    throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
-                case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
-                case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
-                case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
-                case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
-                case 503:
-                    throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
-                        _response.rawResponse,
-                    );
-                case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
-                default:
-                    throw new errors.ApifreaksApiError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                        rawResponse: _response.rawResponse,
-                    });
-            }
-        }
-
-        return handleNonStatusCodeError(_response.error, _response.rawResponse, "GET", "/v2.0/geolocation/timezone");
-    }
-
-    /**
      * Converts a given time from one timezone to another using various input types like timezone name, coordinates, location, or codes.
      *
      * @param {ApifreaksApi.TimezoneConvertRequest} request
@@ -12562,8 +13409,7 @@ export class ApifreaksApiClient {
      *
      * @example
      *     await client.userAgentLookup({
-     *         apiKey: "apiKey",
-     *         userAgent: "userAgent"
+     *         apiKey: "apiKey"
      *     })
      */
     public userAgentLookup(
@@ -12577,14 +13423,12 @@ export class ApifreaksApiClient {
         request: ApifreaksApi.UserAgentLookupRequest,
         requestOptions?: ApifreaksApiClient.RequestOptions,
     ): Promise<core.WithRawResponse<ApifreaksApi.UserAgentLookupResponse>> {
-        const { apiKey, format, userAgent } = request;
+        const { apiKey, format } = request;
         const _queryParams: Record<string, unknown> = {
             apiKey,
             format: format != null ? format : undefined,
         };
-        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(this._options?.headers, requestOptions?.headers, {
-            "User-Agent": userAgent,
-        });
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(this._options?.headers, requestOptions?.headers);
         const _response = await core.fetcher({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -12787,7 +13631,6 @@ export class ApifreaksApiClient {
      * @example
      *     await client.ocrPredict({
      *         apiKey: "apiKey",
-     *         model: "mini-ocr-v1",
      *         model: "mini-ocr-v1"
      *     })
      */
@@ -12802,14 +13645,9 @@ export class ApifreaksApiClient {
         request: ApifreaksApi.OcrPredictRequest,
         requestOptions?: ApifreaksApiClient.RequestOptions,
     ): Promise<core.WithRawResponse<ApifreaksApi.OcrPredictResponse>> {
-        const { apiKey, url, model, page_range: pageRange, zone, new_line: newLine, ..._body } = request;
+        const { apiKey, ..._body } = request;
         const _queryParams: Record<string, unknown> = {
             apiKey,
-            url,
-            model,
-            page_range: pageRange,
-            zone,
-            new_line: newLine,
         };
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(this._options?.headers, requestOptions?.headers);
         const _response = await core.fetcher({
@@ -13426,120 +14264,6 @@ export class ApifreaksApiClient {
         }
 
         return handleNonStatusCodeError(_response.error, _response.rawResponse, "GET", "/v1.0/geolocation/astronomy");
-    }
-
-    /**
-     * Get astronomy data (v2.0) — sun and moon rise/set times, twilight, golden/blue hour, moon phase and illumination — for a location, coordinates or IP.
-     *
-     * @param {ApifreaksApi.AstronomyLookupV2Request} request
-     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @throws {@link ApifreaksApi.BadRequestError}
-     * @throws {@link ApifreaksApi.UnauthorizedError}
-     * @throws {@link ApifreaksApi.PaymentRequiredError}
-     * @throws {@link ApifreaksApi.ForbiddenError}
-     * @throws {@link ApifreaksApi.NotFoundError}
-     * @throws {@link ApifreaksApi.NotAcceptableError}
-     * @throws {@link ApifreaksApi.ContentTooLargeError}
-     * @throws {@link ApifreaksApi.TooManyRequestsError}
-     * @throws {@link ApifreaksApi.InternalServerError}
-     * @throws {@link ApifreaksApi.ServiceUnavailableError}
-     * @throws {@link ApifreaksApi.GatewayTimeoutError}
-     *
-     * @example
-     *     await client.astronomyLookupV2({
-     *         apiKey: "apiKey"
-     *     })
-     */
-    public astronomyLookupV2(
-        request: ApifreaksApi.AstronomyLookupV2Request,
-        requestOptions?: ApifreaksApiClient.RequestOptions,
-    ): core.HttpResponsePromise<ApifreaksApi.AstronomyLookupV2Response> {
-        return core.HttpResponsePromise.fromPromise(this.__astronomyLookupV2(request, requestOptions));
-    }
-
-    private async __astronomyLookupV2(
-        request: ApifreaksApi.AstronomyLookupV2Request,
-        requestOptions?: ApifreaksApiClient.RequestOptions,
-    ): Promise<core.WithRawResponse<ApifreaksApi.AstronomyLookupV2Response>> {
-        const { apiKey, format, location, lat, long, ip, lang, date, elevation, time_zone: timeZone } = request;
-        const _queryParams: Record<string, unknown> = {
-            apiKey,
-            format: format != null ? format : undefined,
-            location,
-            lat,
-            long,
-            ip,
-            lang,
-            date: date != null ? date : undefined,
-            elevation,
-            time_zone: timeZone,
-        };
-        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(this._options?.headers, requestOptions?.headers);
-        const _response = await core.fetcher({
-            url: core.url.join(
-                (await core.Supplier.get(this._options.baseUrl)) ??
-                    (await core.Supplier.get(this._options.environment)) ??
-                    environments.ApifreaksApiEnvironment.Default,
-                "v2.0/geolocation/astronomy",
-            ),
-            method: "GET",
-            headers: _headers,
-            queryString: core.url
-                .queryBuilder()
-                .addMany(_queryParams)
-                .mergeAdditional(requestOptions?.queryParams)
-                .build(),
-            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
-            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
-            abortSignal: requestOptions?.abortSignal,
-            fetchFn: this._options?.fetch,
-            logging: this._options.logging,
-        });
-        if (_response.ok) {
-            return {
-                data: _response.body as ApifreaksApi.AstronomyLookupV2Response,
-                rawResponse: _response.rawResponse,
-            };
-        }
-
-        if (_response.error.reason === "status-code") {
-            switch (_response.error.statusCode) {
-                case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
-                case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
-                case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
-                case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
-                case 404:
-                    throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
-                case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
-                case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
-                case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
-                case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
-                case 503:
-                    throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
-                        _response.rawResponse,
-                    );
-                case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
-                default:
-                    throw new errors.ApifreaksApiError({
-                        statusCode: _response.error.statusCode,
-                        body: _response.error.body,
-                        rawResponse: _response.rawResponse,
-                    });
-            }
-        }
-
-        return handleNonStatusCodeError(_response.error, _response.rawResponse, "GET", "/v2.0/geolocation/astronomy");
     }
 
     /**

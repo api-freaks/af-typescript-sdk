@@ -11,22 +11,22 @@ import type * as ApifreaksApi from "../../index.js";
 export interface AstronomyLookupV2Request {
     /** Your API key */
     apiKey: string;
-    /** Format of the response. */
+    /** Format of the response. Can be "json" or "xml". */
     format?: ApifreaksApi.AstronomyLookupV2RequestFormat;
-    /** Location name or address */
+    /** Extract astronomy information using location (preferably city) */
     location?: string;
-    /** Latitude for location coordinates */
+    /** Latitude to extract astronomy information using location coordinates */
     lat?: number;
-    /** Longitude for location coordinates */
+    /** Longitude to extract astronomy information using location coordinates */
     long?: number;
-    /** IP address for location detection */
+    /** IPv4 or IPv6 address to extract astronomy information using IP address */
     ip?: string;
-    /** Language code for response localization (default is "en"). */
-    lang?: string;
-    /** Date for astronomy data (YYYY-MM-DD) */
+    /** Response language of "location" field in case of lookup through IP address only. */
+    lang?: ApifreaksApi.AstronomyLookupV2RequestLang;
+    /** Specific date (format YYYY-MM-DD) for which astronomy data is required */
     date?: string;
-    /** Elevation in meters (default 0, maximum 10,000) */
+    /** Elevation above sea level at the location, in meters. The value should be between 0 meter and a maximum value of 10,000 meters. Negative value is set to 0. */
     elevation?: number;
-    /** Timezone of the location for which astronomy data is required */
+    /** Time zone to receive all time-based data in your preferred local time. */
     time_zone?: string;
 }

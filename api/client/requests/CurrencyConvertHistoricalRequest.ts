@@ -21,7 +21,7 @@ export interface CurrencyConvertHistoricalRequest {
     /** To currency symbol */
     to: string;
     /** The Amount to be converted */
-    amount?: string;
+    amount?: number;
     /** specific date (format YYYY-MM-DD) of which exchange rates is used. */
     date: string;
 }

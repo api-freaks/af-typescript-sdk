@@ -12,8 +12,8 @@ import type * as ApifreaksApi from "../../index.js";
 export interface DomainWhoisLookupV2Request {
     /** Your API key */
     apiKey: string;
-    /** Response format (defaults to json) */
+    /** Format of the response. */
     format?: ApifreaksApi.DomainWhoisLookupV2RequestFormat;
-    /** Domain name for WHOIS lookup */
+    /** Domain name to retrieve WHOIS data for (e.g. example.com). */
     domainName: string;
 }

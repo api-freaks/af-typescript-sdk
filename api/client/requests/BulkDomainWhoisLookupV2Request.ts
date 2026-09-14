@@ -14,6 +14,6 @@ export interface BulkDomainWhoisLookupV2Request {
     apiKey: string;
     /** Format of the response. */
     format?: ApifreaksApi.BulkDomainWhoisLookupV2RequestFormat;
-    /** A list of domain names for which WHOIS data is requested. */
+    /** List of domain names to retrieve WHOIS data for. */
     domainNames: string[];
 }

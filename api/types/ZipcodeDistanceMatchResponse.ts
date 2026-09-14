@@ -2,7 +2,7 @@
 
 export interface ZipcodeDistanceMatchResponse {
     /** Number of matching ZIP/postal code pairs returned */
-    result_count?: number | undefined;
+    results_count?: string | undefined;
     results?: ZipcodeDistanceMatchResponse.Results.Item[] | undefined;
 }
 

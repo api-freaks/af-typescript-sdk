@@ -14,14 +14,14 @@ export interface BulkGeolocationLookupV2Request {
     apiKey: string;
     /** Format of the response. */
     format?: ApifreaksApi.BulkGeolocationLookupV2RequestFormat;
-    /** Language of the response. */
-    lang?: string;
-    /** Comma-separated list of fields to include in the response. */
+    /** Response language for location fields. Default: en. */
+    lang?: ApifreaksApi.BulkGeolocationLookupV2RequestLang;
+    /** Comma-separated list of fields to include in the response. For example, `location` includes all location fields, `location.city` is a specific field. */
     fields?: string;
-    /** Comma-separated list of fields to exclude from the response (except "ip"). */
+    /** Comma-separated list of fields to exclude from response. */
     excludes?: string;
-    /** Comma-separated list of additional modules to include in the response. */
+    /** Comma-separated list of additional data modules to include. Possible values: security (threat intelligence), hostname (IP-Hostname lookup), liveHostname (live hostname lookup), user_agent (parse User-Agent header), abuse (abuse contact info), * (all modules). */
     include?: string;
-    /** List of IP addresses, hostnames or domain names to lookup */
+    /** List of IP addresses or hostnames to lookup. */
     ips: string[];
 }

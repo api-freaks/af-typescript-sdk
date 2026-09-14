@@ -13,14 +13,14 @@ export interface GeolocationLookupV2Request {
     apiKey: string;
     /** Format of the response. */
     format?: ApifreaksApi.GeolocationLookupV2RequestFormat;
-    /** IPv4, IPv6, or domain name for geolocation lookup. Omit to detect the caller's IP. */
+    /** IPv4, IPv6, or hostname for geolocation lookup. */
     ip?: string;
-    /** Response language for location fields */
+    /** Response language for location fields. Default: en. */
     lang?: ApifreaksApi.GeolocationLookupV2RequestLang;
-    /** Comma separated list of fields to include in response */
+    /** Comma-separated list of fields to include in response. For example, `location` includes all location fields, `location.city` is a specific field. */
     fields?: string;
-    /** Comma separated list of fields to exclude from response */
+    /** Comma-separated list of fields to exclude from response. */
     excludes?: string;
-    /** Additional modules to include (geo_accuracy, dma_code, user_agent, security, abuse, hostname, liveHostname, hostnameFallbackLive, or `*` for all) */
+    /** Comma-separated list of additional data modules to include. Possible values: security (threat intelligence), hostname (IP-Hostname lookup), liveHostname (live hostname lookup), hostnameFallbackLive (hostname with live fallback), user_agent (parse User-Agent header), abuse (abuse contact info), dma_code (DMA code), geo_accuracy (accuracy_radius, confidence, locality), * (all modules). */
     include?: string;
 }
