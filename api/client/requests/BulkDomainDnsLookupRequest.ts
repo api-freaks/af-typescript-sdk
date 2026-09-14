@@ -19,9 +19,7 @@ export interface BulkDomainDnsLookupRequest {
      * A comma-separated list of DNS record types for lookup.
      * Possible values: A, AAAA, MX, NS, SOA, SPF, TXT, CNAME, or all
      */
-    type: string | string[];
-    /** List of IP addresses to look up. */
-    ipAddresses?: string[] | undefined;
+    type?: string | string[];
     /** List of hostnames to lookup DNS records for */
     domainNames: string[];
 }

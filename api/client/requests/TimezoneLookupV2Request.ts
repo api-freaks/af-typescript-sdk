@@ -11,24 +11,24 @@ import type * as ApifreaksApi from "../../index.js";
 export interface TimezoneLookupV2Request {
     /** Your API key */
     apiKey: string;
-    /** Format of the response */
+    /** Format of the response. Possible values: json, xml. */
     format?: ApifreaksApi.TimezoneLookupV2RequestFormat;
     /** IPv4 or IPv6 address to extract timezone information. */
     ip?: string;
-    /** Timezone name (e.g., "Asia/Kolkata") to retrieve information directly. */
+    /** Timezone name in IANA format (e.g., Asia/Kolkata) to retrieve information directly. */
     tz?: string;
     /** Location string (preferably city and country) to extract timezone. */
     location?: string;
-    /** Latitude for geolocation lookup. */
+    /** Latitude for geolocation-based timezone lookup. Only time_zone is returned for this mode; no location object is included. */
     lat?: number;
-    /** Longitude for geolocation lookup. */
+    /** Longitude for geolocation-based timezone lookup. Only time_zone is returned for this mode; no location object is included. */
     long?: number;
-    /** Language code for response localization (default is "en"). */
+    /** Response language for location fields. Default: en. */
     lang?: ApifreaksApi.TimezoneLookupV2RequestLang;
-    /** 3-letter IATA airport code (e.g., JFK). */
+    /** 3-letter IATA airport code (e.g., LHR) to extract timezone. */
     iata_code?: string;
-    /** 4-letter ICAO airport code (e.g., KJFK). */
+    /** 4-letter ICAO airport code (e.g., KJFK) to extract timezone. */
     icao_code?: string;
-    /** 5-letter UN/LO city code. */
+    /** 5-letter UN/LOCODE city code to extract timezone. */
     lo_code?: string;
 }

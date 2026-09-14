@@ -14,7 +14,7 @@ export namespace DomainDnsReverseResponse {
         export interface Item {
             queryTime: string;
             domainName: string;
-            domainRegistered?: boolean | undefined;
+            domainRegistered: boolean;
             dnsTypes: Item.DnsTypes;
             dnsRecords: Item.DnsRecords.Item[];
         }

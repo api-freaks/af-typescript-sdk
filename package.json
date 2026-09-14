@@ -1,6 +1,6 @@
 {
   "name": "@apifreaks/sdk",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "Official TypeScript SDK for APIFreaks APIs.",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

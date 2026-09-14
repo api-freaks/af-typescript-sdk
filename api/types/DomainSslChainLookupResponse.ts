@@ -44,11 +44,11 @@ export namespace DomainSslChainLookupResponse {
 
             export interface Issuer {
                 commonName: string;
-                organization: string;
+                organization?: string | undefined;
                 organizationalUnit?: string | undefined;
                 locality?: string | undefined;
                 state?: string | undefined;
-                country: string;
+                country?: string | undefined;
                 incCountry?: string | undefined;
                 incState?: string | undefined;
                 businessCategory?: string | undefined;
@@ -76,8 +76,8 @@ export namespace DomainSslChainLookupResponse {
 
             export namespace Extensions {
                 export interface AuthorityInfoAccess {
-                    issuers?: string[] | undefined;
-                    ocsp?: string[] | undefined;
+                    issuers: string[];
+                    ocsp: string[];
                 }
 
                 export interface SubjectAlternativeNames {

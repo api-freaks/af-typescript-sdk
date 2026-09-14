@@ -2,13 +2,13 @@
 
 export interface BulkEmailValidateResponse {
     /** Array of SingleEmailValidationResponse objects for bulk validation */
-    emailValidationResponses?: BulkEmailValidateResponse.EmailValidationResponses.Item[] | undefined;
+    emailResponse: BulkEmailValidateResponse.EmailResponse.Item[];
 }
 
 export namespace BulkEmailValidateResponse {
-    export type EmailValidationResponses = EmailValidationResponses.Item[];
+    export type EmailResponse = EmailResponse.Item[];
 
-    export namespace EmailValidationResponses {
+    export namespace EmailResponse {
         export interface Item {
             success: boolean;
             email: string;
@@ -19,16 +19,14 @@ export namespace BulkEmailValidateResponse {
             domain: Item.Domain;
             account: Item.Account;
             dns: Item.Dns;
-            ipAddress?: string | undefined;
+            ip?: string | undefined;
             address?: Item.Address | undefined;
         }
 
         export namespace Item {
             export const ValidEmail = {
                 Valid: "valid",
-                Invalid: "Invalid",
-                Unknown: "Unknown",
-                Risky: "Risky",
+                Invalid: "invalid",
             } as const;
             export type ValidEmail = (typeof ValidEmail)[keyof typeof ValidEmail];
 
@@ -47,9 +45,9 @@ export namespace BulkEmailValidateResponse {
             }
 
             export interface Dns {
-                mxRecords: string[];
+                mxRecord: string[];
                 /** Collection of A (Address) records for the domain. */
-                aRecords: string[];
+                aRecord?: string[] | undefined;
             }
 
             export interface Address {

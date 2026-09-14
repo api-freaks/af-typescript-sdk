@@ -2,7 +2,7 @@
 
 export interface ZipcodeDistanceResponse {
     /** Number of distance results returned */
-    result_count?: number | undefined;
+    results_count?: string | undefined;
     results?: ZipcodeDistanceResponse.Results.Item[] | undefined;
 }
 

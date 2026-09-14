@@ -17,10 +17,15 @@ export type { BulkUserAgentLookupRequest } from "./BulkUserAgentLookupRequest.js
 export type { BulkVatRateByCountryRequest } from "./BulkVatRateByCountryRequest.js";
 export type { BulkZipcodeLookupRequest } from "./BulkZipcodeLookupRequest.js";
 export type { CommodityFluctuationRequest } from "./CommodityFluctuationRequest.js";
+export type { CommodityFluctuationV2Request } from "./CommodityFluctuationV2Request.js";
 export type { CommodityHistoricalRatesRequest } from "./CommodityHistoricalRatesRequest.js";
+export type { CommodityHistoricalRatesV2Request } from "./CommodityHistoricalRatesV2Request.js";
 export type { CommodityLatestRatesRequest } from "./CommodityLatestRatesRequest.js";
+export type { CommodityLatestRatesV2Request } from "./CommodityLatestRatesV2Request.js";
 export type { CommoditySymbolsRequest } from "./CommoditySymbolsRequest.js";
+export type { CommoditySymbolsV2Request } from "./CommoditySymbolsV2Request.js";
 export type { CommodityTimeSeriesRequest } from "./CommodityTimeSeriesRequest.js";
+export type { CommodityTimeSeriesV2Request } from "./CommodityTimeSeriesV2Request.js";
 export type { CurrencyConvertByIpRequest } from "./CurrencyConvertByIpRequest.js";
 export type { CurrencyConvertHistoricalRequest } from "./CurrencyConvertHistoricalRequest.js";
 export type { CurrencyConvertLatestRequest } from "./CurrencyConvertLatestRequest.js";
@@ -37,8 +42,10 @@ export type { DomainAvailabilitySuggestionsRequest } from "./DomainAvailabilityS
 export type { DomainDnsHistoryRequest } from "./DomainDnsHistoryRequest.js";
 export type { DomainDnsLookupRequest } from "./DomainDnsLookupRequest.js";
 export type { DomainDnsReverseRequest } from "./DomainDnsReverseRequest.js";
+export type { DomainReputationRequest } from "./DomainReputationRequest.js";
 export type { DomainSslChainLookupRequest } from "./DomainSslChainLookupRequest.js";
 export type { DomainSslLookupRequest } from "./DomainSslLookupRequest.js";
+export type { DomainTyposquattingRequest } from "./DomainTyposquattingRequest.js";
 export type { DomainWhoisHistoryRequest } from "./DomainWhoisHistoryRequest.js";
 export type { DomainWhoisLookupRequest } from "./DomainWhoisLookupRequest.js";
 export type { DomainWhoisLookupV2Request } from "./DomainWhoisLookupV2Request.js";
