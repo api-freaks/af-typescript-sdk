@@ -26,7 +26,7 @@ export namespace DomainWhoisHistoryResponse {
             status: boolean;
             /** Domain name which was queried. */
             domain_name: string;
-            /** The timestamp when the query was made. */
+            /** The timestamp when the query was made (format YYYY-MM-DD HH:mm:ss, not ISO 8601). */
             query_time: string;
             /** The WHOIS server that provided the domain information. */
             whois_server: string;
@@ -145,6 +145,7 @@ export namespace DomainWhoisHistoryResponse {
 
             export interface RegistryData {
                 domain_name?: string | undefined;
+                /** Timestamp when the WHOIS query was executed (format YYYY-MM-DD HH:mm:ss, not ISO 8601). */
                 query_time?: string | undefined;
                 whois_server?: string | undefined;
                 domain_registered?: RegistryData.DomainRegistered | undefined;

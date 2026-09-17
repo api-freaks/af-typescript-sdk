@@ -3,7 +3,7 @@
 export interface DomainDnsLookupResponse {
     /** Indicates whether the query was processed successfully. */
     status: boolean;
-    /** Time at which the query was made (Format:YYYY-MM-DD HH:mm:ss). */
+    /** Timestamp when the query was executed (format YYYY-MM-DD HH:mm:ss, not ISO 8601). */
     queryTime: string;
     /** Queried domain. */
     domainName: string;

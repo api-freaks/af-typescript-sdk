@@ -13,13 +13,13 @@ export namespace WeatherForecastResponse {
      */
     export type Location =
         | {
-              latitude: number;
-              longitude: number;
+              latitude: string;
+              longitude: string;
               country_name: string;
               state_prov: string;
               city: string;
               locality?: string | undefined;
-              elevation?: number | undefined;
+              elevation?: string | undefined;
               timezone: string;
               timezone_abbreviation: string;
           }
@@ -36,10 +36,10 @@ export namespace WeatherForecastResponse {
               district?: string | undefined;
               city: string;
               zipcode?: string | undefined;
-              latitude: number;
-              longitude: number;
+              latitude: string;
+              longitude: string;
               locality?: string | undefined;
-              elevation?: number | undefined;
+              elevation?: string | undefined;
               timezone: string;
               timezone_abbreviation: string;
           }
@@ -49,9 +49,9 @@ export namespace WeatherForecastResponse {
               state_prov: string;
               city: string;
               locality?: string | undefined;
-              latitude: number;
-              longitude: number;
-              elevation?: number | undefined;
+              latitude: string;
+              longitude: string;
+              elevation?: string | undefined;
               timezone: string;
               timezone_abbreviation: string;
           };
@@ -73,7 +73,7 @@ export namespace WeatherForecastResponse {
              * Daily forecast data
              */
             export interface Daily {
-                /** ISO 8601 formatted timestamp */
+                /** Local timestamp of this reading (format YYYY-MM-DDTHH:mm, not ISO 8601). */
                 timestamp?: string | undefined;
                 /** Weather condition code */
                 weather_code?: number | undefined;
@@ -147,7 +147,7 @@ export namespace WeatherForecastResponse {
 
             export namespace Hourly {
                 export interface Item {
-                    /** ISO 8601 formatted timestamp */
+                    /** Local timestamp of this reading (format YYYY-MM-DDTHH:mm, not ISO 8601). */
                     timestamp?: string | undefined;
                     /** Air temperature at 2m (°C) */
                     temperature_2m?: number | undefined;
@@ -206,7 +206,7 @@ export namespace WeatherForecastResponse {
 
             export namespace Minutely {
                 export interface Item {
-                    /** ISO 8601 formatted timestamp */
+                    /** Local timestamp of this reading (format YYYY-MM-DDTHH:mm, not ISO 8601). */
                     timestamp?: string | undefined;
                     /** Air temperature at 2m (°C) */
                     temperature_2m?: number | undefined;

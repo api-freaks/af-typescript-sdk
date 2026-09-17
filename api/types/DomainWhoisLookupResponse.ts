@@ -3,6 +3,7 @@
 export interface DomainWhoisLookupResponse {
     status?: boolean | undefined;
     domain_name?: string | undefined;
+    /** Timestamp when the WHOIS query was executed (format YYYY-MM-DD HH:mm:ss, not ISO 8601). */
     query_time?: string | undefined;
     whois_server?: string | undefined;
     domain_registered?: DomainWhoisLookupResponse.DomainRegistered | undefined;
@@ -115,6 +116,7 @@ export namespace DomainWhoisLookupResponse {
 
     export interface RegistryData {
         domain_name?: string | undefined;
+        /** Timestamp when the WHOIS query was executed (format YYYY-MM-DD HH:mm:ss, not ISO 8601). */
         query_time?: string | undefined;
         whois_server?: string | undefined;
         domain_registered?: RegistryData.DomainRegistered | undefined;

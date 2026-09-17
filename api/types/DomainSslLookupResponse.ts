@@ -2,6 +2,7 @@
 
 export interface DomainSslLookupResponse {
     domainName: string;
+    /** Timestamp when the query was executed (format YYYY-MM-DD HH:mm:ss, not ISO 8601). */
     queryTime: string;
     sslCertificates: DomainSslLookupResponse.SslCertificates.Item[];
     sslRaw?: string | undefined;
@@ -67,17 +68,17 @@ export namespace DomainSslLookupResponse {
                 authorityKeyIdentifier: string;
                 subjectKeyIdentifier: string;
                 keyUsages: string[];
-                extendedKeyUsages: string[];
+                extendedKeyUsages?: string[] | undefined;
                 crlDistributionPoints?: string[] | undefined;
-                authorityInfoAccess: Extensions.AuthorityInfoAccess;
+                authorityInfoAccess?: Extensions.AuthorityInfoAccess | undefined;
                 subjectAlternativeNames?: Extensions.SubjectAlternativeNames | undefined;
-                certificatePolicies: Extensions.CertificatePolicies;
+                certificatePolicies?: Extensions.CertificatePolicies.Item[] | undefined;
             }
 
             export namespace Extensions {
                 export interface AuthorityInfoAccess {
-                    issuers: string[];
-                    ocsp: string[];
+                    issuers?: string[] | undefined;
+                    ocsp?: string[] | undefined;
                 }
 
                 export interface SubjectAlternativeNames {
@@ -87,28 +88,42 @@ export namespace DomainSslLookupResponse {
                     uris?: string[] | undefined;
                 }
 
-                export interface CertificatePolicies {
-                    policyId: string;
-                    policyQualifier?: CertificatePolicies.PolicyQualifier | undefined;
-                }
+                export type CertificatePolicies = CertificatePolicies.Item[];
 
                 export namespace CertificatePolicies {
-                    export interface PolicyQualifier {
-                        oid?: string | undefined;
-                        cpsUri?: string | undefined;
-                        userNotice?: PolicyQualifier.UserNotice | undefined;
+                    export interface Item {
+                        /** Policy identifier */
+                        policyId: string;
+                        /** Policy qualifier details */
+                        policyQualifier?: Item.PolicyQualifier | undefined;
                     }
 
-                    export namespace PolicyQualifier {
-                        export interface UserNotice {
-                            explicitText?: string | undefined;
-                            noticeRef?: UserNotice.NoticeRef | undefined;
+                    export namespace Item {
+                        /**
+                         * Policy qualifier details
+                         */
+                        export interface PolicyQualifier {
+                            /** Object identifier */
+                            oid?: string | undefined;
+                            /** URI of the CPS */
+                            cpsUri?: string | undefined;
+                            userNotice?: PolicyQualifier.UserNotice | undefined;
                         }
 
-                        export namespace UserNotice {
-                            export interface NoticeRef {
-                                organization?: string | undefined;
-                                noticeNumbers?: string | undefined;
+                        export namespace PolicyQualifier {
+                            export interface UserNotice {
+                                /** Explicit text notice */
+                                explicitText?: string | undefined;
+                                noticeRef?: UserNotice.NoticeRef | undefined;
+                            }
+
+                            export namespace UserNotice {
+                                export interface NoticeRef {
+                                    /** Organization providing the notice */
+                                    organization?: string | undefined;
+                                    /** Notice numbers */
+                                    noticeNumbers?: string | undefined;
+                                }
                             }
                         }
                     }

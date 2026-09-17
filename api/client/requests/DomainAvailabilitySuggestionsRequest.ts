@@ -18,6 +18,8 @@ export interface DomainAvailabilitySuggestionsRequest {
     domain: string;
     /** Specify the data source for domain availability checks. Use "dns" for DNS-based lookups or "whois" for WHOIS-based lookups. By default, "dns" is used. */
     source?: ApifreaksApi.DomainAvailabilitySuggestionsRequestSource;
-    /** Number of suggestions to retrieve. */
+    /** Number of suggestions to retrieve. The API returns a minimum of 5 suggestions regardless of a lower value. */
     count?: number;
+    /** Controls the response shape. When `false`, returns a single availability object for the queried domain only. When omitted or `true`, returns an array of suggested domains instead. */
+    sug?: boolean;
 }

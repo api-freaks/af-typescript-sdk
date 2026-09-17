@@ -12,6 +12,7 @@ export namespace DomainDnsReverseResponse {
 
     export namespace ReverseDnsRecords {
         export interface Item {
+            /** Timestamp when the query was executed (format YYYY-MM-DD HH:mm:ss, not ISO 8601). */
             queryTime: string;
             domainName: string;
             domainRegistered: boolean;

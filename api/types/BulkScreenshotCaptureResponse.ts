@@ -34,8 +34,8 @@ export namespace BulkScreenshotCaptureResponse {
                 omit_background?: boolean | undefined;
                 destroy_screenshot?: boolean | undefined;
                 fail_on_error?: boolean | undefined;
-                longitude?: number | undefined;
-                latitude?: number | undefined;
+                longitude?: string | undefined;
+                latitude?: string | undefined;
                 proxy?: string | undefined;
                 no_cookie_banners?: boolean | undefined;
                 block_ads?: boolean | undefined;
