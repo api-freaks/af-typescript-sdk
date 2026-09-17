@@ -2977,6 +2977,7 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.ForbiddenError}
      * @throws {@link ApifreaksApi.NotFoundError}
      * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.RequestTimeoutError}
      * @throws {@link ApifreaksApi.ContentTooLargeError}
      * @throws {@link ApifreaksApi.TooManyRequestsError}
      * @throws {@link ApifreaksApi.InternalServerError}
@@ -3000,13 +3001,14 @@ export class ApifreaksApiClient {
         request: ApifreaksApi.DomainAvailabilitySuggestionsRequest,
         requestOptions?: ApifreaksApiClient.RequestOptions,
     ): Promise<core.WithRawResponse<ApifreaksApi.DomainAvailabilitySuggestionsResponse>> {
-        const { apiKey, format, domain, source, count } = request;
+        const { apiKey, format, domain, source, count, sug } = request;
         const _queryParams: Record<string, unknown> = {
             apiKey,
             format: format != null ? format : undefined,
             domain,
             source: source != null ? source : undefined,
             count,
+            sug,
         };
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(this._options?.headers, requestOptions?.headers);
         const _response = await core.fetcher({
@@ -3050,6 +3052,8 @@ export class ApifreaksApiClient {
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
                     throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                case 408:
+                    throw new ApifreaksApi.RequestTimeoutError(_response.error.body as unknown, _response.rawResponse);
                 case 413:
                     throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
                 case 429:
@@ -13423,12 +13427,16 @@ export class ApifreaksApiClient {
         request: ApifreaksApi.UserAgentLookupRequest,
         requestOptions?: ApifreaksApiClient.RequestOptions,
     ): Promise<core.WithRawResponse<ApifreaksApi.UserAgentLookupResponse>> {
-        const { apiKey, format } = request;
+        const { apiKey, format, "User-Agent": userAgent } = request;
         const _queryParams: Record<string, unknown> = {
             apiKey,
             format: format != null ? format : undefined,
         };
-        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(this._options?.headers, requestOptions?.headers);
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({ "User-Agent": userAgent }),
+            requestOptions?.headers,
+        );
         const _response = await core.fetcher({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -13493,7 +13501,7 @@ export class ApifreaksApiClient {
     }
 
     /**
-     * Parse up to `50,000 User-Agent strings` at once in a single request.
+     * Parse up to `100 User-Agent strings` at once in a single request; exceeding that returns a 413, not a 400.
      *
      * @param {ApifreaksApi.BulkUserAgentLookupRequest} request
      * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.

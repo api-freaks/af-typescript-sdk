@@ -22,4 +22,6 @@ export interface BulkDomainDnsLookupRequest {
     type?: string | string[];
     /** List of hostnames to lookup DNS records for */
     domainNames: string[];
+    /** Array of IP addresses to include in the lookup for PTR record enrichment. */
+    ipAddresses?: string[];
 }

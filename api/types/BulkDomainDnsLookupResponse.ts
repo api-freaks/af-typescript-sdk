@@ -11,12 +11,14 @@ export namespace BulkDomainDnsLookupResponse {
         export interface Item {
             /** Indicates whether the query was processed successfully. */
             status: boolean;
-            /** Time at which the query was made (Format:YYYY-MM-DD HH:mm:ss). */
+            /** Timestamp when the query was executed (format YYYY-MM-DD HH:mm:ss, not ISO 8601). */
             queryTime: string;
-            /** Queried domain. */
-            domainName: string;
-            /** Indicates whether the domain is registered. */
-            domainRegistered: boolean;
+            /** Queried domain. Absent when this result is for a queried IP address instead (see `ipAddress`). */
+            domainName?: string | undefined;
+            /** Indicates whether the domain is registered. Absent when this result is for a queried IP address instead. */
+            domainRegistered?: boolean | undefined;
+            /** Queried IP address, present when this result is for reverse DNS (PTR) enrichment instead of a domain name. */
+            ipAddress?: string | undefined;
             dnsTypes: Item.DnsTypes;
             /** List of DNS records, each based on its type. */
             dnsRecords: Item.DnsRecords.Item[];

@@ -19,7 +19,7 @@ export namespace BulkDomainWhoisLookupV2Response {
                   status: boolean;
                   domain_name: string;
                   query_time: string;
-                  whois_server: string;
+                  whois_server?: string | undefined;
                   domain_registered: "yes" | "no" | "restricted";
                   secure_dns?: boolean | undefined;
                   domain_handle?: string | undefined;

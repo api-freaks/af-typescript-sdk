@@ -11,7 +11,7 @@ export interface DomainWhoisLookupV2Response {
     /** Timestamp when the WHOIS query was executed. */
     query_time: string;
     /** WHOIS or RDAP server that provided this record. */
-    whois_server: string;
+    whois_server?: string | undefined;
     /** Domain registration status; 'restricted' means the registry withholds registration details. */
     domain_registered: DomainWhoisLookupV2Response.DomainRegistered;
     /** Indicates if DNSSEC or secure DNS is enabled for the domain. */
@@ -283,7 +283,7 @@ export namespace DomainWhoisLookupV2Response {
     export interface RegistryData {
         /** Domain name as recorded by the registry. */
         domain_name?: string | undefined;
-        /** Timestamp when the registry-level record was queried. */
+        /** Timestamp when the registry-level record was queried (format YYYY-MM-DD HH:mm:ss, not ISO 8601). */
         query_time?: string | undefined;
         /** Registry WHOIS server that returned this data. */
         whois_server?: string | undefined;

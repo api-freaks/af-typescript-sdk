@@ -15,13 +15,13 @@ export namespace MarineWeatherResponse {
      */
     export type Location =
         | {
-              latitude: number;
-              longitude: number;
+              latitude: string;
+              longitude: string;
               country_name: string;
               state_prov: string;
               city: string;
               locality?: string | undefined;
-              elevation?: number | undefined;
+              elevation?: string | undefined;
               timezone: string;
               timezone_abbreviation: string;
           }
@@ -38,10 +38,10 @@ export namespace MarineWeatherResponse {
               district?: string | undefined;
               city: string;
               zipcode?: string | undefined;
-              latitude: number;
-              longitude: number;
+              latitude: string;
+              longitude: string;
               locality?: string | undefined;
-              elevation?: number | undefined;
+              elevation?: string | undefined;
               timezone: string;
               timezone_abbreviation: string;
           }
@@ -51,9 +51,9 @@ export namespace MarineWeatherResponse {
               state_prov: string;
               city: string;
               locality?: string | undefined;
-              latitude: number;
-              longitude: number;
-              elevation?: number | undefined;
+              latitude: string;
+              longitude: string;
+              elevation?: string | undefined;
               timezone: string;
               timezone_abbreviation: string;
           };
@@ -62,7 +62,7 @@ export namespace MarineWeatherResponse {
      * Current marine data
      */
     export interface Current {
-        /** ISO 8601 formatted timestamp */
+        /** Local timestamp of this reading (format YYYY-MM-DDTHH:mm, not ISO 8601). */
         timestamp?: string | undefined;
         /** Significant height of combined sea waves (m) */
         wave_height?: number | undefined;
@@ -107,7 +107,7 @@ export namespace MarineWeatherResponse {
              * Daily marine forecast data
              */
             export interface Daily {
-                /** ISO 8601 formatted timestamp */
+                /** Local timestamp of this reading (format YYYY-MM-DDTHH:mm, not ISO 8601). */
                 timestamp?: string | undefined;
                 /** Maximum significant wave height (m) */
                 wave_height_max?: number | undefined;
@@ -137,7 +137,7 @@ export namespace MarineWeatherResponse {
 
             export namespace Hourly {
                 export interface Item {
-                    /** ISO 8601 formatted timestamp */
+                    /** Local timestamp of this reading (format YYYY-MM-DDTHH:mm, not ISO 8601). */
                     timestamp?: string | undefined;
                     /** Significant wave height at the given time (m) */
                     wave_height?: number | undefined;
@@ -176,7 +176,7 @@ export namespace MarineWeatherResponse {
 
             export namespace Minutely {
                 export interface Item {
-                    /** ISO 8601 formatted timestamp */
+                    /** Local timestamp of this reading (format YYYY-MM-DDTHH:mm, not ISO 8601). */
                     timestamp?: string | undefined;
                     /** Speed of ocean current (km/h) */
                     ocean_current_velocity?: number | undefined;

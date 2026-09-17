@@ -13,4 +13,6 @@ export interface UserAgentLookupRequest {
     apiKey: string;
     /** Format of the response */
     format?: ApifreaksApi.UserAgentLookupRequestFormat;
+    /** The User-Agent string to parse, sent as the User-Agent HTTP header. */
+    "User-Agent": string;
 }

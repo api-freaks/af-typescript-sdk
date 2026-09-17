@@ -162,9 +162,9 @@ export namespace TimezoneLookupV2Response {
         /** The full name of the airport. */
         name?: string | undefined;
         /** The latitude coordinate of the airport. */
-        latitude?: number | undefined;
+        latitude?: string | undefined;
         /** The longitude coordinate of the airport. */
-        longitude?: number | undefined;
+        longitude?: string | undefined;
         /** The elevation of the airport above sea level, measured in feet. */
         elevation_ft?: number | undefined;
         /** The two-letter code of the continent. */
@@ -200,8 +200,8 @@ export namespace TimezoneLookupV2Response {
         /** The type of location as comma-separated list of facilities (e.g., Port, Rail Terminal, Road Terminal, Airport). */
         location_type?: string | undefined;
         /** The latitude coordinate of the location. */
-        latitude?: number | undefined;
+        latitude?: string | undefined;
         /** The longitude coordinate of the location. */
-        longitude?: number | undefined;
+        longitude?: string | undefined;
     }
 }
