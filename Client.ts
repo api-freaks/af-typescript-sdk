@@ -13501,7 +13501,7 @@ export class ApifreaksApiClient {
     }
 
     /**
-     * Parse up to `100 User-Agent strings` at once in a single request; exceeding that returns a 413, not a 400.
+     * Parse up to `20000 User-Agent strings` at once in a single request; exceeding that returns a 413, not a 400.
      *
      * @param {ApifreaksApi.BulkUserAgentLookupRequest} request
      * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
