@@ -14,6 +14,6 @@ export interface BulkUserAgentLookupRequest {
     apiKey: string;
     /** Format of the response */
     format?: ApifreaksApi.BulkUserAgentLookupRequestFormat;
-    /** Array of User-Agent strings to parse. Maximum 100 strings per request — exceeding that returns a 413. */
+    /** Array of User-Agent strings to parse. Maximum 20000 strings per request — exceeding that returns a 413. */
     uaStrings: string[];
 }
