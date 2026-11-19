@@ -13,7 +13,8 @@ export declare namespace BulkScreenshotCaptureResponse {
     namespace Results {
         interface Item {
             status: string;
-            error_message?: string | undefined;
+            /** Error details for a failed URL; null when the capture succeeded. */
+            error_message?: (string | null) | undefined;
             url: Item.Url;
         }
         namespace Item {
@@ -21,15 +22,15 @@ export declare namespace BulkScreenshotCaptureResponse {
                 screenshot: string;
                 url: string;
                 created_at: string;
-                format: string;
+                format?: string | undefined;
                 ttl: string;
                 file_type?: string | undefined;
                 extracted_html?: string | undefined;
                 omit_background?: boolean | undefined;
                 destroy_screenshot?: boolean | undefined;
                 fail_on_error?: boolean | undefined;
-                longitude?: number | undefined;
-                latitude?: number | undefined;
+                longitude?: string | undefined;
+                latitude?: string | undefined;
                 proxy?: string | undefined;
                 no_cookie_banners?: boolean | undefined;
                 block_ads?: boolean | undefined;
@@ -87,7 +88,7 @@ export declare namespace BulkScreenshotCaptureResponse {
                 scroll_back?: boolean | undefined;
                 start_immediately?: boolean | undefined;
                 clip?: Record<string, unknown> | undefined;
-                sizes?: Record<string, unknown>[] | undefined;
+                sizes?: (Record<string, unknown>[] | null) | undefined;
                 /** Accepts any additional properties */
                 [key: string]: any;
             }

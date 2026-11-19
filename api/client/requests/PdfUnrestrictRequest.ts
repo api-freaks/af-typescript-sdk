@@ -7,7 +7,8 @@ import type * as ApifreaksApi from "../../index.js";
  * @example
  *     {
  *         apiKey: "apiKey",
- *         file_password: "file_password"
+ *         file_password: "file_password",
+ *         user_password: "user_password"
  *     }
  */
 export interface PdfUnrestrictRequest {
@@ -24,7 +25,7 @@ export interface PdfUnrestrictRequest {
     /** The password to unlock the input file. Either the owner password or user password can be provided. The owner password takes precedence. Password Length should be between 6 and 128 characters. */
     file_password: string;
     /** Sets the user password for the PDF file. Password Length should be between 6 and 128 characters. */
-    user_password?: string;
+    user_password: string;
     /** Sets the owner password for the PDF file. If the owner password is not provided, the `user_password` will also be used as the owner password. Password Length should be between 6 and 128 characters. */
     owner_password?: string;
     /** The URL to which the webhook notification will be sent after the task is completed. */

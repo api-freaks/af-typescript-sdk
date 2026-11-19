@@ -11,6 +11,8 @@ export interface CommodityLatestRatesV2Response {
     metadata: Record<string, CommodityLatestRatesV2Response.Metadata.Value>;
     /** Present only when currency conversion for the requested `quote` is temporarily unavailable; rates are returned in each commodity's default currency instead. */
     warning?: string | undefined;
+    /** Present only on a 206 Partial Content response, when some requested symbols could not be resolved. Map of each unresolved symbol to a detail message and optional close-match suggestions. */
+    unresolved?: Record<string, CommodityLatestRatesV2Response.Unresolved.Value> | undefined;
 }
 
 export namespace CommodityLatestRatesV2Response {
@@ -20,6 +22,15 @@ export namespace CommodityLatestRatesV2Response {
             unit: string;
             /** Quote currency used for this commodity's price. */
             quote: string;
+        }
+    }
+
+    export namespace Unresolved {
+        export interface Value {
+            /** Detail message explaining why this symbol was not resolved. */
+            message?: string | undefined;
+            /** Optional list of supported symbols that closely match the unresolved symbol. */
+            suggestions?: string[] | undefined;
         }
     }
 }

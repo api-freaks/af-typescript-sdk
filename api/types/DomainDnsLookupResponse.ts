@@ -6,12 +6,14 @@ export interface DomainDnsLookupResponse {
     /** Timestamp when the query was executed (format YYYY-MM-DD HH:mm:ss, not ISO 8601). */
     queryTime: string;
     /** Queried domain. */
-    domainName: string;
+    domainName?: string | undefined;
     /** Indicates whether the domain is registered. */
-    domainRegistered: boolean;
+    domainRegistered?: boolean | undefined;
     dnsTypes: DomainDnsLookupResponse.DnsTypes;
     /** List of DNS records, each based on its type. */
     dnsRecords: DomainDnsLookupResponse.DnsRecords.Item[];
+    /** IP address queried (present when ipAddress parameter is used instead of host-name). */
+    ipAddress?: string | undefined;
 }
 
 export namespace DomainDnsLookupResponse {
@@ -24,6 +26,7 @@ export namespace DomainDnsLookupResponse {
         SOA?: number | undefined;
         TXT?: number | undefined;
         SPF?: number | undefined;
+        PTR?: number | undefined;
     }
 
     export type DnsRecords = DnsRecords.Item[];
@@ -42,15 +45,6 @@ export namespace DomainDnsLookupResponse {
             | {
                   name: string;
                   type: number;
-                  dnsType: "CNAME";
-                  ttl: number;
-                  rawText: string;
-                  rRsetType: number;
-                  target: string;
-              }
-            | {
-                  name: string;
-                  type: number;
                   dnsType: "MX";
                   ttl: number;
                   rawText: string;
@@ -61,7 +55,16 @@ export namespace DomainDnsLookupResponse {
             | {
                   name: string;
                   type: number;
-                  dnsType: "NS";
+                  dnsType: "CNAME";
+                  ttl: number;
+                  rawText: string;
+                  rRsetType: number;
+                  target: string;
+              }
+            | {
+                  name: string;
+                  type: number;
+                  dnsType: "NS" | "PTR";
                   ttl: number;
                   rawText: string;
                   rRsetType: number;

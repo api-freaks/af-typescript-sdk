@@ -55,6 +55,10 @@ export namespace TimezoneLookupResponse {
         dst_exists: boolean;
         dst_start?: TimeZone.DstStart | undefined;
         dst_end?: TimeZone.DstEnd | undefined;
+        /** Abbreviation of the DST time zone. Always present as a key; holds an empty string when dst_exists is false. */
+        dst_tz_abbreviation?: string | undefined;
+        /** Full name of the DST time zone. Always present as a key; holds an empty string when dst_exists is false. */
+        dst_tz_full_name?: string | undefined;
         /** Accepts any additional properties */
         [key: string]: any;
     }

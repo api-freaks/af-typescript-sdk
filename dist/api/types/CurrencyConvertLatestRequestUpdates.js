@@ -3,8 +3,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CurrencyConvertLatestRequestUpdates = void 0;
 exports.CurrencyConvertLatestRequestUpdates = {
-    OneD: "1d",
-    OneH: "1h",
-    TenM: "10m",
     OneM: "1m",
+    TenM: "10m",
+    OneH: "1h",
+    OneD: "1d",
 };

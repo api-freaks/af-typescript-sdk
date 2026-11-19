@@ -15,7 +15,7 @@ export namespace DomainDnsHistoryResponse {
             /** Timestamp when the query was executed (format YYYY-MM-DD HH:mm:ss, not ISO 8601). */
             queryTime: string;
             domainName: string;
-            domainRegistered: boolean;
+            domainRegistered?: boolean | undefined;
             dnsTypes: Item.DnsTypes;
             dnsRecords: Item.DnsRecords.Item[];
         }
@@ -30,6 +30,7 @@ export namespace DomainDnsHistoryResponse {
                 SOA?: number | undefined;
                 TXT?: number | undefined;
                 SPF?: number | undefined;
+                PTR?: number | undefined;
             }
 
             export type DnsRecords = DnsRecords.Item[];
@@ -48,21 +49,21 @@ export namespace DomainDnsHistoryResponse {
                     | {
                           name: string;
                           type: number;
-                          dnsType: "CNAME";
-                          ttl: number;
-                          rawText: string;
-                          rRsetType: number;
-                          target: string;
-                      }
-                    | {
-                          name: string;
-                          type: number;
                           dnsType: "MX";
                           ttl: number;
                           rawText: string;
                           rRsetType: number;
                           target: string;
                           priority: number;
+                      }
+                    | {
+                          name: string;
+                          type: number;
+                          dnsType: "CNAME";
+                          ttl: number;
+                          rawText: string;
+                          rRsetType: number;
+                          target: string;
                       }
                     | {
                           name: string;

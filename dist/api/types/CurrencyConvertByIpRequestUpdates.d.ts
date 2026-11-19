@@ -1,7 +1,7 @@
 export declare const CurrencyConvertByIpRequestUpdates: {
-    readonly OneD: "1d";
-    readonly OneH: "1h";
-    readonly TenM: "10m";
     readonly OneM: "1m";
+    readonly TenM: "10m";
+    readonly OneH: "1h";
+    readonly OneD: "1d";
 };
 export type CurrencyConvertByIpRequestUpdates = (typeof CurrencyConvertByIpRequestUpdates)[keyof typeof CurrencyConvertByIpRequestUpdates];

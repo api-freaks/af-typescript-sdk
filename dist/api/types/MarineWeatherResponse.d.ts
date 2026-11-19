@@ -11,16 +11,6 @@ export declare namespace MarineWeatherResponse {
      * Location information
      */
     type Location = {
-        latitude: number;
-        longitude: number;
-        country_name: string;
-        state_prov: string;
-        city: string;
-        locality?: string | undefined;
-        elevation?: number | undefined;
-        timezone: string;
-        timezone_abbreviation: string;
-    } | {
         continent_code: string;
         continent_name: string;
         country_code2: string;
@@ -33,10 +23,10 @@ export declare namespace MarineWeatherResponse {
         district?: string | undefined;
         city: string;
         zipcode?: string | undefined;
-        latitude: number;
-        longitude: number;
+        latitude: string;
+        longitude: string;
         locality?: string | undefined;
-        elevation?: number | undefined;
+        elevation?: string | undefined;
         timezone: string;
         timezone_abbreviation: string;
     } | {
@@ -45,9 +35,19 @@ export declare namespace MarineWeatherResponse {
         state_prov: string;
         city: string;
         locality?: string | undefined;
-        latitude: number;
-        longitude: number;
-        elevation?: number | undefined;
+        latitude: string;
+        longitude: string;
+        elevation?: string | undefined;
+        timezone: string;
+        timezone_abbreviation: string;
+    } | {
+        latitude: string;
+        longitude: string;
+        country_name: string;
+        state_prov: string;
+        city: string;
+        locality?: string | undefined;
+        elevation?: string | undefined;
         timezone: string;
         timezone_abbreviation: string;
     };
@@ -55,7 +55,7 @@ export declare namespace MarineWeatherResponse {
      * Current marine data
      */
     interface Current {
-        /** ISO 8601 formatted timestamp */
+        /** Local timestamp of this reading (format YYYY-MM-DDTHH:mm, not ISO 8601). */
         timestamp?: string | undefined;
         /** Significant height of combined sea waves (m) */
         wave_height?: number | undefined;
@@ -83,6 +83,10 @@ export declare namespace MarineWeatherResponse {
         ocean_current_velocity?: number | undefined;
         /** Direction of the ocean current (°) */
         ocean_current_direction?: number | undefined;
+        /** Peak period of swell waves in seconds. Frequently null even at locations with other wave data present. */
+        swell_wave_peak_period?: (number | null) | undefined;
+        /** Peak period of locally generated wind waves in seconds. Frequently null even at locations with other wave data present. */
+        wind_wave_peak_period?: (number | null) | undefined;
     }
     namespace Forecast {
         interface Value {
@@ -98,7 +102,7 @@ export declare namespace MarineWeatherResponse {
              * Daily marine forecast data
              */
             interface Daily {
-                /** ISO 8601 formatted timestamp */
+                /** Local timestamp of this reading (format YYYY-MM-DDTHH:mm, not ISO 8601). */
                 timestamp?: string | undefined;
                 /** Maximum significant wave height (m) */
                 wave_height_max?: number | undefined;
@@ -126,7 +130,7 @@ export declare namespace MarineWeatherResponse {
             type Hourly = Hourly.Item[];
             namespace Hourly {
                 interface Item {
-                    /** ISO 8601 formatted timestamp */
+                    /** Local timestamp of this reading (format YYYY-MM-DDTHH:mm, not ISO 8601). */
                     timestamp?: string | undefined;
                     /** Significant wave height at the given time (m) */
                     wave_height?: number | undefined;
@@ -163,7 +167,7 @@ export declare namespace MarineWeatherResponse {
             type Minutely = Minutely.Item[];
             namespace Minutely {
                 interface Item {
-                    /** ISO 8601 formatted timestamp */
+                    /** Local timestamp of this reading (format YYYY-MM-DDTHH:mm, not ISO 8601). */
                     timestamp?: string | undefined;
                     /** Speed of ocean current (km/h) */
                     ocean_current_velocity?: number | undefined;

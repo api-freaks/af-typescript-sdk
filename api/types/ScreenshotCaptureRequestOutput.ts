@@ -2,7 +2,6 @@
 
 export const ScreenshotCaptureRequestOutput = {
     Json: "json",
-    Image: "image",
 } as const;
 export type ScreenshotCaptureRequestOutput =
     (typeof ScreenshotCaptureRequestOutput)[keyof typeof ScreenshotCaptureRequestOutput];

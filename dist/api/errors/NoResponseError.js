@@ -48,7 +48,7 @@ class NoResponseError extends errors.ApifreaksApiError {
         if (Error.captureStackTrace) {
             Error.captureStackTrace(this, this.constructor);
         }
-        this.name = this.constructor.name;
+        this.name = "NoResponseError";
     }
 }
 exports.NoResponseError = NoResponseError;

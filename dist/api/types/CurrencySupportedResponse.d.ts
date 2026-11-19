@@ -6,9 +6,12 @@ export declare namespace CurrencySupportedResponse {
     namespace SupportedCurrenciesMap {
         interface Value {
             currencyCode: string;
-            currencyName: string;
-            countryCode: string;
-            countryName: string;
+            /** Currency name; null for some entries (e.g. crypto tokens). */
+            currencyName: string | null;
+            /** Country code; null for currencies not tied to a country. */
+            countryCode: string | null;
+            /** Country name; null for currencies not tied to a country. */
+            countryName: string | null;
             status: Value.Status;
             availableFrom: string;
             availableUntil: string;

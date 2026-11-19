@@ -8,10 +8,16 @@ var CommoditySymbolsResponse;
     (function (Symbols) {
         let Item;
         (function (Item) {
-            /** The rate at which this commodity's price is updated. */
+            /** The rate at which this commodity's price is updated. New values may be added over time. */
             Item.UpdateInterval = {
                 PerSecond: "PER_SECOND",
                 PerMinute: "PER_MINUTE",
+                Per10Minutes: "PER_10_MINUTES",
+                PerHour: "PER_HOUR",
+                PerDay: "PER_DAY",
+                PerWeek: "PER_WEEK",
+                PerMonth: "PER_MONTH",
+                Per6Months: "PER_6_MONTHS",
             };
         })(Item = Symbols.Item || (Symbols.Item = {}));
     })(Symbols = CommoditySymbolsResponse.Symbols || (CommoditySymbolsResponse.Symbols = {}));

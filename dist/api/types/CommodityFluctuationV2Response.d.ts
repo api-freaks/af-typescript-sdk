@@ -1,0 +1,34 @@
+export interface CommodityFluctuationV2Response {
+    /** API request success indicator. "true" for successful requests. */
+    success: boolean;
+    /** The start date of the fluctuation interval in YYYY-MM-DD format. */
+    startDate: string;
+    /** The end date of the fluctuation interval in YYYY-MM-DD format. */
+    endDate: string;
+    /** Map keyed by commodity symbol; value contains fluctuation metrics. */
+    rates: Record<string, CommodityFluctuationV2Response.Rates.Value>;
+    /** Present only on a 206 Partial Content response, when some requested symbols could not be resolved. Map of each unresolved symbol to a detail message and optional close-match suggestions. */
+    unresolved?: Record<string, CommodityFluctuationV2Response.Unresolved.Value> | undefined;
+}
+export declare namespace CommodityFluctuationV2Response {
+    namespace Rates {
+        interface Value {
+            /** Price of the commodity on the start date. */
+            startRate: number;
+            /** Price of the commodity on the end date. */
+            endRate: number;
+            /** Absolute price difference between end and start dates. May be negative. */
+            change: number;
+            /** Percentage price change from start to end date. May be negative. */
+            changePercent: number;
+        }
+    }
+    namespace Unresolved {
+        interface Value {
+            /** Detail message explaining why this symbol was not resolved. */
+            message?: string | undefined;
+            /** Optional list of supported symbols that closely match the unresolved symbol. */
+            suggestions?: string[] | undefined;
+        }
+    }
+}

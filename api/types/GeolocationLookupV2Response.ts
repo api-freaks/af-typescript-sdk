@@ -102,6 +102,10 @@ export namespace GeolocationLookupV2Response {
         route?: string | undefined;
         /** true if the IP is anycast (same IP announced from multiple locations). */
         is_anycast?: boolean | undefined;
+        /** CDN provider name (e.g. Cloudflare) when is_cdn is true; empty otherwise. */
+        cdn_provider_name?: string | undefined;
+        /** true if the IP belongs to a content delivery network (CDN) or a cloud provider's network. */
+        is_cdn?: boolean | undefined;
     }
 
     /**
@@ -164,6 +168,12 @@ export namespace GeolocationLookupV2Response {
         proxy_confidence_score: number;
         /** Last observed proxy activity date in YYYY-MM-DD. */
         proxy_last_seen?: string | undefined;
+        /** Number of days in the last 30 days on which the IP was seen acting as a proxy. `0` when no proxy activity was observed. */
+        proxy_days_seen_30d?: number | undefined;
+        /** Number of days in the last 7 days on which the IP was seen acting as a proxy. `0` when no proxy activity was observed. */
+        proxy_days_seen_7d?: number | undefined;
+        /** Number of distinct proxy providers that offered the IP in the last 30 days. `0` when no proxy activity was observed. */
+        proxy_provider_count_30d?: number | undefined;
         /** true if the IP is linked to a residential proxy network. */
         is_residential_proxy: boolean;
         /** true if the IP is associated with a VPN service. */
@@ -190,6 +200,22 @@ export namespace GeolocationLookupV2Response {
         is_cloud_provider: boolean;
         /** Cloud provider name. */
         cloud_provider_name?: string | undefined;
+        /** Bot detection confidence from 0 to 100. 0 unless is_bot is true. */
+        bot_confidence_score?: number | undefined;
+        /** Last observed bot activity date in YYYY-MM-DD, when available. */
+        bot_last_seen?: string | undefined;
+        /** Organization running the bot, when known (mostly declared bots). */
+        bot_operator_name?: string | undefined;
+        /** Kind of bot activity, when known. Declared bots (is_known_good_bot true): search_engine, ai_crawler, ai_assistant, seo_crawler, site_monitor, link_preview, feed_fetcher, archiver, ad_verification, scanner. Undeclared bots (is_known_good_bot false): scanner, scraper, exploit, credential_stuffing, brute_force, worm. New values can be added over time, so treat it as a plain string. */
+        bot_type?: string | undefined;
+        /** Corporate gateway provider name, when known. */
+        corporate_gateway_provider_name?: string | undefined;
+        /** Kind of corporate gateway, when known. Known values: secure_web_gateway, browser_isolation. */
+        corporate_gateway_type?: string | undefined;
+        /** true if the IP is an outbound address of a corporate security gateway (SWG, SSE, or SASE). */
+        is_corporate_gateway?: boolean | undefined;
+        /** true if the bot is a declared bot with a verifiable operator (e.g. a search engine crawler or uptime monitor). */
+        is_known_good_bot?: boolean | undefined;
     }
 
     /**

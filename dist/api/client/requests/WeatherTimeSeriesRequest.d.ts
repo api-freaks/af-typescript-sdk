@@ -10,7 +10,7 @@ import type * as ApifreaksApi from "../../index.js";
 export interface WeatherTimeSeriesRequest {
     /** Your API key */
     apiKey: string;
-    /** Response format returned by the API. */
+    /** Response format returned by the API. Only JSON is supported. */
     format?: ApifreaksApi.WeatherTimeSeriesRequestFormat;
     /** Starting date for the data in YYYY-MM-DD format. Historical dates must be past dates only. Current or future dates are not allowed for historical data. Data available from 1940 onwards. For precision=daily, the difference between endDate and startDate must not exceed 90 days. For precision=hourly, the difference must not exceed 7 days. */
     startDate: string;

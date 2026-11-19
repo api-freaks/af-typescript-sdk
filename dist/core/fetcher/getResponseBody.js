@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.isResponseBodyError = isResponseBodyError;
 exports.getResponseBody = getResponseBody;
 const json_js_1 = require("../json.js");
 const BinaryResponse_js_1 = require("./BinaryResponse.js");
@@ -12,6 +13,19 @@ function retainResponse(target, response) {
         writable: false,
     });
 }
+const responseBodyErrors = new WeakSet();
+function responseBodyError(error) {
+    const record = { ok: false, error };
+    responseBodyErrors.add(record);
+    return record;
+}
+/**
+ * Returns true when `value` is a failure record created by `getResponseBody` (for example malformed JSON),
+ * as opposed to a parsed JSON body that happens to have the same shape.
+ */
+function isResponseBodyError(value) {
+    return typeof value === "object" && value != null && responseBodyErrors.has(value);
+}
 async function getResponseBody(response, responseType) {
     switch (responseType) {
         case "binary-response":
@@ -22,25 +36,19 @@ async function getResponseBody(response, responseType) {
             return await response.arrayBuffer();
         case "sse":
             if (response.body == null) {
-                return {
-                    ok: false,
-                    error: {
-                        reason: "body-is-null",
-                        statusCode: response.status,
-                    },
-                };
+                return responseBodyError({
+                    reason: "body-is-null",
+                    statusCode: response.status,
+                });
             }
             retainResponse(response.body, response);
             return response.body;
         case "streaming":
             if (response.body == null) {
-                return {
-                    ok: false,
-                    error: {
-                        reason: "body-is-null",
-                        statusCode: response.status,
-                    },
-                };
+                return responseBodyError({
+                    reason: "body-is-null",
+                    statusCode: response.status,
+                });
             }
             retainResponse(response.body, response);
             return response.body;
@@ -55,14 +63,11 @@ async function getResponseBody(response, responseType) {
             return responseBody;
         }
         catch (_err) {
-            return {
-                ok: false,
-                error: {
-                    reason: "non-json",
-                    statusCode: response.status,
-                    rawBody: text,
-                },
-            };
+            return responseBodyError({
+                reason: "non-json",
+                statusCode: response.status,
+                rawBody: text,
+            });
         }
     }
     return undefined;

@@ -22,7 +22,7 @@ export namespace CommoditySymbolsV2Response {
             category: string;
             /** Current status of the commodity. "inactive" means the symbol is deprecated - latest rates are unavailable, but historical rates remain available up to its deprecationDate. */
             status: Item.Status;
-            /** The rate at which this commodity's price is updated. */
+            /** The rate at which this commodity's price is updated. New values may be added over time. */
             updateInterval: Item.UpdateInterval;
             /** Data source for the symbol (e.g., World Bank). Present only for some symbols. */
             exchange?: string | undefined;
@@ -30,6 +30,14 @@ export namespace CommoditySymbolsV2Response {
             deprecationDate?: string | undefined;
             currency: Item.Currency;
             unit: Item.Unit;
+            /** Optional. Present only for dated futures contracts (for example `WTIOIL-FUT-DEC26`). Contract type, currently always `futures`. */
+            contract?: string | undefined;
+            /** Optional. Present only for dated futures contracts. Delivery month of the contract (YYYY-MM), for example `2026-12`. */
+            deliveryMonth?: string | undefined;
+            /** Optional. Present for most dated futures contracts. Last trading date of the contract (YYYY-MM-DD), for example `2026-11-20`. */
+            expiresAt?: string | undefined;
+            /** Optional. Present only for dated futures contracts. Symbol of the continuous futures series this contract belongs to (for example `WTIOIL-FUT`). */
+            underlying?: string | undefined;
         }
 
         export namespace Item {
@@ -39,7 +47,7 @@ export namespace CommoditySymbolsV2Response {
                 Inactive: "inactive",
             } as const;
             export type Status = (typeof Status)[keyof typeof Status];
-            /** The rate at which this commodity's price is updated. */
+            /** The rate at which this commodity's price is updated. New values may be added over time. */
             export const UpdateInterval = {
                 PerSecond: "PER_SECOND",
                 PerMinute: "PER_MINUTE",
@@ -48,6 +56,7 @@ export namespace CommoditySymbolsV2Response {
                 PerDay: "PER_DAY",
                 PerWeek: "PER_WEEK",
                 PerMonth: "PER_MONTH",
+                Per6Months: "PER_6_MONTHS",
             } as const;
             export type UpdateInterval = (typeof UpdateInterval)[keyof typeof UpdateInterval];
 

@@ -2,7 +2,6 @@
 
 export const BulkCurrentWeatherRequestFormat = {
     Json: "json",
-    Xml: "xml",
 } as const;
 export type BulkCurrentWeatherRequestFormat =
     (typeof BulkCurrentWeatherRequestFormat)[keyof typeof BulkCurrentWeatherRequestFormat];

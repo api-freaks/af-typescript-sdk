@@ -7,6 +7,8 @@ export interface CommodityHistoricalRatesV2Response {
     date: string;
     /** Map of requested commodity symbols to their OHLC price data on the given date. */
     rates: Record<string, CommodityHistoricalRatesV2Response.Rates.Value>;
+    /** Present only on a 206 Partial Content response, when some requested symbols could not be resolved. Map of each unresolved symbol to a detail message and optional close-match suggestions. */
+    unresolved?: Record<string, CommodityHistoricalRatesV2Response.Unresolved.Value> | undefined;
 }
 
 export namespace CommodityHistoricalRatesV2Response {
@@ -22,6 +24,15 @@ export namespace CommodityHistoricalRatesV2Response {
             low: number;
             /** Closing price on the given date. */
             close: number;
+        }
+    }
+
+    export namespace Unresolved {
+        export interface Value {
+            /** Detail message explaining why this symbol was not resolved. */
+            message?: string | undefined;
+            /** Optional list of supported symbols that closely match the unresolved symbol. */
+            suggestions?: string[] | undefined;
         }
     }
 }

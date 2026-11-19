@@ -12,8 +12,8 @@ export declare namespace SubdomainsLookupResponse {
     namespace Subdomains {
         interface Item {
             subdomain: string;
-            first_seen: string;
-            last_seen: string;
+            first_seen?: string | undefined;
+            last_seen?: string | undefined;
             /** The date from which the subdomain is considered inactive. Appears only if the subdomain is no longer active. */
             inactive_from?: string | undefined;
         }

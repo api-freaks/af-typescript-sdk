@@ -5,45 +5,13 @@ import type * as ApifreaksApi from "../../index.js";
  *         apiKey: "apiKey",
  *         url: "https://example.com",
  *         body: {
- *             blockUrl: ["https://example.com/ads.js", "https://tracker.example.com/*"],
- *             cookies: [{
- *                     name: "sessionid",
- *                     value: "abc123"
- *                 }, {
- *                     name: "user_pref",
- *                     value: "darkmode"
- *                 }],
- *             instructions: [{
- *                     fill: {
- *                         place: "#username",
- *                         value: "myuser"
- *                     }
- *                 }, {
- *                     fill: {
- *                         place: "#password",
- *                         value: "mypassword"
- *                     }
- *                 }, {
- *                     click: "#loginButton"
- *                 }, {
- *                     wait: 2000
- *                 }, {
+ *             instructions: [{}, {}, {}, {}, {
  *                     extract: {
- *                         html: "#profile",
- *                         text: "#welcome-message",
- *                         user_data: "#user-info"
+ *                         "profile": "#profile",
+ *                         "welcomeMessage": "#welcome-message",
+ *                         "userInfo": "#user-info"
  *                     }
- *                 }, {
- *                     blockElement: [".ad-banner", "//div[@class='popup']"]
- *                 }, {
- *                     generalImageCaptcha: [{
- *                             imagePath: "#captcha-img",
- *                             textField: "#captcha-input",
- *                             imageUpdatePath: "#refresh-captcha",
- *                             captchaFailedPath: "#captcha-error",
- *                             model: "mini-ocr-v1"
- *                         }]
- *                 }]
+ *                 }, {}, {}]
  *         }
  *     }
  *
@@ -54,20 +22,27 @@ import type * as ApifreaksApi from "../../index.js";
  *         body: {
  *             instructions: [{
  *                     postForm: {
- *                         selector: "#loginForm"
+ *                         selector: "#loginForm",
+ *                         data: {
+ *                             "username": "myuser",
+ *                             "password": "mypassword"
+ *                         }
  *                     }
  *                 }, {
  *                     extract: {
- *                         html: "#main-content",
- *                         text: "#welcome-message"
+ *                         "mainContent": "#main-content",
+ *                         "welcomeMessage": "#welcome-message"
  *                     }
  *                 }, {
  *                     getForm: {
- *                         selector: "#searchForm"
+ *                         selector: "#searchForm",
+ *                         data: {
+ *                             "query": "API scraping"
+ *                         }
  *                     }
  *                 }, {
  *                     extract: {
- *                         text: "#search-results"
+ *                         "searchResults": "#search-results"
  *                     }
  *                 }]
  *         }
@@ -89,7 +64,7 @@ export interface WebScrapeRequest {
      *  Default value is `true`.
      */
     jsEnabled?: boolean;
-    /** Use proxy for requests */
+    /** Use a proxy for the request. Pass true/false to toggle the default proxy pool, or a proxy URL string to use a specific proxy. */
     proxy?: ApifreaksApi.WebScrapeRequestProxy;
     /**
      * Ignore SSL certificate errors.

@@ -9,16 +9,6 @@ export declare namespace WeatherTimeSeriesResponse {
      * Location information
      */
     type Location = {
-        latitude: number;
-        longitude: number;
-        country_name: string;
-        state_prov: string;
-        city: string;
-        locality?: string | undefined;
-        elevation?: number | undefined;
-        timezone: string;
-        timezone_abbreviation: string;
-    } | {
         continent_code: string;
         continent_name: string;
         country_code2: string;
@@ -31,10 +21,10 @@ export declare namespace WeatherTimeSeriesResponse {
         district?: string | undefined;
         city: string;
         zipcode?: string | undefined;
-        latitude: number;
-        longitude: number;
+        latitude: string;
+        longitude: string;
         locality?: string | undefined;
-        elevation?: number | undefined;
+        elevation?: string | undefined;
         timezone: string;
         timezone_abbreviation: string;
     } | {
@@ -43,9 +33,19 @@ export declare namespace WeatherTimeSeriesResponse {
         state_prov: string;
         city: string;
         locality?: string | undefined;
-        latitude: number;
-        longitude: number;
-        elevation?: number | undefined;
+        latitude: string;
+        longitude: string;
+        elevation?: string | undefined;
+        timezone: string;
+        timezone_abbreviation: string;
+    } | {
+        latitude: string;
+        longitude: string;
+        country_name: string;
+        state_prov: string;
+        city: string;
+        locality?: string | undefined;
+        elevation?: string | undefined;
         timezone: string;
         timezone_abbreviation: string;
     };
@@ -63,7 +63,7 @@ export declare namespace WeatherTimeSeriesResponse {
              * Daily historical data
              */
             interface Daily {
-                /** ISO 8601 formatted timestamp */
+                /** Date of this daily entry, `YYYY-MM-DD`. */
                 timestamp?: string | undefined;
                 /** Weather condition code */
                 weather_code?: number | undefined;
@@ -125,7 +125,7 @@ export declare namespace WeatherTimeSeriesResponse {
             type Hourly = Hourly.Item[];
             namespace Hourly {
                 interface Item {
-                    /** ISO 8601 formatted timestamp */
+                    /** Local timestamp of this reading (format YYYY-MM-DDTHH:mm, not ISO 8601). */
                     timestamp?: string | undefined;
                     /** Air temperature at 2 meters (°C) */
                     temperature_2m?: number | undefined;

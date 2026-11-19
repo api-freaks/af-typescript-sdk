@@ -5,6 +5,8 @@ import * as errors from "../../errors/index.js";
 import type * as ApifreaksApi from "../index.js";
 
 export class MethodNotAllowedError extends errors.ApifreaksApiError {
+    public declare readonly body: ApifreaksApi.MethodNotAllowedErrorBody;
+
     constructor(body: ApifreaksApi.MethodNotAllowedErrorBody, rawResponse?: core.RawResponse) {
         super({
             message: "MethodNotAllowedError",
@@ -17,6 +19,6 @@ export class MethodNotAllowedError extends errors.ApifreaksApiError {
             Error.captureStackTrace(this, this.constructor);
         }
 
-        this.name = this.constructor.name;
+        this.name = "MethodNotAllowedError";
     }
 }

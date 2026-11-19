@@ -14,11 +14,8 @@ export interface DomainDnsHistoryRequest {
     format?: ApifreaksApi.DomainDnsHistoryRequestFormat;
     /** Hostname or URL whose historical DNS records are required */
     "host-name": string;
-    /**
-     * A comma-separated list of DNS record types for lookup.
-     * Possible values: A, AAAA, MX, NS, SOA, SPF, TXT, CNAME, or all
-     */
-    type: string | string[];
+    /** DNS record types to look up, sent as a comma-separated list (e.g. `A,MX`). Possible values: A, AAAA, MX, NS, SOA, SPF, TXT, CNAME, or all. */
+    type?: string | string[];
     /** Page number for paginated results */
     page?: number;
 }

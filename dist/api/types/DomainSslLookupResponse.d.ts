@@ -1,5 +1,6 @@
 export interface DomainSslLookupResponse {
     domainName: string;
+    /** Timestamp when the query was executed (format YYYY-MM-DD HH:mm:ss, not ISO 8601). */
     queryTime: string;
     sslCertificates: DomainSslLookupResponse.SslCertificates.Item[];
     sslRaw?: string | undefined;
@@ -38,11 +39,11 @@ export declare namespace DomainSslLookupResponse {
             }
             interface Issuer {
                 commonName: string;
-                organization: string;
+                organization?: string | undefined;
                 organizationalUnit?: string | undefined;
                 locality?: string | undefined;
                 state?: string | undefined;
-                country: string;
+                country?: string | undefined;
                 incCountry?: string | undefined;
                 incState?: string | undefined;
                 businessCategory?: string | undefined;
@@ -59,11 +60,11 @@ export declare namespace DomainSslLookupResponse {
                 authorityKeyIdentifier: string;
                 subjectKeyIdentifier: string;
                 keyUsages: string[];
-                extendedKeyUsages: string[];
+                extendedKeyUsages?: string[] | undefined;
                 crlDistributionPoints?: string[] | undefined;
-                authorityInfoAccess: Extensions.AuthorityInfoAccess;
+                authorityInfoAccess?: Extensions.AuthorityInfoAccess | undefined;
                 subjectAlternativeNames?: Extensions.SubjectAlternativeNames | undefined;
-                certificatePolicies: Extensions.CertificatePolicies;
+                certificatePolicies?: Extensions.CertificatePolicies.Item[] | undefined;
             }
             namespace Extensions {
                 interface AuthorityInfoAccess {
@@ -76,25 +77,38 @@ export declare namespace DomainSslLookupResponse {
                     ipAddresses?: string[] | undefined;
                     uris?: string[] | undefined;
                 }
-                interface CertificatePolicies {
-                    policyId: string;
-                    policyQualifier?: CertificatePolicies.PolicyQualifier | undefined;
-                }
+                type CertificatePolicies = CertificatePolicies.Item[];
                 namespace CertificatePolicies {
-                    interface PolicyQualifier {
-                        oid?: string | undefined;
-                        cpsUri?: string | undefined;
-                        userNotice?: PolicyQualifier.UserNotice | undefined;
+                    interface Item {
+                        /** Policy identifier */
+                        policyId: string;
+                        /** Policy qualifier details */
+                        policyQualifier?: Item.PolicyQualifier | undefined;
                     }
-                    namespace PolicyQualifier {
-                        interface UserNotice {
-                            explicitText?: string | undefined;
-                            noticeRef?: UserNotice.NoticeRef | undefined;
+                    namespace Item {
+                        /**
+                         * Policy qualifier details
+                         */
+                        interface PolicyQualifier {
+                            /** Object identifier */
+                            oid?: string | undefined;
+                            /** URI of the CPS */
+                            cpsUri?: string | undefined;
+                            userNotice?: PolicyQualifier.UserNotice | undefined;
                         }
-                        namespace UserNotice {
-                            interface NoticeRef {
-                                organization?: string | undefined;
-                                noticeNumbers?: string | undefined;
+                        namespace PolicyQualifier {
+                            interface UserNotice {
+                                /** Explicit text notice */
+                                explicitText?: string | undefined;
+                                noticeRef?: UserNotice.NoticeRef | undefined;
+                            }
+                            namespace UserNotice {
+                                interface NoticeRef {
+                                    /** Organization providing the notice */
+                                    organization?: string | undefined;
+                                    /** Notice numbers */
+                                    noticeNumbers?: string | undefined;
+                                }
                             }
                         }
                     }

@@ -33,6 +33,7 @@ export declare namespace AsnWhoisLookupResponse {
             origin: string;
             originName: string;
             isp: string;
+            /** Number of IP addresses in the route. IPv6 routes exceed the 64-bit integer range, so this is a floating-point number. */
             numberOfIps: number;
         }
     }
@@ -51,6 +52,12 @@ export declare namespace AsnWhoisLookupResponse {
         organization: ParsedWhoisResponse.Organization;
         technical_contacts: ParsedWhoisResponse.TechnicalContacts.Item[];
         abuse_contacts: ParsedWhoisResponse.AbuseContacts.Item[];
+        /** Timestamp when the WHOIS query was executed, in `YYYY-MM-DD HH:mm:ss` format — not ISO 8601 (no `T` separator, no milliseconds, no `Z`). */
+        query_time?: string | undefined;
+        /** Raw referral WHOIS (rwhois) text, when the registry delegates to a referral server. */
+        r_whois_raw_response?: string | undefined;
+        /** Unparsed raw WHOIS text, when returned separately from whoisResponse. */
+        whois_raw_response?: string | undefined;
     }
     namespace ParsedWhoisResponse {
         type AutNums = AutNums.Item[];

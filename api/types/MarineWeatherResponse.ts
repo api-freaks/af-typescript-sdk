@@ -15,17 +15,6 @@ export namespace MarineWeatherResponse {
      */
     export type Location =
         | {
-              latitude: string;
-              longitude: string;
-              country_name: string;
-              state_prov: string;
-              city: string;
-              locality?: string | undefined;
-              elevation?: string | undefined;
-              timezone: string;
-              timezone_abbreviation: string;
-          }
-        | {
               continent_code: string;
               continent_name: string;
               country_code2: string;
@@ -53,6 +42,17 @@ export namespace MarineWeatherResponse {
               locality?: string | undefined;
               latitude: string;
               longitude: string;
+              elevation?: string | undefined;
+              timezone: string;
+              timezone_abbreviation: string;
+          }
+        | {
+              latitude: string;
+              longitude: string;
+              country_name: string;
+              state_prov: string;
+              city: string;
+              locality?: string | undefined;
               elevation?: string | undefined;
               timezone: string;
               timezone_abbreviation: string;
@@ -90,6 +90,10 @@ export namespace MarineWeatherResponse {
         ocean_current_velocity?: number | undefined;
         /** Direction of the ocean current (°) */
         ocean_current_direction?: number | undefined;
+        /** Peak period of swell waves in seconds. Frequently null even at locations with other wave data present. */
+        swell_wave_peak_period?: (number | null) | undefined;
+        /** Peak period of locally generated wind waves in seconds. Frequently null even at locations with other wave data present. */
+        wind_wave_peak_period?: (number | null) | undefined;
     }
 
     export namespace Forecast {

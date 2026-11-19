@@ -3,6 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.makeRequest = void 0;
 exports.isCacheNoStoreSupported = isCacheNoStoreSupported;
 exports.resetCacheNoStoreSupported = resetCacheNoStoreSupported;
+exports.clearResponseTimeout = clearResponseTimeout;
 const signals_js_1 = require("./signals.js");
 /**
  * Cached result of checking whether the current runtime supports
@@ -29,30 +30,62 @@ function isCacheNoStoreSupported() {
 function resetCacheNoStoreSupported() {
     _cacheNoStoreSupported = undefined;
 }
-const makeRequest = async (fetchFn, url, method, headers, requestBody, timeoutMs, abortSignal, withCredentials, duplex, disableCache) => {
+const responseTimeouts = new WeakMap();
+/**
+ * Clears the timeout that `makeRequest` kept running (with `keepTimeoutUntilBodyRead`) so that it also
+ * covered reading the response body.
+ */
+function clearResponseTimeout(response) {
+    const timeoutId = responseTimeouts.get(response);
+    if (timeoutId != null) {
+        clearTimeout(timeoutId);
+        responseTimeouts.delete(response);
+    }
+}
+const makeRequest = async (fetchFn, url, method, headers, requestBody, timeoutMs, abortSignal, withCredentials, duplex, disableCache, keepTimeoutUntilBodyRead) => {
     const signals = [];
     let timeoutAbortId;
+    let timeoutSignal;
     if (timeoutMs != null) {
         const { signal, abortId } = (0, signals_js_1.getTimeoutSignal)(timeoutMs);
         timeoutAbortId = abortId;
+        timeoutSignal = signal;
         signals.push(signal);
     }
     if (abortSignal != null) {
         signals.push(abortSignal);
     }
     const newSignals = (0, signals_js_1.anySignal)(signals);
-    const response = await fetchFn(url, {
-        method: method,
-        headers,
-        body: requestBody,
-        signal: newSignals,
-        credentials: withCredentials ? "include" : undefined,
-        // @ts-ignore
-        duplex,
-        ...(disableCache && isCacheNoStoreSupported() ? { cache: "no-store" } : {}),
-    });
+    let response;
+    try {
+        response = await fetchFn(url, {
+            method: method,
+            headers,
+            body: requestBody,
+            signal: newSignals,
+            credentials: withCredentials ? "include" : undefined,
+            // @ts-ignore
+            duplex,
+            ...(disableCache && isCacheNoStoreSupported() ? { cache: "no-store" } : {}),
+        });
+    }
+    catch (error) {
+        if (timeoutAbortId != null) {
+            clearTimeout(timeoutAbortId);
+        }
+        // Some runtimes (e.g. Node 18) reject with their own error instead of the abort reason.
+        if (timeoutSignal?.aborted && !abortSignal?.aborted) {
+            throw signals_js_1.TIMEOUT;
+        }
+        throw error;
+    }
     if (timeoutAbortId != null) {
-        clearTimeout(timeoutAbortId);
+        if (keepTimeoutUntilBodyRead) {
+            responseTimeouts.set(response, timeoutAbortId);
+        }
+        else {
+            clearTimeout(timeoutAbortId);
+        }
     }
     return response;
 };

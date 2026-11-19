@@ -17,7 +17,12 @@ export interface EmailValidateResponse {
 export namespace EmailValidateResponse {
     export const ValidEmail = {
         Valid: "valid",
+        AcceptAll: "accept_all",
         Invalid: "invalid",
+        InvalidEmail: "INVALID_EMAIL",
+        Unknown: "unknown",
+        Risky: "risky",
+        AppServerBlocked: "app_server_blocked",
     } as const;
     export type ValidEmail = (typeof ValidEmail)[keyof typeof ValidEmail];
 
@@ -26,7 +31,7 @@ export namespace EmailValidateResponse {
         disposable: boolean;
         spam: boolean;
         free: boolean;
-        catchAll: boolean;
+        catchAll?: boolean | undefined;
         validDomain: boolean;
     }
 

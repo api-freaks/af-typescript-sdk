@@ -30,4 +30,5 @@ __exportStar(require("./RequestTimeoutError.js"), exports);
 __exportStar(require("./ServiceUnavailableError.js"), exports);
 __exportStar(require("./TooManyRequestsError.js"), exports);
 __exportStar(require("./UnauthorizedError.js"), exports);
+__exportStar(require("./UnprocessableEntityError.js"), exports);
 __exportStar(require("./UnsupportedMediaTypeError.js"), exports);

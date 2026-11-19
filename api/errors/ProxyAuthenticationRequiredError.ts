@@ -5,6 +5,8 @@ import * as errors from "../../errors/index.js";
 import type * as ApifreaksApi from "../index.js";
 
 export class ProxyAuthenticationRequiredError extends errors.ApifreaksApiError {
+    public declare readonly body: ApifreaksApi.ProxyAuthenticationRequiredErrorBody;
+
     constructor(body: ApifreaksApi.ProxyAuthenticationRequiredErrorBody, rawResponse?: core.RawResponse) {
         super({
             message: "ProxyAuthenticationRequiredError",
@@ -17,6 +19,6 @@ export class ProxyAuthenticationRequiredError extends errors.ApifreaksApiError {
             Error.captureStackTrace(this, this.constructor);
         }
 
-        this.name = this.constructor.name;
+        this.name = "ProxyAuthenticationRequiredError";
     }
 }

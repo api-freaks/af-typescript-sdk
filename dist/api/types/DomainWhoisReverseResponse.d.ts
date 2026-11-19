@@ -1,6 +1,9 @@
 export interface DomainWhoisReverseResponse {
+    /** Total results found across the query. */
     total_Result?: number | undefined;
+    /** Total number of pages (50 records per page in default mode, 100 in mini mode). */
     total_Pages?: number | undefined;
+    /** Current page number. */
     current_Page?: number | undefined;
     whois_domains_historical?: DomainWhoisReverseResponse.WhoisDomainsHistorical.Item[] | undefined;
 }
@@ -11,9 +14,9 @@ export declare namespace DomainWhoisReverseResponse {
             num: number;
             status: boolean;
             domain_name: string;
-            query_time: string;
-            whois_server: string;
-            domain_registered: "yes" | "no" | "restricted";
+            query_time?: string | undefined;
+            whois_server?: string | undefined;
+            domain_registered?: ("yes" | "no" | "restricted") | undefined;
             create_date?: string | undefined;
             update_date?: string | undefined;
             expiry_date?: string | undefined;
@@ -24,6 +27,9 @@ export declare namespace DomainWhoisReverseResponse {
                 website_url?: string | undefined;
                 email_address?: string | undefined;
                 phone_number?: string | undefined;
+                normalized_name?: (string | null) | undefined;
+                rdap_server?: (string | null) | undefined;
+                status?: (string | null) | undefined;
             } | undefined;
             reseller_contact?: {
                 name?: string | undefined;
@@ -38,6 +44,8 @@ export declare namespace DomainWhoisReverseResponse {
                 phone?: string | undefined;
                 fax?: string | undefined;
                 mailing_address?: string | undefined;
+                handle?: (string | null) | undefined;
+                id?: (string | null) | undefined;
             } | undefined;
             registrant_contact?: {
                 name?: string | undefined;
@@ -52,6 +60,8 @@ export declare namespace DomainWhoisReverseResponse {
                 phone?: string | undefined;
                 fax?: string | undefined;
                 mailing_address?: string | undefined;
+                handle?: (string | null) | undefined;
+                id?: (string | null) | undefined;
             } | undefined;
             administrative_contact?: {
                 name?: string | undefined;
@@ -66,6 +76,8 @@ export declare namespace DomainWhoisReverseResponse {
                 phone?: string | undefined;
                 fax?: string | undefined;
                 mailing_address?: string | undefined;
+                handle?: (string | null) | undefined;
+                id?: (string | null) | undefined;
             } | undefined;
             technical_contact?: {
                 name?: string | undefined;
@@ -80,6 +92,8 @@ export declare namespace DomainWhoisReverseResponse {
                 phone?: string | undefined;
                 fax?: string | undefined;
                 mailing_address?: string | undefined;
+                handle?: (string | null) | undefined;
+                id?: (string | null) | undefined;
             } | undefined;
             billing_contact?: {
                 name?: string | undefined;
@@ -94,6 +108,8 @@ export declare namespace DomainWhoisReverseResponse {
                 phone?: string | undefined;
                 fax?: string | undefined;
                 mailing_address?: string | undefined;
+                handle?: (string | null) | undefined;
+                id?: (string | null) | undefined;
             } | undefined;
             name_servers?: string[] | undefined;
             domain_status?: string[] | undefined;
@@ -116,6 +132,9 @@ export declare namespace DomainWhoisReverseResponse {
                     website_url?: string | undefined;
                     email_address?: string | undefined;
                     phone_number?: string | undefined;
+                    normalized_name?: (string | null) | undefined;
+                    rdap_server?: (string | null) | undefined;
+                    status?: (string | null) | undefined;
                 } | undefined;
             } | undefined;
         } | {
@@ -126,6 +145,7 @@ export declare namespace DomainWhoisReverseResponse {
             expiry_date?: string | undefined;
             name?: string | undefined;
             email?: string | undefined;
+            companyname?: string | undefined;
             company_name?: string | undefined;
         };
     }

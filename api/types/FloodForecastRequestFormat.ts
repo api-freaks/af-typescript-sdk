@@ -2,6 +2,5 @@
 
 export const FloodForecastRequestFormat = {
     Json: "json",
-    Xml: "xml",
 } as const;
 export type FloodForecastRequestFormat = (typeof FloodForecastRequestFormat)[keyof typeof FloodForecastRequestFormat];

@@ -1,0 +1,34 @@
+export interface CommodityHistoricalRatesV2Response {
+    /** API request success indicator. "true" for successful requests. */
+    success: boolean;
+    /** Date for which the user requested the commodity price. Format: YYYY-MM-DD. */
+    date: string;
+    /** Map of requested commodity symbols to their OHLC price data on the given date. */
+    rates: Record<string, CommodityHistoricalRatesV2Response.Rates.Value>;
+    /** Present only on a 206 Partial Content response, when some requested symbols could not be resolved. Map of each unresolved symbol to a detail message and optional close-match suggestions. */
+    unresolved?: Record<string, CommodityHistoricalRatesV2Response.Unresolved.Value> | undefined;
+}
+export declare namespace CommodityHistoricalRatesV2Response {
+    namespace Rates {
+        interface Value {
+            /** Date for which prices were fetched (YYYY-MM-DD). May differ from the requested date when the API falls back to the last available rate before it, or snaps to the first day of the month for monthly-updated commodities. */
+            date: string;
+            /** Opening price on the given date. 0 for monthly-updated commodities. */
+            open: number;
+            /** Highest price recorded on the given date. 0 for monthly-updated commodities. */
+            high: number;
+            /** Lowest price recorded on the given date. 0 for monthly-updated commodities. */
+            low: number;
+            /** Closing price on the given date. */
+            close: number;
+        }
+    }
+    namespace Unresolved {
+        interface Value {
+            /** Detail message explaining why this symbol was not resolved. */
+            message?: string | undefined;
+            /** Optional list of supported symbols that closely match the unresolved symbol. */
+            suggestions?: string[] | undefined;
+        }
+    }
+}

@@ -5,7 +5,7 @@ export interface PdfGetTaskStatusResponse {
     status: string;
     /** The timestamp when the task status was created, formatted as 'yyyy-MM-dd HH:mm:ss'. */
     createdAt: string;
-    /** The URL to download all output files as a single ZIP archive. This is present only when the task status is 'COMPLETED'. */
+    /** Deprecated: the API returns this field as `zipFileUrl`; read `zipFileUrl` instead. */
     zipOutputUrl?: string | undefined;
     /** The unique identifier for the ZIP file. This is present only when the task status is 'COMPLETED'. */
     zipFileId?: string | undefined;
@@ -21,4 +21,6 @@ export interface PdfGetTaskStatusResponse {
     message?: string | undefined;
     /** The timestamp when the task status will expire and be removed from the system, formatted as 'yyyy-MM-dd HH:mm:ss'. */
     expiresAt?: string | undefined;
+    /** URL to download all output files as a ZIP archive; present only on completed tasks. */
+    zipFileUrl?: string | undefined;
 }

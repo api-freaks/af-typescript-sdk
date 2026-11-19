@@ -8,6 +8,7 @@ export declare namespace DomainDnsReverseResponse {
     type ReverseDnsRecords = ReverseDnsRecords.Item[];
     namespace ReverseDnsRecords {
         interface Item {
+            /** Timestamp when the query was executed (format YYYY-MM-DD HH:mm:ss, not ISO 8601). */
             queryTime: string;
             domainName: string;
             domainRegistered?: boolean | undefined;
@@ -24,6 +25,7 @@ export declare namespace DomainDnsReverseResponse {
                 SOA?: number | undefined;
                 TXT?: number | undefined;
                 SPF?: number | undefined;
+                PTR?: number | undefined;
             }
             type DnsRecords = DnsRecords.Item[];
             namespace DnsRecords {
@@ -38,20 +40,20 @@ export declare namespace DomainDnsReverseResponse {
                 } | {
                     name: string;
                     type: number;
-                    dnsType: "CNAME";
-                    ttl: number;
-                    rawText: string;
-                    rRsetType: number;
-                    target: string;
-                } | {
-                    name: string;
-                    type: number;
                     dnsType: "MX";
                     ttl: number;
                     rawText: string;
                     rRsetType: number;
                     target: string;
                     priority: number;
+                } | {
+                    name: string;
+                    type: number;
+                    dnsType: "CNAME";
+                    ttl: number;
+                    rawText: string;
+                    rRsetType: number;
+                    target: string;
                 } | {
                     name: string;
                     type: number;

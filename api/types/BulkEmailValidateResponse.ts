@@ -26,7 +26,12 @@ export namespace BulkEmailValidateResponse {
         export namespace Item {
             export const ValidEmail = {
                 Valid: "valid",
+                AcceptAll: "accept_all",
                 Invalid: "invalid",
+                InvalidEmail: "INVALID_EMAIL",
+                Unknown: "unknown",
+                Risky: "risky",
+                AppServerBlocked: "app_server_blocked",
             } as const;
             export type ValidEmail = (typeof ValidEmail)[keyof typeof ValidEmail];
 
@@ -35,7 +40,7 @@ export namespace BulkEmailValidateResponse {
                 disposable: boolean;
                 spam: boolean;
                 free: boolean;
-                catchAll: boolean;
+                catchAll?: boolean | undefined;
                 validDomain: boolean;
             }
 

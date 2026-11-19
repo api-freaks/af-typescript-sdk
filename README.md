@@ -1,7 +1,7 @@
 # Apifreaks TypeScript SDK
 
 [![fern shield](https://img.shields.io/badge/%F0%9F%8C%BF-Built%20with%20Fern-brightgreen)](https://buildwithfern.com?utm_source=github&utm_medium=github&utm_campaign=readme&utm_source=Apifreaks%2FTypescript)
-[![npm shield](https://img.shields.io/npm/v/@api-freaks/sdk)](https://www.npmjs.com/package/@api-freaks/sdk)
+[![npm shield](https://img.shields.io/npm/v/@apifreaks/sdk)](https://www.npmjs.com/package/@apifreaks/sdk)
 
 The Apifreaks TypeScript library provides convenient access to the Apifreaks APIs from JavaScript and TypeScript.
 
@@ -27,19 +27,19 @@ The Apifreaks TypeScript library provides convenient access to the Apifreaks API
 Install the package with npm:
 
 ```sh
-npm install @api-freaks/sdk
+npm install @apifreaks/sdk
 ```
 
 Or with yarn:
 
 ```sh
-yarn add @api-freaks/sdk
+yarn add @apifreaks/sdk
 ```
 
 Or with pnpm:
 
 ```sh
-pnpm add @api-freaks/sdk
+pnpm add @apifreaks/sdk
 ```
 
 ## Reference
@@ -51,7 +51,7 @@ A full reference for this library is available [here](./reference.md).
 Instantiate and use the client with the following:
 
 ```typescript
-import { ApifreaksApiClient } from "@api-freaks/sdk";
+import { ApifreaksApiClient } from "@apifreaks/sdk";
 
 const client = new ApifreaksApiClient();
 
@@ -70,17 +70,19 @@ main().catch(console.error);
 CommonJS usage is also supported after publishing:
 
 ```javascript
-const { ApifreaksApiClient } = require("@api-freaks/sdk");
+const { ApifreaksApiClient } = require("@apifreaks/sdk");
 
 const client = new ApifreaksApiClient();
 ```
+
+> **Note:** `getCreditsUsage` requires an organization-admin API key; with any other key the API returns 403 (`ForbiddenError`).
 
 ## Environments
 
 This SDK allows you to configure the base URL for API requests.
 
 ```typescript
-import { ApifreaksApiClient, ApifreaksApiEnvironment } from "@api-freaks/sdk";
+import { ApifreaksApiClient, ApifreaksApiEnvironment } from "@apifreaks/sdk";
 
 const client = new ApifreaksApiClient({
     environment: ApifreaksApiEnvironment.Default,
@@ -100,7 +102,7 @@ const client = new ApifreaksApiClient({
 When the API returns a non-success status code, the SDK throws an error. You can catch the base `ApifreaksApiError` or one of the exported status-specific errors.
 
 ```typescript
-import { ApifreaksApiClient, ApifreaksApiError } from "@api-freaks/sdk";
+import { ApifreaksApiClient, ApifreaksApiError } from "@apifreaks/sdk";
 
 const client = new ApifreaksApiClient();
 
@@ -126,7 +128,7 @@ try {
 The SDK exports request and response types through the `ApifreaksApi` namespace.
 
 ```typescript
-import { ApifreaksApiClient, type ApifreaksApi } from "@api-freaks/sdk";
+import { ApifreaksApiClient, type ApifreaksApi } from "@apifreaks/sdk";
 
 const client = new ApifreaksApiClient();
 
@@ -162,7 +164,7 @@ const response = await client.geolocationLookup(
 
 ### Timeouts
 
-The SDK defaults to a 60 second timeout. Configure the timeout globally on the client or per request.
+The SDK defaults to a 60 second timeout. Configure the timeout globally on the client or per request. A timed-out request throws `ApifreaksApiTimeoutError`, a subclass of `ApifreaksApiError` whose `statusCode` is `undefined`.
 
 ```typescript
 const client = new ApifreaksApiClient({

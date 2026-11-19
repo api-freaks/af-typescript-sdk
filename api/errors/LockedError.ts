@@ -2,9 +2,12 @@
 
 import type * as core from "../../core/index.js";
 import * as errors from "../../errors/index.js";
+import type * as ApifreaksApi from "../index.js";
 
 export class LockedError extends errors.ApifreaksApiError {
-    constructor(body?: unknown, rawResponse?: core.RawResponse) {
+    public declare readonly body: ApifreaksApi.LockedErrorBody;
+
+    constructor(body: ApifreaksApi.LockedErrorBody, rawResponse?: core.RawResponse) {
         super({
             message: "LockedError",
             statusCode: 423,
@@ -16,6 +19,6 @@ export class LockedError extends errors.ApifreaksApiError {
             Error.captureStackTrace(this, this.constructor);
         }
 
-        this.name = this.constructor.name;
+        this.name = "LockedError";
     }
 }

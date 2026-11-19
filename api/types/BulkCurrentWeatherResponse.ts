@@ -22,17 +22,6 @@ export namespace BulkCurrentWeatherResponse {
              */
             export type Location =
                 | {
-                      latitude: string;
-                      longitude: string;
-                      country_name: string;
-                      state_prov: string;
-                      city: string;
-                      locality?: string | undefined;
-                      elevation?: string | undefined;
-                      timezone: string;
-                      timezone_abbreviation: string;
-                  }
-                | {
                       continent_code: string;
                       continent_name: string;
                       country_code2: string;
@@ -60,6 +49,17 @@ export namespace BulkCurrentWeatherResponse {
                       locality?: string | undefined;
                       latitude: string;
                       longitude: string;
+                      elevation?: string | undefined;
+                      timezone: string;
+                      timezone_abbreviation: string;
+                  }
+                | {
+                      latitude: string;
+                      longitude: string;
+                      country_name: string;
+                      state_prov: string;
+                      city: string;
+                      locality?: string | undefined;
                       elevation?: string | undefined;
                       timezone: string;
                       timezone_abbreviation: string;

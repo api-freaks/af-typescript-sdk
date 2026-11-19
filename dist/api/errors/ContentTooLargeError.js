@@ -48,7 +48,7 @@ class ContentTooLargeError extends errors.ApifreaksApiError {
         if (Error.captureStackTrace) {
             Error.captureStackTrace(this, this.constructor);
         }
-        this.name = this.constructor.name;
+        this.name = "ContentTooLargeError";
     }
 }
 exports.ContentTooLargeError = ContentTooLargeError;

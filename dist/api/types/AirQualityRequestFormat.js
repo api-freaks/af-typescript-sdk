@@ -4,5 +4,4 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AirQualityRequestFormat = void 0;
 exports.AirQualityRequestFormat = {
     Json: "json",
-    Xml: "xml",
 };

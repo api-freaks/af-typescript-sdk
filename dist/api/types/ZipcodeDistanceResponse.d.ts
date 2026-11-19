@@ -1,5 +1,5 @@
 export interface ZipcodeDistanceResponse {
-    /** Number of distance results returned */
+    /** Number of distance results returned (may be less than the number of requested compare codes). */
     result_count?: number | undefined;
     results?: ZipcodeDistanceResponse.Results.Item[] | undefined;
 }
