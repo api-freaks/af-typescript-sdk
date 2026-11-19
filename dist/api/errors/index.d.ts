@@ -14,4 +14,5 @@ export * from "./RequestTimeoutError.js";
 export * from "./ServiceUnavailableError.js";
 export * from "./TooManyRequestsError.js";
 export * from "./UnauthorizedError.js";
+export * from "./UnprocessableEntityError.js";
 export * from "./UnsupportedMediaTypeError.js";

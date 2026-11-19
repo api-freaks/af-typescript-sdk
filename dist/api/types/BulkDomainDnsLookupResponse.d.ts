@@ -7,13 +7,13 @@ export declare namespace BulkDomainDnsLookupResponse {
         interface Item {
             /** Indicates whether the query was processed successfully. */
             status: boolean;
-            /** Time at which the query was made (Format:YYYY-MM-DD HH:mm:ss). */
+            /** Timestamp when the query was executed (format YYYY-MM-DD HH:mm:ss, not ISO 8601). */
             queryTime: string;
-            /** Queried domain. */
+            /** Queried domain. Absent when this result is for a queried IP address instead (see `ipAddress`). */
             domainName?: string | undefined;
-            /** Indicates whether the domain is registered. */
+            /** Indicates whether the domain is registered. Absent when this result is for a queried IP address instead. */
             domainRegistered?: boolean | undefined;
-            /** IP address associated with the record. */
+            /** Queried IP address, present when this result is for reverse DNS (PTR) enrichment instead of a domain name. */
             ipAddress?: string | undefined;
             dnsTypes: Item.DnsTypes;
             /** List of DNS records, each based on its type. */
@@ -44,14 +44,6 @@ export declare namespace BulkDomainDnsLookupResponse {
                 } | {
                     name: string;
                     type: number;
-                    dnsType: "CNAME";
-                    ttl: number;
-                    rawText: string;
-                    rRsetType: number;
-                    target: string;
-                } | {
-                    name: string;
-                    type: number;
                     dnsType: "MX";
                     ttl: number;
                     rawText: string;
@@ -61,7 +53,15 @@ export declare namespace BulkDomainDnsLookupResponse {
                 } | {
                     name: string;
                     type: number;
-                    dnsType: "NS";
+                    dnsType: "CNAME";
+                    ttl: number;
+                    rawText: string;
+                    rRsetType: number;
+                    target: string;
+                } | {
+                    name: string;
+                    type: number;
+                    dnsType: "NS" | "PTR";
                     ttl: number;
                     rawText: string;
                     rRsetType: number;

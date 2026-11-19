@@ -5,6 +5,8 @@ import * as errors from "../../errors/index.js";
 import type * as ApifreaksApi from "../index.js";
 
 export class NoResponseError extends errors.ApifreaksApiError {
+    public declare readonly body: ApifreaksApi.NoResponseErrorBody;
+
     constructor(body: ApifreaksApi.NoResponseErrorBody, rawResponse?: core.RawResponse) {
         super({
             message: "NoResponseError",
@@ -17,6 +19,6 @@ export class NoResponseError extends errors.ApifreaksApiError {
             Error.captureStackTrace(this, this.constructor);
         }
 
-        this.name = this.constructor.name;
+        this.name = "NoResponseError";
     }
 }

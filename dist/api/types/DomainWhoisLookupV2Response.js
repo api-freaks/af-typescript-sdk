@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.DomainWhoisLookupV2Response = void 0;
 var DomainWhoisLookupV2Response;
 (function (DomainWhoisLookupV2Response) {
+    /** Domain registration status; 'restricted' means the registry withholds registration details. */
     DomainWhoisLookupV2Response.DomainRegistered = {
         Yes: "yes",
         No: "no",
@@ -11,6 +12,7 @@ var DomainWhoisLookupV2Response;
     };
     let RegistryData;
     (function (RegistryData) {
+        /** Domain registration status as recorded by the registry. */
         RegistryData.DomainRegistered = {
             Yes: "yes",
             No: "no",

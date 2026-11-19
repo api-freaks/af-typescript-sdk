@@ -2,6 +2,5 @@
 
 export const AirQualityRequestFormat = {
     Json: "json",
-    Xml: "xml",
 } as const;
 export type AirQualityRequestFormat = (typeof AirQualityRequestFormat)[keyof typeof AirQualityRequestFormat];

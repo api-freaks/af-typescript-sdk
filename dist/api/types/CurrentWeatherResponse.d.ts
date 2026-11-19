@@ -9,16 +9,6 @@ export declare namespace CurrentWeatherResponse {
      * Location information
      */
     type Location = {
-        latitude: number;
-        longitude: number;
-        country_name: string;
-        state_prov: string;
-        city: string;
-        locality?: string | undefined;
-        elevation?: number | undefined;
-        timezone: string;
-        timezone_abbreviation: string;
-    } | {
         continent_code: string;
         continent_name: string;
         country_code2: string;
@@ -31,10 +21,10 @@ export declare namespace CurrentWeatherResponse {
         district?: string | undefined;
         city: string;
         zipcode?: string | undefined;
-        latitude: number;
-        longitude: number;
+        latitude: string;
+        longitude: string;
         locality?: string | undefined;
-        elevation?: number | undefined;
+        elevation?: string | undefined;
         timezone: string;
         timezone_abbreviation: string;
     } | {
@@ -43,9 +33,19 @@ export declare namespace CurrentWeatherResponse {
         state_prov: string;
         city: string;
         locality?: string | undefined;
-        latitude: number;
-        longitude: number;
-        elevation?: number | undefined;
+        latitude: string;
+        longitude: string;
+        elevation?: string | undefined;
+        timezone: string;
+        timezone_abbreviation: string;
+    } | {
+        latitude: string;
+        longitude: string;
+        country_name: string;
+        state_prov: string;
+        city: string;
+        locality?: string | undefined;
+        elevation?: string | undefined;
         timezone: string;
         timezone_abbreviation: string;
     };
@@ -53,7 +53,7 @@ export declare namespace CurrentWeatherResponse {
      * Current weather data
      */
     interface Current {
-        /** ISO 8601 formatted timestamp of the current weather observation. */
+        /** Local timestamp of the current weather observation (format YYYY-MM-DDTHH:mm, not ISO 8601). */
         timestamp: string;
         /** Current air temperature (°C) measured at 2 meters above ground. */
         temperature_2m: number;
@@ -124,7 +124,7 @@ export declare namespace CurrentWeatherResponse {
          * Air quality metrics including pollutant concentrations and AQI values.
          */
         interface AirQuality {
-            /** ISO 8601 formatted timestamp (iso8601). */
+            /** Local timestamp of the observation (format YYYY-MM-DDTHH:mm, not ISO 8601). */
             timestamp: string;
             /** Consolidated European Air Quality Index representing the highest value among individual pollutant indices. Ranges: 0-20 (good), 20-40 (fair), 40-60 (moderate), 60-80 (poor), 80-100 (very poor), >100 (extremely poor). */
             european_aqi: number;

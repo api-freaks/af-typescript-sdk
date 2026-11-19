@@ -2,6 +2,5 @@
 
 export const MarineWeatherRequestFormat = {
     Json: "json",
-    Xml: "xml",
 } as const;
 export type MarineWeatherRequestFormat = (typeof MarineWeatherRequestFormat)[keyof typeof MarineWeatherRequestFormat];

@@ -2,7 +2,6 @@
 
 export const CurrentWeatherRequestFormat = {
     Json: "json",
-    Xml: "xml",
 } as const;
 export type CurrentWeatherRequestFormat =
     (typeof CurrentWeatherRequestFormat)[keyof typeof CurrentWeatherRequestFormat];

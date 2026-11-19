@@ -1,10 +1,10 @@
 export interface BulkEmailValidateResponse {
     /** Array of SingleEmailValidationResponse objects for bulk validation */
-    emailValidationResponses?: BulkEmailValidateResponse.EmailValidationResponses.Item[] | undefined;
+    emailResponse: BulkEmailValidateResponse.EmailResponse.Item[];
 }
 export declare namespace BulkEmailValidateResponse {
-    type EmailValidationResponses = EmailValidationResponses.Item[];
-    namespace EmailValidationResponses {
+    type EmailResponse = EmailResponse.Item[];
+    namespace EmailResponse {
         interface Item {
             success: boolean;
             email: string;
@@ -15,15 +15,18 @@ export declare namespace BulkEmailValidateResponse {
             domain: Item.Domain;
             account: Item.Account;
             dns: Item.Dns;
-            ipAddress?: string | undefined;
+            ip?: string | undefined;
             address?: Item.Address | undefined;
         }
         namespace Item {
             const ValidEmail: {
                 readonly Valid: "valid";
-                readonly Invalid: "Invalid";
-                readonly Unknown: "Unknown";
-                readonly Risky: "Risky";
+                readonly AcceptAll: "accept_all";
+                readonly Invalid: "invalid";
+                readonly InvalidEmail: "INVALID_EMAIL";
+                readonly Unknown: "unknown";
+                readonly Risky: "risky";
+                readonly AppServerBlocked: "app_server_blocked";
             };
             type ValidEmail = (typeof ValidEmail)[keyof typeof ValidEmail];
             interface Domain {
@@ -31,7 +34,7 @@ export declare namespace BulkEmailValidateResponse {
                 disposable: boolean;
                 spam: boolean;
                 free: boolean;
-                catchAll: boolean;
+                catchAll?: boolean | undefined;
                 validDomain: boolean;
             }
             interface Account {
@@ -39,9 +42,9 @@ export declare namespace BulkEmailValidateResponse {
                 fullMailBox?: boolean | undefined;
             }
             interface Dns {
-                mxRecords: string[];
+                mxRecord: string[];
                 /** Collection of A (Address) records for the domain. */
-                aRecords: string[];
+                aRecord?: string[] | undefined;
             }
             interface Address {
                 security?: Address.Security | undefined;

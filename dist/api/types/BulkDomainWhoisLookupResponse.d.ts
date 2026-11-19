@@ -7,6 +7,7 @@ export declare namespace BulkDomainWhoisLookupResponse {
         interface Item {
             status?: boolean | undefined;
             domain_name?: string | undefined;
+            /** Timestamp when the WHOIS query was executed (format YYYY-MM-DD HH:mm:ss, not ISO 8601). */
             query_time?: string | undefined;
             whois_server?: string | undefined;
             domain_registered?: Item.DomainRegistered | undefined;
@@ -111,6 +112,7 @@ export declare namespace BulkDomainWhoisLookupResponse {
             }
             interface RegistryData {
                 domain_name?: string | undefined;
+                /** Timestamp when the WHOIS query was executed (format YYYY-MM-DD HH:mm:ss, not ISO 8601). */
                 query_time?: string | undefined;
                 whois_server?: string | undefined;
                 domain_registered?: RegistryData.DomainRegistered | undefined;
@@ -119,7 +121,10 @@ export declare namespace BulkDomainWhoisLookupResponse {
                 expiry_date?: string | undefined;
                 name_servers?: string[] | undefined;
                 domain_status?: string[] | undefined;
+                /** Deprecated: the API never returns this key; the raw registry WHOIS text is in `whois_raw_registery`. */
                 whois_raw_registry?: string | undefined;
+                /** Raw WHOIS text returned by the registry's WHOIS server (the key is spelled `whois_raw_registery` by the API). */
+                whois_raw_registery?: string | undefined;
                 domain_registrar?: RegistryData.DomainRegistrar | undefined;
             }
             namespace RegistryData {

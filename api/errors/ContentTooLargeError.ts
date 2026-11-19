@@ -2,9 +2,12 @@
 
 import type * as core from "../../core/index.js";
 import * as errors from "../../errors/index.js";
+import type * as ApifreaksApi from "../index.js";
 
 export class ContentTooLargeError extends errors.ApifreaksApiError {
-    constructor(body?: unknown, rawResponse?: core.RawResponse) {
+    public declare readonly body: ApifreaksApi.ContentTooLargeErrorBody;
+
+    constructor(body: ApifreaksApi.ContentTooLargeErrorBody, rawResponse?: core.RawResponse) {
         super({
             message: "ContentTooLargeError",
             statusCode: 413,
@@ -16,6 +19,6 @@ export class ContentTooLargeError extends errors.ApifreaksApiError {
             Error.captureStackTrace(this, this.constructor);
         }
 
-        this.name = this.constructor.name;
+        this.name = "ContentTooLargeError";
     }
 }

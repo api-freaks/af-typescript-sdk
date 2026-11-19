@@ -6,6 +6,7 @@ import { type NormalizedClientOptions, normalizeClientOptions } from "./BaseClie
 import { mergeHeaders, mergeOnlyDefinedHeaders } from "./core/headers.js";
 import * as core from "./core/index.js";
 import { toJson } from "./core/json.js";
+import { mergeAdditionalBodyParameters } from "./core/requestBody.js";
 import * as environments from "./environments.js";
 import { handleNonStatusCodeError } from "./errors/handleNonStatusCodeError.js";
 import * as errors from "./errors/index.js";
@@ -41,6 +42,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.geolocationLookup({
@@ -99,32 +102,62 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 423:
-                    throw new ApifreaksApi.LockedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.LockedError(
+                        _response.error.body as ApifreaksApi.LockedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -155,6 +188,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.bulkGeolocationLookup({
@@ -199,7 +234,7 @@ export class ApifreaksApiClient {
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             requestType: "json",
-            body: _body,
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -216,30 +251,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -270,6 +332,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.ipSecurityLookup({
@@ -326,32 +390,62 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 423:
-                    throw new ApifreaksApi.LockedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.LockedError(
+                        _response.error.body as ApifreaksApi.LockedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -381,6 +475,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.bulkIpSecurityLookup({
@@ -423,7 +519,7 @@ export class ApifreaksApiClient {
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             requestType: "json",
-            body: _body,
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -440,30 +536,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -493,6 +616,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.geocoderSearch({
@@ -567,30 +692,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -620,6 +772,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.geocoderReverse({
@@ -678,30 +832,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -734,6 +915,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.domainWhoisLookup({
@@ -789,32 +972,62 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 408:
-                    throw new ApifreaksApi.RequestTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.RequestTimeoutError(
+                        _response.error.body as ApifreaksApi.RequestTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -844,6 +1057,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.bulkDomainWhoisLookup({
@@ -884,7 +1099,7 @@ export class ApifreaksApiClient {
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             requestType: "json",
-            body: _body,
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -901,30 +1116,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -954,6 +1196,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.ipWhoisLookup({
@@ -1006,30 +1250,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -1059,6 +1330,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.asnWhoisLookup({
@@ -1111,30 +1384,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -1165,6 +1465,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.domainWhoisHistory({
@@ -1220,30 +1522,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -1273,6 +1602,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.domainWhoisReverse({
@@ -1333,30 +1664,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -1387,6 +1745,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.domainDnsLookup({
@@ -1426,6 +1786,7 @@ export class ApifreaksApiClient {
             queryString: core.url
                 .queryBuilder()
                 .addMany(_queryParams)
+                .add("type", _queryParams.type, { style: "comma" })
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
@@ -1441,32 +1802,62 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 408:
-                    throw new ApifreaksApi.RequestTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.RequestTimeoutError(
+                        _response.error.body as ApifreaksApi.RequestTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -1498,6 +1889,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.bulkDomainDnsLookup({
@@ -1537,10 +1930,11 @@ export class ApifreaksApiClient {
             queryString: core.url
                 .queryBuilder()
                 .addMany(_queryParams)
+                .add("type", _queryParams.type, { style: "comma" })
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             requestType: "json",
-            body: _body,
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -1557,32 +1951,62 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 408:
-                    throw new ApifreaksApi.RequestTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.RequestTimeoutError(
+                        _response.error.body as ApifreaksApi.RequestTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -1614,6 +2038,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.domainDnsHistory({
@@ -1654,6 +2080,7 @@ export class ApifreaksApiClient {
             queryString: core.url
                 .queryBuilder()
                 .addMany(_queryParams)
+                .add("type", _queryParams.type, { style: "comma" })
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
@@ -1672,32 +2099,62 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 408:
-                    throw new ApifreaksApi.RequestTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.RequestTimeoutError(
+                        _response.error.body as ApifreaksApi.RequestTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -1728,6 +2185,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.domainDnsReverse({
@@ -1787,32 +2246,62 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 408:
-                    throw new ApifreaksApi.RequestTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.RequestTimeoutError(
+                        _response.error.body as ApifreaksApi.RequestTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -1845,51 +2334,21 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.webScrape({
      *         apiKey: "apiKey",
      *         url: "https://example.com",
      *         body: {
-     *             blockUrl: ["https://example.com/ads.js", "https://tracker.example.com/*"],
-     *             cookies: [{
-     *                     name: "sessionid",
-     *                     value: "abc123"
-     *                 }, {
-     *                     name: "user_pref",
-     *                     value: "darkmode"
-     *                 }],
-     *             instructions: [{
-     *                     fill: {
-     *                         place: "#username",
-     *                         value: "myuser"
-     *                     }
-     *                 }, {
-     *                     fill: {
-     *                         place: "#password",
-     *                         value: "mypassword"
-     *                     }
-     *                 }, {
-     *                     click: "#loginButton"
-     *                 }, {
-     *                     wait: 2000
-     *                 }, {
+     *             instructions: [{}, {}, {}, {}, {
      *                     extract: {
-     *                         html: "#profile",
-     *                         text: "#welcome-message",
-     *                         user_data: "#user-info"
+     *                         "profile": "#profile",
+     *                         "welcomeMessage": "#welcome-message",
+     *                         "userInfo": "#user-info"
      *                     }
-     *                 }, {
-     *                     blockElement: [".ad-banner", "//div[@class='popup']"]
-     *                 }, {
-     *                     generalImageCaptcha: [{
-     *                             imagePath: "#captcha-img",
-     *                             textField: "#captcha-input",
-     *                             imageUpdatePath: "#refresh-captcha",
-     *                             captchaFailedPath: "#captcha-error",
-     *                             model: "mini-ocr-v1"
-     *                         }]
-     *                 }]
+     *                 }, {}, {}]
      *         }
      *     })
      *
@@ -1900,20 +2359,27 @@ export class ApifreaksApiClient {
      *         body: {
      *             instructions: [{
      *                     postForm: {
-     *                         selector: "#loginForm"
+     *                         selector: "#loginForm",
+     *                         data: {
+     *                             "username": "myuser",
+     *                             "password": "mypassword"
+     *                         }
      *                     }
      *                 }, {
      *                     extract: {
-     *                         html: "#main-content",
-     *                         text: "#welcome-message"
+     *                         "mainContent": "#main-content",
+     *                         "welcomeMessage": "#welcome-message"
      *                     }
      *                 }, {
      *                     getForm: {
-     *                         selector: "#searchForm"
+     *                         selector: "#searchForm",
+     *                         data: {
+     *                             "query": "API scraping"
+     *                         }
      *                     }
      *                 }, {
      *                     extract: {
-     *                         text: "#search-results"
+     *                         "searchResults": "#search-results"
      *                     }
      *                 }]
      *         }
@@ -1978,7 +2444,7 @@ export class ApifreaksApiClient {
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             requestType: "json",
-            body: _body,
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -1992,13 +2458,25 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 405:
@@ -2007,22 +2485,40 @@ export class ApifreaksApiClient {
                         _response.rawResponse,
                     );
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 408:
-                    throw new ApifreaksApi.RequestTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.RequestTimeoutError(
+                        _response.error.body as ApifreaksApi.RequestTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -2052,6 +2548,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.emailValidate({
@@ -2092,7 +2590,7 @@ export class ApifreaksApiClient {
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             requestType: "json",
-            body: _body,
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -2106,30 +2604,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -2164,6 +2689,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.bulkEmailValidate({
@@ -2206,7 +2733,7 @@ export class ApifreaksApiClient {
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             requestType: "json",
-            body: _body,
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -2223,30 +2750,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -2257,6 +2811,303 @@ export class ApifreaksApiClient {
         }
 
         return handleNonStatusCodeError(_response.error, _response.rawResponse, "POST", "/v1.0/email-validation/bulk");
+    }
+
+    /**
+     * Validates email syntax and checks the domain for disposable, free, spam, and role-account signals, plus MX/A DNS records. Send the email (and optionally an ip) as a JSON request body. When an ip is included, the response also carries geolocation and security data for it.
+     *
+     * @param {ApifreaksApi.DisposableEmailCheckV2Request} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
+     *
+     * @example
+     *     await client.disposableEmailCheckV2({
+     *         apiKey: "apiKey",
+     *         email: "test@sogetthis.com"
+     *     })
+     *
+     * @example
+     *     await client.disposableEmailCheckV2({
+     *         apiKey: "apiKey",
+     *         email: "someone@gmail.com",
+     *         ip: "8.8.8.8"
+     *     })
+     */
+    public disposableEmailCheckV2(
+        request: ApifreaksApi.DisposableEmailCheckV2Request,
+        requestOptions?: ApifreaksApiClient.RequestOptions,
+    ): core.HttpResponsePromise<ApifreaksApi.DisposableEmailCheckV2Response> {
+        return core.HttpResponsePromise.fromPromise(this.__disposableEmailCheckV2(request, requestOptions));
+    }
+
+    private async __disposableEmailCheckV2(
+        request: ApifreaksApi.DisposableEmailCheckV2Request,
+        requestOptions?: ApifreaksApiClient.RequestOptions,
+    ): Promise<core.WithRawResponse<ApifreaksApi.DisposableEmailCheckV2Response>> {
+        const { apiKey, format, ..._body } = request;
+        const _queryParams: Record<string, unknown> = {
+            apiKey,
+            format: format != null ? format : undefined,
+        };
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(this._options?.headers, requestOptions?.headers);
+        const _response = await core.fetcher({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ApifreaksApiEnvironment.Default,
+                "v2.0/email/disposable-check",
+            ),
+            method: "POST",
+            headers: _headers,
+            contentType: "application/json",
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
+            requestType: "json",
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as ApifreaksApi.DisposableEmailCheckV2Response,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
+                case 401:
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
+                case 402:
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
+                case 403:
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
+                case 404:
+                    throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 406:
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
+                case 413:
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
+                case 429:
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
+                case 500:
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
+                case 503:
+                    throw new ApifreaksApi.ServiceUnavailableError(
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
+                        _response.rawResponse,
+                    );
+                case 504:
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
+                default:
+                    throw new errors.ApifreaksApiError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(_response.error, _response.rawResponse, "POST", "/v2.0/email/disposable-check");
+    }
+
+    /**
+     * Checks a bulk of email addresses (each with an optional ip) and returns a disposable email check result for each, in the same order as the request. Maximum `100` entries per request.
+     *
+     * @param {ApifreaksApi.BulkDisposableEmailCheckV2Request} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
+     *
+     * @example
+     *     await client.bulkDisposableEmailCheckV2({
+     *         apiKey: "apiKey",
+     *         emailData: [{
+     *                 email: "abc"
+     *             }, {
+     *                 email: "john@microsoft.com",
+     *                 ip: "8.8.8.8"
+     *             }, {
+     *                 email: "test@mailinator.com"
+     *             }]
+     *     })
+     */
+    public bulkDisposableEmailCheckV2(
+        request: ApifreaksApi.BulkDisposableEmailCheckV2Request,
+        requestOptions?: ApifreaksApiClient.RequestOptions,
+    ): core.HttpResponsePromise<ApifreaksApi.BulkDisposableEmailCheckV2Response> {
+        return core.HttpResponsePromise.fromPromise(this.__bulkDisposableEmailCheckV2(request, requestOptions));
+    }
+
+    private async __bulkDisposableEmailCheckV2(
+        request: ApifreaksApi.BulkDisposableEmailCheckV2Request,
+        requestOptions?: ApifreaksApiClient.RequestOptions,
+    ): Promise<core.WithRawResponse<ApifreaksApi.BulkDisposableEmailCheckV2Response>> {
+        const { apiKey, format, ..._body } = request;
+        const _queryParams: Record<string, unknown> = {
+            apiKey,
+            format: format != null ? format : undefined,
+        };
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(this._options?.headers, requestOptions?.headers);
+        const _response = await core.fetcher({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ApifreaksApiEnvironment.Default,
+                "v2.0/email/disposable-check/bulk",
+            ),
+            method: "POST",
+            headers: _headers,
+            contentType: "application/json",
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
+            requestType: "json",
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as ApifreaksApi.BulkDisposableEmailCheckV2Response,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
+                case 401:
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
+                case 402:
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
+                case 403:
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
+                case 404:
+                    throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 406:
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
+                case 413:
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
+                case 429:
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
+                case 500:
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
+                case 503:
+                    throw new ApifreaksApi.ServiceUnavailableError(
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
+                        _response.rawResponse,
+                    );
+                case 504:
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
+                default:
+                    throw new errors.ApifreaksApiError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "POST",
+            "/v2.0/email/disposable-check/bulk",
+        );
     }
 
     /**
@@ -2276,6 +3127,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.phoneValidate({
@@ -2330,7 +3183,7 @@ export class ApifreaksApiClient {
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             requestType: "json",
-            body: _body,
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -2344,30 +3197,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -2397,6 +3277,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.bulkPhoneValidate({
@@ -2472,7 +3354,7 @@ export class ApifreaksApiClient {
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             requestType: "json",
-            body: _body,
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -2489,30 +3371,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -2543,6 +3452,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.domainSslLookup({
@@ -2596,30 +3507,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -2650,6 +3588,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.domainSslChainLookup({
@@ -2706,30 +3646,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -2760,6 +3727,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.domainAvailabilityCheck({
@@ -2816,32 +3785,62 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 408:
-                    throw new ApifreaksApi.RequestTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.RequestTimeoutError(
+                        _response.error.body as ApifreaksApi.RequestTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -2871,6 +3870,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.bulkDomainAvailabilityCheck({
@@ -2912,7 +3913,7 @@ export class ApifreaksApiClient {
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             requestType: "json",
-            body: _body,
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -2929,30 +3930,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -2983,6 +4011,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.domainAvailabilitySuggestions({
@@ -3041,32 +4071,62 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 408:
-                    throw new ApifreaksApi.RequestTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.RequestTimeoutError(
+                        _response.error.body as ApifreaksApi.RequestTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -3101,6 +4161,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.subdomainsLookup({
@@ -3160,30 +4222,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -3213,6 +4302,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.domainTyposquatting({
@@ -3269,30 +4360,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -3322,6 +4440,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.domainReputation({
@@ -3377,30 +4497,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -3430,6 +4577,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.astronomyLookupV2({
@@ -3491,30 +4640,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -3544,6 +4720,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.timezoneLookupV2({
@@ -3618,30 +4796,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -3672,6 +4877,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.geolocationLookupV2({
@@ -3730,32 +4937,62 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 423:
-                    throw new ApifreaksApi.LockedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.LockedError(
+                        _response.error.body as ApifreaksApi.LockedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -3785,6 +5022,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.bulkGeolocationLookupV2({
@@ -3829,7 +5068,7 @@ export class ApifreaksApiClient {
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             requestType: "json",
-            body: _body,
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -3846,30 +5085,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -3899,6 +5165,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.domainWhoisLookupV2({
@@ -3954,30 +5222,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -4007,6 +5302,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.bulkDomainWhoisLookupV2({
@@ -4047,7 +5344,7 @@ export class ApifreaksApiClient {
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             requestType: "json",
-            body: _body,
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -4064,30 +5361,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -4117,6 +5441,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.commodityLatestRatesV2({
@@ -4155,6 +5481,7 @@ export class ApifreaksApiClient {
             queryString: core.url
                 .queryBuilder()
                 .addMany(_queryParams)
+                .add("symbols", _queryParams.symbols, { style: "comma" })
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
@@ -4173,30 +5500,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -4226,6 +5580,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.commodityHistoricalRatesV2({
@@ -4265,6 +5621,7 @@ export class ApifreaksApiClient {
             queryString: core.url
                 .queryBuilder()
                 .addMany(_queryParams)
+                .add("symbols", _queryParams.symbols, { style: "comma" })
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
@@ -4283,30 +5640,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -4341,6 +5725,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.commodityFluctuationV2({
@@ -4382,6 +5768,7 @@ export class ApifreaksApiClient {
             queryString: core.url
                 .queryBuilder()
                 .addMany(_queryParams)
+                .add("symbols", _queryParams.symbols, { style: "comma" })
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
@@ -4400,30 +5787,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -4453,6 +5867,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.commodityTimeSeriesV2({
@@ -4494,6 +5910,7 @@ export class ApifreaksApiClient {
             queryString: core.url
                 .queryBuilder()
                 .addMany(_queryParams)
+                .add("symbols", _queryParams.symbols, { style: "comma" })
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
@@ -4512,30 +5929,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -4565,6 +6009,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.commoditySymbolsV2({
@@ -4618,30 +6064,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -4652,6 +6125,153 @@ export class ApifreaksApiClient {
         }
 
         return handleNonStatusCodeError(_response.error, _response.rawResponse, "GET", "/v2.0/commodity/symbols");
+    }
+
+    /**
+     * Returns the prices of one commodity through a UTC day at the requested interval, keyed by UTC timestamp. Each request costs a flat 50 credits however many points it returns.
+     *
+     * @param {ApifreaksApi.CommodityIntradayRatesV2Request} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
+     *
+     * @example
+     *     await client.commodityIntradayRatesV2({
+     *         apiKey: "apiKey",
+     *         symbols: "symbols",
+     *         interval: "1m",
+     *         date: "2023-01-15"
+     *     })
+     */
+    public commodityIntradayRatesV2(
+        request: ApifreaksApi.CommodityIntradayRatesV2Request,
+        requestOptions?: ApifreaksApiClient.RequestOptions,
+    ): core.HttpResponsePromise<ApifreaksApi.CommodityIntradayRatesV2Response> {
+        return core.HttpResponsePromise.fromPromise(this.__commodityIntradayRatesV2(request, requestOptions));
+    }
+
+    private async __commodityIntradayRatesV2(
+        request: ApifreaksApi.CommodityIntradayRatesV2Request,
+        requestOptions?: ApifreaksApiClient.RequestOptions,
+    ): Promise<core.WithRawResponse<ApifreaksApi.CommodityIntradayRatesV2Response>> {
+        const { apiKey, symbols, interval, date, startTime, metadata } = request;
+        const _queryParams: Record<string, unknown> = {
+            apiKey,
+            symbols,
+            interval,
+            date,
+            startTime,
+            metadata,
+        };
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(this._options?.headers, requestOptions?.headers);
+        const _response = await core.fetcher({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ApifreaksApiEnvironment.Default,
+                "v2.0/commodity/rates/intraday",
+            ),
+            method: "GET",
+            headers: _headers,
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as ApifreaksApi.CommodityIntradayRatesV2Response,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
+                case 401:
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
+                case 402:
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
+                case 403:
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
+                case 404:
+                    throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 406:
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
+                case 413:
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
+                case 429:
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
+                case 500:
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
+                case 503:
+                    throw new ApifreaksApi.ServiceUnavailableError(
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
+                        _response.rawResponse,
+                    );
+                case 504:
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
+                default:
+                    throw new errors.ApifreaksApiError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "GET",
+            "/v2.0/commodity/rates/intraday",
+        );
     }
 
     /**
@@ -4672,6 +6292,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -4745,35 +6367,62 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 415:
                     throw new ApifreaksApi.UnsupportedMediaTypeError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.UnsupportedMediaTypeErrorBody,
                         _response.rawResponse,
                     );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -4804,6 +6453,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -4877,35 +6528,62 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 415:
                     throw new ApifreaksApi.UnsupportedMediaTypeError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.UnsupportedMediaTypeErrorBody,
                         _response.rawResponse,
                     );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -4936,6 +6614,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -5008,35 +6688,62 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 415:
                     throw new ApifreaksApi.UnsupportedMediaTypeError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.UnsupportedMediaTypeErrorBody,
                         _response.rawResponse,
                     );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -5067,6 +6774,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -5141,35 +6850,62 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 415:
                     throw new ApifreaksApi.UnsupportedMediaTypeError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.UnsupportedMediaTypeErrorBody,
                         _response.rawResponse,
                     );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -5200,6 +6936,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -5273,35 +7011,62 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 415:
                     throw new ApifreaksApi.UnsupportedMediaTypeError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.UnsupportedMediaTypeErrorBody,
                         _response.rawResponse,
                     );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -5331,6 +7096,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -5405,30 +7172,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -5458,6 +7252,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -5529,30 +7325,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -5583,6 +7406,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -5658,35 +7483,62 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 415:
                     throw new ApifreaksApi.UnsupportedMediaTypeError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.UnsupportedMediaTypeErrorBody,
                         _response.rawResponse,
                     );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -5717,6 +7569,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -5790,35 +7644,62 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 415:
                     throw new ApifreaksApi.UnsupportedMediaTypeError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.UnsupportedMediaTypeErrorBody,
                         _response.rawResponse,
                     );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -5849,6 +7730,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -5930,35 +7813,62 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 415:
                     throw new ApifreaksApi.UnsupportedMediaTypeError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.UnsupportedMediaTypeErrorBody,
                         _response.rawResponse,
                     );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -5989,12 +7899,15 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
      *     await client.pdfUnrestrict({
      *         apiKey: "apiKey",
-     *         file_password: "file_password"
+     *         file_password: "file_password",
+     *         user_password: "user_password"
      *     })
      */
     public pdfUnrestrict(
@@ -6064,35 +7977,62 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 415:
                     throw new ApifreaksApi.UnsupportedMediaTypeError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.UnsupportedMediaTypeErrorBody,
                         _response.rawResponse,
                     );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -6122,6 +8062,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -6197,30 +8139,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -6250,6 +8219,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -6326,30 +8297,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -6379,6 +8377,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -6457,30 +8457,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -6510,6 +8537,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -6585,30 +8614,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -6638,6 +8694,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -6713,30 +8771,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -6767,6 +8852,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -6835,35 +8922,62 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 415:
                     throw new ApifreaksApi.UnsupportedMediaTypeError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.UnsupportedMediaTypeErrorBody,
                         _response.rawResponse,
                     );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -6895,6 +9009,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      */
     public pdfUploadBinary(
         uploadable: core.file.Uploadable,
@@ -6951,35 +9067,62 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 415:
                     throw new ApifreaksApi.UnsupportedMediaTypeError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.UnsupportedMediaTypeErrorBody,
                         _response.rawResponse,
                     );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -7011,6 +9154,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      */
     public pdfDownloadResource(
         request: ApifreaksApi.PdfDownloadResourceRequest,
@@ -7058,30 +9203,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -7111,6 +9283,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.pdfGetTaskStatus({
@@ -7166,30 +9340,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -7219,6 +9420,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.pdfGetFileStatus({
@@ -7274,30 +9477,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -7327,6 +9557,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.pdfListFiles({
@@ -7377,30 +9609,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -7430,6 +9689,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.pdfDeleteFile({
@@ -7482,30 +9743,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -7519,8 +9807,400 @@ export class ApifreaksApiClient {
     }
 
     /**
+     * Renders the template identified by template_id with the JSON data supplied in the request body (or fetched from data_url). Returns a hosted URL for the generated PDF. Provide either a request body or a data_url; one of the two is required. The keys of the data object are the fields you bound when you designed the template in the APIFreaks PDF Template Builder, so the exact shape is up to you. Pin the version parameter to a specific template version (e.g. version=v2) so later design changes never touch what is already live; omit it to use the latest version.
+     *
+     * @param {ApifreaksApi.PdfGenerateFromTemplateRequest} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.UnsupportedMediaTypeError}
+     * @throws {@link ApifreaksApi.UnprocessableEntityError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
+     *
+     * @example
+     *     await client.pdfGenerateFromTemplate({
+     *         apiKey: "apiKey",
+     *         template_id: "template_id",
+     *         body: {
+     *             "candidate_name": "Ava Thompson",
+     *             "candidate_title": "Senior Operations Analyst",
+     *             "email": "ava.thompson@example.com",
+     *             "phone": "+1 (555) 381-2048",
+     *             "city": "Austin, TX",
+     *             "portfolio_url": "portfolio.example.com",
+     *             "profile_summary": "Analytical operations professional with 8+ years of experience improving reporting pipelines, streamlining process documentation, and coordinating cross-functional delivery for distributed teams across multiple time zones.",
+     *             "company_name": "Northwind Logistics",
+     *             "job_title": "Operations Analyst",
+     *             "employment_period": "2021 - Present",
+     *             "job_achievement_1": "Led weekly KPI reporting for finance, fulfillment, and customer success stakeholders across three business units.",
+     *             "job_achievement_2": "Reduced manual reconciliation work by 35% through workflow redesign and documentation automation.",
+     *             "job_achievement_3": "Spearheaded a cross-team initiative that improved on-time delivery metrics by 18% within six months.",
+     *             "skills": [
+     *                 {
+     *                     "skill": "Process Improvement",
+     *                     "level": "Advanced",
+     *                     "years": "7"
+     *                 },
+     *                 {
+     *                     "skill": "Stakeholder Reporting",
+     *                     "level": "Expert",
+     *                     "years": "8"
+     *                 },
+     *                 {
+     *                     "skill": "Cross-functional Coordination",
+     *                     "level": "Advanced",
+     *                     "years": "5"
+     *                 },
+     *                 {
+     *                     "skill": "Workflow Documentation",
+     *                     "level": "Advanced",
+     *                     "years": "6"
+     *                 }
+     *             ],
+     *             "degree": "B.S. in Information Systems",
+     *             "institution": "University of Texas",
+     *             "graduation_year": "2018",
+     *             "certification_1": "Certified Business Analysis Professional (CBAP)",
+     *             "certification_2": "Six Sigma Green Belt",
+     *             "languages": "English (Native), Spanish (Professional)"
+     *         }
+     *     })
+     *
+     * @example
+     *     await client.pdfGenerateFromTemplate({
+     *         apiKey: "apiKey",
+     *         template_id: "template_id",
+     *         body: {
+     *             "report_title": "Quarterly Business Report",
+     *             "report_period": "Q4 2024",
+     *             "prepared_by": "Marketing Team",
+     *             "revenue": 125000,
+     *             "growth_rate": 15,
+     *             "customer_count": 520,
+     *             "monthly_comparison": [
+     *                 {
+     *                     "metric": "Revenue",
+     *                     "previous": "$108,000",
+     *                     "current": "$125,000",
+     *                     "change": "+15.7%"
+     *                 },
+     *                 {
+     *                     "metric": "Active Customers",
+     *                     "previous": "480",
+     *                     "current": "520",
+     *                     "change": "+8.3%"
+     *                 }
+     *             ]
+     *         }
+     *     })
+     */
+    public pdfGenerateFromTemplate(
+        request: ApifreaksApi.PdfGenerateFromTemplateRequest,
+        requestOptions?: ApifreaksApiClient.RequestOptions,
+    ): core.HttpResponsePromise<ApifreaksApi.PdfGenerateFromTemplateResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__pdfGenerateFromTemplate(request, requestOptions));
+    }
+
+    private async __pdfGenerateFromTemplate(
+        request: ApifreaksApi.PdfGenerateFromTemplateRequest,
+        requestOptions?: ApifreaksApiClient.RequestOptions,
+    ): Promise<core.WithRawResponse<ApifreaksApi.PdfGenerateFromTemplateResponse>> {
+        const { apiKey, template_id: templateId, version, data_url: dataUrl, body: _body } = request;
+        const _queryParams: Record<string, unknown> = {
+            apiKey,
+            template_id: templateId,
+            version,
+            data_url: dataUrl,
+        };
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(this._options?.headers, requestOptions?.headers);
+        const _response = await core.fetcher({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ApifreaksApiEnvironment.Default,
+                "v1.0/pdf/template/generate",
+            ),
+            method: "POST",
+            headers: _headers,
+            contentType: "application/json",
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
+            requestType: "json",
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as ApifreaksApi.PdfGenerateFromTemplateResponse,
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
+                case 401:
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
+                case 402:
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
+                case 403:
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
+                case 404:
+                    throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 406:
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
+                case 413:
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
+                case 415:
+                    throw new ApifreaksApi.UnsupportedMediaTypeError(
+                        _response.error.body as ApifreaksApi.UnsupportedMediaTypeErrorBody,
+                        _response.rawResponse,
+                    );
+                case 422:
+                    throw new ApifreaksApi.UnprocessableEntityError(
+                        _response.error.body as ApifreaksApi.UnprocessableEntityErrorBody,
+                        _response.rawResponse,
+                    );
+                case 429:
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
+                case 500:
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
+                case 503:
+                    throw new ApifreaksApi.ServiceUnavailableError(
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
+                        _response.rawResponse,
+                    );
+                case 504:
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
+                default:
+                    throw new errors.ApifreaksApiError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(_response.error, _response.rawResponse, "POST", "/v1.0/pdf/template/generate");
+    }
+
+    /**
+     * Upload a CSV file where each row is one record. The API generates one PDF per row and returns an array of results, each with its own pdf_url. Rows are processed independently, so a failure in one row does not block the rest of the batch. The response gives a row-by-row breakdown of which PDFs succeeded and which failed.
+     *
+     * @param {ApifreaksApi.BulkPdfGenerateFromTemplateRequest} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.UnsupportedMediaTypeError}
+     * @throws {@link ApifreaksApi.UnprocessableEntityError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
+     *
+     * @example
+     *     import { createReadStream } from "fs";
+     *     await client.bulkPdfGenerateFromTemplate({
+     *         file: fs.createReadStream("/path/to/your/file"),
+     *         apiKey: "apiKey",
+     *         template_id: "template_id"
+     *     })
+     */
+    public bulkPdfGenerateFromTemplate(
+        request: ApifreaksApi.BulkPdfGenerateFromTemplateRequest,
+        requestOptions?: ApifreaksApiClient.RequestOptions,
+    ): core.HttpResponsePromise<ApifreaksApi.BulkPdfGenerateFromTemplateResponseItem[]> {
+        return core.HttpResponsePromise.fromPromise(this.__bulkPdfGenerateFromTemplate(request, requestOptions));
+    }
+
+    private async __bulkPdfGenerateFromTemplate(
+        request: ApifreaksApi.BulkPdfGenerateFromTemplateRequest,
+        requestOptions?: ApifreaksApiClient.RequestOptions,
+    ): Promise<core.WithRawResponse<ApifreaksApi.BulkPdfGenerateFromTemplateResponseItem[]>> {
+        const _queryParams: Record<string, unknown> = {
+            apiKey: request.apiKey,
+            template_id: request.template_id,
+            version: request.version,
+        };
+        const _body = await core.newFormData();
+        await _body.appendFile("file", request.file);
+        const _maybeEncodedRequest = await _body.getRequest();
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({ ..._maybeEncodedRequest.headers }),
+            requestOptions?.headers,
+        );
+        const _response = await core.fetcher({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ApifreaksApiEnvironment.Default,
+                "v1.0/pdf/template/generate/bulk",
+            ),
+            method: "POST",
+            headers: _headers,
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
+            requestType: "file",
+            duplex: _maybeEncodedRequest.duplex,
+            body: _maybeEncodedRequest.body,
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return {
+                data: _response.body as ApifreaksApi.BulkPdfGenerateFromTemplateResponseItem[],
+                rawResponse: _response.rawResponse,
+            };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
+                case 401:
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
+                case 402:
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
+                case 403:
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
+                case 404:
+                    throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 406:
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
+                case 413:
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
+                case 415:
+                    throw new ApifreaksApi.UnsupportedMediaTypeError(
+                        _response.error.body as ApifreaksApi.UnsupportedMediaTypeErrorBody,
+                        _response.rawResponse,
+                    );
+                case 422:
+                    throw new ApifreaksApi.UnprocessableEntityError(
+                        _response.error.body as ApifreaksApi.UnprocessableEntityErrorBody,
+                        _response.rawResponse,
+                    );
+                case 429:
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
+                case 500:
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
+                case 503:
+                    throw new ApifreaksApi.ServiceUnavailableError(
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
+                        _response.rawResponse,
+                    );
+                case 504:
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
+                default:
+                    throw new errors.ApifreaksApiError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(
+            _response.error,
+            _response.rawResponse,
+            "POST",
+            "/v1.0/pdf/template/generate/bulk",
+        );
+    }
+
+    /**
      * Capture full-page screenshots and videos of websites with advanced options like device simulation, custom code injection, cookie banner blocking, and scrollable content recording.
      * Supports multiple output formats including JSON, image, GIF, MP4, and WebM.
+     *
+     * @param {ApifreaksApi.ScreenshotCaptureRequest} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link ApifreaksApi.BadRequestError}
      * @throws {@link ApifreaksApi.UnauthorizedError}
@@ -7536,18 +10216,26 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
+     *
+     * @example
+     *     await client.screenshotCapture({
+     *         apiKey: "apiKey",
+     *         url: "url"
+     *     })
      */
     public screenshotCapture(
         request: ApifreaksApi.ScreenshotCaptureRequest,
         requestOptions?: ApifreaksApiClient.RequestOptions,
-    ): core.HttpResponsePromise<core.BinaryResponse> {
+    ): core.HttpResponsePromise<ApifreaksApi.ScreenshotCaptureResponse> {
         return core.HttpResponsePromise.fromPromise(this.__screenshotCapture(request, requestOptions));
     }
 
     private async __screenshotCapture(
         request: ApifreaksApi.ScreenshotCaptureRequest,
         requestOptions?: ApifreaksApiClient.RequestOptions,
-    ): Promise<core.WithRawResponse<core.BinaryResponse>> {
+    ): Promise<core.WithRawResponse<ApifreaksApi.ScreenshotCaptureResponse>> {
         const {
             apiKey,
             output,
@@ -7619,6 +10307,33 @@ export class ApifreaksApiClient {
             accept_languages: acceptLanguages,
             custom_html: customHtml,
             image_quality: imageQuality,
+            captcha_error: captchaError,
+            captcha_image: captchaImage,
+            captcha_input: captchaInput,
+            captcha_refresh: captchaRefresh,
+            captcha_retries: captchaRetries,
+            captcha_submit: captchaSubmit,
+            classic_proxy: classicProxy,
+            click_recursion: clickRecursion,
+            country,
+            extract_markdown: extractMarkdown,
+            format,
+            get_image_urls: getImageUrls,
+            gpu,
+            markdown,
+            ocr_model: ocrModel,
+            "pdf_options[format]": pdfOptionsFormat,
+            "pdf_options[landscape]": pdfOptionsLandscape,
+            "pdf_options[media]": pdfOptionsMedia,
+            "pdf_options[page_range]": pdfOptionsPageRange,
+            "pdf_options[print_background]": pdfOptionsPrintBackground,
+            premium_proxy: premiumProxy,
+            scroll_delay: scrollDelay,
+            selector_to_click: selectorToClick,
+            solve_captcha: solveCaptcha,
+            stealth,
+            timezone,
+            video,
         } = request;
         const _queryParams: Record<string, unknown> = {
             apiKey,
@@ -7691,9 +10406,36 @@ export class ApifreaksApiClient {
             accept_languages: acceptLanguages,
             custom_html: customHtml,
             image_quality: imageQuality,
+            captcha_error: captchaError,
+            captcha_image: captchaImage,
+            captcha_input: captchaInput,
+            captcha_refresh: captchaRefresh,
+            captcha_retries: captchaRetries,
+            captcha_submit: captchaSubmit,
+            classic_proxy: classicProxy,
+            click_recursion: clickRecursion,
+            country,
+            extract_markdown: extractMarkdown,
+            format: format != null ? format : undefined,
+            get_image_urls: getImageUrls,
+            gpu,
+            markdown,
+            ocr_model: ocrModel != null ? ocrModel : undefined,
+            "pdf_options[format]": pdfOptionsFormat != null ? pdfOptionsFormat : undefined,
+            "pdf_options[landscape]": pdfOptionsLandscape,
+            "pdf_options[media]": pdfOptionsMedia != null ? pdfOptionsMedia : undefined,
+            "pdf_options[page_range]": pdfOptionsPageRange,
+            "pdf_options[print_background]": pdfOptionsPrintBackground,
+            premium_proxy: premiumProxy,
+            scroll_delay: scrollDelay,
+            selector_to_click: selectorToClick,
+            solve_captcha: solveCaptcha,
+            stealth,
+            timezone,
+            video,
         };
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(this._options?.headers, requestOptions?.headers);
-        const _response = await core.fetcher<core.BinaryResponse>({
+        const _response = await core.fetcher({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
                     (await core.Supplier.get(this._options.environment)) ??
@@ -7705,9 +10447,9 @@ export class ApifreaksApiClient {
             queryString: core.url
                 .queryBuilder()
                 .addMany(_queryParams)
+                .add("sizes", _queryParams.sizes, { style: "comma" })
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
-            responseType: "binary-response",
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -7715,48 +10457,81 @@ export class ApifreaksApiClient {
             logging: this._options.logging,
         });
         if (_response.ok) {
-            return { data: _response.body, rawResponse: _response.rawResponse };
+            return {
+                data: _response.body as ApifreaksApi.ScreenshotCaptureResponse,
+                rawResponse: _response.rawResponse,
+            };
         }
 
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 407:
                     throw new ApifreaksApi.ProxyAuthenticationRequiredError(
                         _response.error.body as ApifreaksApi.ProxyAuthenticationRequiredErrorBody,
                         _response.rawResponse,
                     );
                 case 408:
-                    throw new ApifreaksApi.RequestTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.RequestTimeoutError(
+                        _response.error.body as ApifreaksApi.RequestTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 444:
                     throw new ApifreaksApi.NoResponseError(
                         _response.error.body as ApifreaksApi.NoResponseErrorBody,
                         _response.rawResponse,
                     );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -7787,6 +10562,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.bulkScreenshotCapture({
@@ -7829,7 +10606,7 @@ export class ApifreaksApiClient {
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             requestType: "json",
-            body: _body,
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -7846,30 +10623,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -7899,6 +10703,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.currencyLatestRates({
@@ -7937,6 +10743,7 @@ export class ApifreaksApiClient {
             queryString: core.url
                 .queryBuilder()
                 .addMany(_queryParams)
+                .add("symbols", _queryParams.symbols, { style: "comma" })
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
@@ -7955,30 +10762,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -8008,6 +10842,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.currencyHistoricalRates({
@@ -8047,6 +10883,7 @@ export class ApifreaksApiClient {
             queryString: core.url
                 .queryBuilder()
                 .addMany(_queryParams)
+                .add("symbols", _queryParams.symbols, { style: "comma" })
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
@@ -8065,30 +10902,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -8123,6 +10987,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.currencyConvertLatest({
@@ -8182,30 +11048,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -8240,6 +11133,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.currencyConvertHistorical({
@@ -8300,30 +11195,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -8358,6 +11280,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.currencyTimeSeries({
@@ -8398,6 +11322,7 @@ export class ApifreaksApiClient {
             queryString: core.url
                 .queryBuilder()
                 .addMany(_queryParams)
+                .add("symbols", _queryParams.symbols, { style: "comma" })
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
@@ -8416,30 +11341,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -8469,6 +11421,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.currencyFluctuation({
@@ -8510,6 +11464,7 @@ export class ApifreaksApiClient {
             queryString: core.url
                 .queryBuilder()
                 .addMany(_queryParams)
+                .add("symbols", _queryParams.symbols, { style: "comma" })
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
@@ -8528,30 +11483,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -8581,6 +11563,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.currencyConvertByIp({
@@ -8639,30 +11623,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -8697,6 +11708,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.currencySupported({
@@ -8750,30 +11763,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -8803,6 +11843,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.currencySymbols({
@@ -8853,30 +11895,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -8906,6 +11975,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.currencyHistoricalLimits({
@@ -8959,30 +12030,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -9017,6 +12115,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.commodityLatestRates({
@@ -9057,6 +12157,7 @@ export class ApifreaksApiClient {
             queryString: core.url
                 .queryBuilder()
                 .addMany(_queryParams)
+                .add("symbols", _queryParams.symbols, { style: "comma" })
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
@@ -9075,30 +12176,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -9128,6 +12256,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.commodityHistoricalRates({
@@ -9167,6 +12297,7 @@ export class ApifreaksApiClient {
             queryString: core.url
                 .queryBuilder()
                 .addMany(_queryParams)
+                .add("symbols", _queryParams.symbols, { style: "comma" })
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
@@ -9185,30 +12316,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -9243,6 +12401,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.commodityFluctuation({
@@ -9284,6 +12444,7 @@ export class ApifreaksApiClient {
             queryString: core.url
                 .queryBuilder()
                 .addMany(_queryParams)
+                .add("symbols", _queryParams.symbols, { style: "comma" })
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
@@ -9302,30 +12463,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -9355,6 +12543,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.commodityTimeSeries({
@@ -9396,6 +12586,7 @@ export class ApifreaksApiClient {
             queryString: core.url
                 .queryBuilder()
                 .addMany(_queryParams)
+                .add("symbols", _queryParams.symbols, { style: "comma" })
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
@@ -9414,30 +12605,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -9467,6 +12685,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.commoditySymbols({
@@ -9520,30 +12740,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -9573,6 +12820,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.vatSupportedCountries({
@@ -9627,30 +12876,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -9680,6 +12956,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.vatRateByIp({
@@ -9734,30 +13012,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -9787,6 +13092,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.vatRateByCountry({
@@ -9843,30 +13150,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -9896,6 +13230,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.bulkVatRateByCountry({
@@ -9911,14 +13247,14 @@ export class ApifreaksApiClient {
     public bulkVatRateByCountry(
         request: ApifreaksApi.BulkVatRateByCountryRequest,
         requestOptions?: ApifreaksApiClient.RequestOptions,
-    ): core.HttpResponsePromise<ApifreaksApi.BulkVatRateByCountryResponse> {
+    ): core.HttpResponsePromise<ApifreaksApi.BulkVatRateByCountryResponseItem[]> {
         return core.HttpResponsePromise.fromPromise(this.__bulkVatRateByCountry(request, requestOptions));
     }
 
     private async __bulkVatRateByCountry(
         request: ApifreaksApi.BulkVatRateByCountryRequest,
         requestOptions?: ApifreaksApiClient.RequestOptions,
-    ): Promise<core.WithRawResponse<ApifreaksApi.BulkVatRateByCountryResponse>> {
+    ): Promise<core.WithRawResponse<ApifreaksApi.BulkVatRateByCountryResponseItem[]>> {
         const { apiKey, format, ..._body } = request;
         const _queryParams: Record<string, unknown> = {
             apiKey,
@@ -9941,7 +13277,7 @@ export class ApifreaksApiClient {
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             requestType: "json",
-            body: _body,
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -9950,7 +13286,7 @@ export class ApifreaksApiClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as ApifreaksApi.BulkVatRateByCountryResponse,
+                data: _response.body as ApifreaksApi.BulkVatRateByCountryResponseItem[],
                 rawResponse: _response.rawResponse,
             };
         }
@@ -9958,30 +13294,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -10011,6 +13374,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.vatValidate({
@@ -10064,30 +13429,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -10117,6 +13509,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.ibanValidate({
@@ -10169,30 +13563,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -10222,6 +13643,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.swiftCodeFind({
@@ -10275,30 +13698,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -10328,6 +13778,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.swiftCodeLookup({
@@ -10380,30 +13832,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -10431,6 +13910,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.zipcodeLookup({
@@ -10484,30 +13965,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -10537,6 +14045,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.bulkZipcodeLookup({
@@ -10577,7 +14087,7 @@ export class ApifreaksApiClient {
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             requestType: "json",
-            body: _body,
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -10594,30 +14104,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -10645,6 +14182,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.zipcodeSearchByCity({
@@ -10704,30 +14243,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -10755,12 +14321,13 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.zipcodeSearchByRegion({
      *         apiKey: "apiKey",
-     *         country: "country",
-     *         region: "region"
+     *         country: "country"
      *     })
      */
     public zipcodeSearchByRegion(
@@ -10774,13 +14341,14 @@ export class ApifreaksApiClient {
         request: ApifreaksApi.ZipcodeSearchByRegionRequest,
         requestOptions?: ApifreaksApiClient.RequestOptions,
     ): Promise<core.WithRawResponse<ApifreaksApi.ZipcodeSearchByRegionResponse>> {
-        const { apiKey, format, country, region, page } = request;
+        const { apiKey, format, country, region, page, region_code: regionCode } = request;
         const _queryParams: Record<string, unknown> = {
             apiKey,
             format: format != null ? format : undefined,
             country,
             region,
             page,
+            region_code: regionCode,
         };
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(this._options?.headers, requestOptions?.headers);
         const _response = await core.fetcher({
@@ -10813,30 +14381,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -10864,6 +14459,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.zipcodeSearchByRadius({
@@ -10925,30 +14522,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -10978,6 +14602,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.zipcodeDistance({
@@ -11019,7 +14645,7 @@ export class ApifreaksApiClient {
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             requestType: "json",
-            body: _body,
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -11033,30 +14659,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -11086,6 +14739,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.zipcodeDistanceMatch({
@@ -11127,7 +14782,7 @@ export class ApifreaksApiClient {
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             requestType: "json",
-            body: _body,
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -11144,30 +14799,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -11197,6 +14879,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.currentWeather({
@@ -11252,30 +14936,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -11305,6 +15016,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.bulkCurrentWeather({
@@ -11355,7 +15068,7 @@ export class ApifreaksApiClient {
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             requestType: "json",
-            body: _body,
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -11372,30 +15085,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -11425,6 +15165,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.weatherForecast({
@@ -11485,30 +15227,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -11538,6 +15307,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.historicalWeather({
@@ -11599,30 +15370,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -11652,6 +15450,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.weatherTimeSeries({
@@ -11715,30 +15515,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -11768,6 +15595,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.marineWeather({
@@ -11826,30 +15655,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -11879,6 +15735,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.airQuality({
@@ -11937,30 +15795,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -11990,6 +15875,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.floodForecast({
@@ -12050,30 +15937,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -12103,6 +16017,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.getCountries({
@@ -12155,30 +16071,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -12206,6 +16149,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.getCountryDetails({
@@ -12261,30 +16206,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -12312,6 +16284,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.getRegions({
@@ -12362,30 +16336,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -12413,11 +16414,12 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.getSubregions({
-     *         apiKey: "apiKey",
-     *         region: "region"
+     *         apiKey: "apiKey"
      *     })
      */
     public getSubregions(
@@ -12465,30 +16467,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -12518,6 +16547,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.getAdminLevels({
@@ -12570,30 +16601,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -12623,6 +16681,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.getAdminUnits({
@@ -12641,12 +16701,12 @@ export class ApifreaksApiClient {
         request: ApifreaksApi.GetAdminUnitsRequest,
         requestOptions?: ApifreaksApiClient.RequestOptions,
     ): Promise<core.WithRawResponse<ApifreaksApi.GetAdminUnitsResponse>> {
-        const { apiKey, format, country, adminLevels } = request;
+        const { apiKey, format, country, admin_level: adminLevel } = request;
         const _queryParams: Record<string, unknown> = {
             apiKey,
             format: format != null ? format : undefined,
             country,
-            adminLevels,
+            admin_level: adminLevel,
         };
         const _headers: core.Fetcher.Args["headers"] = mergeHeaders(this._options?.headers, requestOptions?.headers);
         const _response = await core.fetcher({
@@ -12661,6 +16721,7 @@ export class ApifreaksApiClient {
             queryString: core.url
                 .queryBuilder()
                 .addMany(_queryParams)
+                .add("admin_level", _queryParams.admin_level, { style: "comma" })
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
@@ -12676,30 +16737,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -12729,6 +16817,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.getAdminUnitDetails({
@@ -12786,30 +16876,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -12839,6 +16956,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.getCities({
@@ -12892,30 +17011,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -12945,6 +17091,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.getSupportedFlags({
@@ -12954,14 +17102,14 @@ export class ApifreaksApiClient {
     public getSupportedFlags(
         request: ApifreaksApi.GetSupportedFlagsRequest,
         requestOptions?: ApifreaksApiClient.RequestOptions,
-    ): core.HttpResponsePromise<ApifreaksApi.GetSupportedFlagsResponseItem[]> {
+    ): core.HttpResponsePromise<ApifreaksApi.GetSupportedFlagsResponse> {
         return core.HttpResponsePromise.fromPromise(this.__getSupportedFlags(request, requestOptions));
     }
 
     private async __getSupportedFlags(
         request: ApifreaksApi.GetSupportedFlagsRequest,
         requestOptions?: ApifreaksApiClient.RequestOptions,
-    ): Promise<core.WithRawResponse<ApifreaksApi.GetSupportedFlagsResponseItem[]>> {
+    ): Promise<core.WithRawResponse<ApifreaksApi.GetSupportedFlagsResponse>> {
         const { apiKey } = request;
         const _queryParams: Record<string, unknown> = {
             apiKey,
@@ -12989,7 +17137,7 @@ export class ApifreaksApiClient {
         });
         if (_response.ok) {
             return {
-                data: _response.body as ApifreaksApi.GetSupportedFlagsResponseItem[],
+                data: _response.body as ApifreaksApi.GetSupportedFlagsResponse,
                 rawResponse: _response.rawResponse,
             };
         }
@@ -12997,30 +17145,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -13047,6 +17222,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      */
     public getFlags(
         request: ApifreaksApi.GetFlagsRequest,
@@ -13097,30 +17274,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -13150,6 +17354,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.timezoneLookup({
@@ -13221,30 +17427,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -13274,6 +17507,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.timezoneConvert({
@@ -13357,30 +17592,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -13410,6 +17672,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.userAgentLookup({
@@ -13464,30 +17728,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -13517,6 +17808,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.bulkUserAgentLookup({
@@ -13557,7 +17850,7 @@ export class ApifreaksApiClient {
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             requestType: "json",
-            body: _body,
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -13574,30 +17867,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -13635,8 +17955,11 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
+     *     import { createReadStream } from "fs";
      *     await client.ocrPredict({
      *         apiKey: "apiKey",
      *         model: "mini-ocr-v1"
@@ -13653,11 +17976,25 @@ export class ApifreaksApiClient {
         request: ApifreaksApi.OcrPredictRequest,
         requestOptions?: ApifreaksApiClient.RequestOptions,
     ): Promise<core.WithRawResponse<ApifreaksApi.OcrPredictResponse>> {
-        const { apiKey, ..._body } = request;
         const _queryParams: Record<string, unknown> = {
-            apiKey,
+            apiKey: request.apiKey,
+            model: request.model,
+            url: request.url,
+            page_range: request.page_range,
+            zone: request.zone,
+            new_line: request.new_line,
         };
-        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(this._options?.headers, requestOptions?.headers);
+        const _body = await core.newFormData();
+        if (request.file != null) {
+            await _body.appendFile("file", request.file);
+        }
+
+        const _maybeEncodedRequest = await _body.getRequest();
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(
+            this._options?.headers,
+            mergeOnlyDefinedHeaders({ ..._maybeEncodedRequest.headers }),
+            requestOptions?.headers,
+        );
         const _response = await core.fetcher({
             url: core.url.join(
                 (await core.Supplier.get(this._options.baseUrl)) ??
@@ -13667,14 +18004,14 @@ export class ApifreaksApiClient {
             ),
             method: "POST",
             headers: _headers,
-            contentType: "application/json",
             queryString: core.url
                 .queryBuilder()
                 .addMany(_queryParams)
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
-            requestType: "json",
-            body: _body,
+            requestType: "file",
+            duplex: _maybeEncodedRequest.duplex,
+            body: _maybeEncodedRequest.body,
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -13688,30 +18025,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -13741,6 +18105,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.grammarDetect({
@@ -13780,7 +18146,7 @@ export class ApifreaksApiClient {
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             requestType: "json",
-            body: _body,
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -13794,30 +18160,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -13852,6 +18245,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.grammarCorrect({
@@ -13891,7 +18286,7 @@ export class ApifreaksApiClient {
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             requestType: "json",
-            body: _body,
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -13905,30 +18300,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -13963,6 +18385,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.weakWordsDetect({
@@ -14002,7 +18426,7 @@ export class ApifreaksApiClient {
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             requestType: "json",
-            body: _body,
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -14016,30 +18440,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -14069,6 +18520,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.readabilityScore({
@@ -14110,7 +18563,7 @@ export class ApifreaksApiClient {
                 .mergeAdditional(requestOptions?.queryParams)
                 .build(),
             requestType: "json",
-            body: _body,
+            body: mergeAdditionalBodyParameters(_body, requestOptions?.additionalBodyParameters),
             timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
             maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
             abortSignal: requestOptions?.abortSignal,
@@ -14127,30 +18580,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -14180,6 +18660,8 @@ export class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.astronomyLookup({
@@ -14238,30 +18720,57 @@ export class ApifreaksApiClient {
         if (_response.error.reason === "status-code") {
             switch (_response.error.statusCode) {
                 case 400:
-                    throw new ApifreaksApi.BadRequestError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
                 case 401:
-                    throw new ApifreaksApi.UnauthorizedError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
                 case 402:
-                    throw new ApifreaksApi.PaymentRequiredError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
                 case 403:
-                    throw new ApifreaksApi.ForbiddenError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
                 case 404:
                     throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
                 case 406:
-                    throw new ApifreaksApi.NotAcceptableError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
                 case 413:
-                    throw new ApifreaksApi.ContentTooLargeError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
                 case 429:
-                    throw new ApifreaksApi.TooManyRequestsError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
                 case 500:
-                    throw new ApifreaksApi.InternalServerError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
                 case 503:
                     throw new ApifreaksApi.ServiceUnavailableError(
-                        _response.error.body as unknown,
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
                         _response.rawResponse,
                     );
                 case 504:
-                    throw new ApifreaksApi.GatewayTimeoutError(_response.error.body as unknown, _response.rawResponse);
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
                 default:
                     throw new errors.ApifreaksApiError({
                         statusCode: _response.error.statusCode,
@@ -14272,6 +18781,138 @@ export class ApifreaksApiClient {
         }
 
         return handleNonStatusCodeError(_response.error, _response.rawResponse, "GET", "/v1.0/geolocation/astronomy");
+    }
+
+    /**
+     * Returns subscription, subscription-surcharge, and one-off credit balances for the authenticated organization's account.
+     *
+     * @param {ApifreaksApi.GetCreditsUsageRequest} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
+     *
+     * @example
+     *     await client.getCreditsUsage({
+     *         apiKey: "apiKey"
+     *     })
+     */
+    public getCreditsUsage(
+        request: ApifreaksApi.GetCreditsUsageRequest,
+        requestOptions?: ApifreaksApiClient.RequestOptions,
+    ): core.HttpResponsePromise<ApifreaksApi.GetCreditsUsageResponse> {
+        return core.HttpResponsePromise.fromPromise(this.__getCreditsUsage(request, requestOptions));
+    }
+
+    private async __getCreditsUsage(
+        request: ApifreaksApi.GetCreditsUsageRequest,
+        requestOptions?: ApifreaksApiClient.RequestOptions,
+    ): Promise<core.WithRawResponse<ApifreaksApi.GetCreditsUsageResponse>> {
+        const { apiKey, format } = request;
+        const _queryParams: Record<string, unknown> = {
+            apiKey,
+            format: format != null ? format : undefined,
+        };
+        const _headers: core.Fetcher.Args["headers"] = mergeHeaders(this._options?.headers, requestOptions?.headers);
+        const _response = await core.fetcher({
+            url: core.url.join(
+                (await core.Supplier.get(this._options.baseUrl)) ??
+                    (await core.Supplier.get(this._options.environment)) ??
+                    environments.ApifreaksApiEnvironment.Default,
+                "v1.0/credits/usage/info",
+            ),
+            method: "GET",
+            headers: _headers,
+            queryString: core.url
+                .queryBuilder()
+                .addMany(_queryParams)
+                .mergeAdditional(requestOptions?.queryParams)
+                .build(),
+            timeoutMs: (requestOptions?.timeoutInSeconds ?? this._options?.timeoutInSeconds ?? 60) * 1000,
+            maxRetries: requestOptions?.maxRetries ?? this._options?.maxRetries,
+            abortSignal: requestOptions?.abortSignal,
+            fetchFn: this._options?.fetch,
+            logging: this._options.logging,
+        });
+        if (_response.ok) {
+            return { data: _response.body as ApifreaksApi.GetCreditsUsageResponse, rawResponse: _response.rawResponse };
+        }
+
+        if (_response.error.reason === "status-code") {
+            switch (_response.error.statusCode) {
+                case 400:
+                    throw new ApifreaksApi.BadRequestError(
+                        _response.error.body as ApifreaksApi.BadRequestErrorBody,
+                        _response.rawResponse,
+                    );
+                case 401:
+                    throw new ApifreaksApi.UnauthorizedError(
+                        _response.error.body as ApifreaksApi.UnauthorizedErrorBody,
+                        _response.rawResponse,
+                    );
+                case 402:
+                    throw new ApifreaksApi.PaymentRequiredError(
+                        _response.error.body as ApifreaksApi.PaymentRequiredErrorBody,
+                        _response.rawResponse,
+                    );
+                case 403:
+                    throw new ApifreaksApi.ForbiddenError(
+                        _response.error.body as ApifreaksApi.ForbiddenErrorBody,
+                        _response.rawResponse,
+                    );
+                case 404:
+                    throw new ApifreaksApi.NotFoundError(_response.error.body as unknown, _response.rawResponse);
+                case 406:
+                    throw new ApifreaksApi.NotAcceptableError(
+                        _response.error.body as ApifreaksApi.NotAcceptableErrorBody,
+                        _response.rawResponse,
+                    );
+                case 413:
+                    throw new ApifreaksApi.ContentTooLargeError(
+                        _response.error.body as ApifreaksApi.ContentTooLargeErrorBody,
+                        _response.rawResponse,
+                    );
+                case 429:
+                    throw new ApifreaksApi.TooManyRequestsError(
+                        _response.error.body as ApifreaksApi.TooManyRequestsErrorBody,
+                        _response.rawResponse,
+                    );
+                case 500:
+                    throw new ApifreaksApi.InternalServerError(
+                        _response.error.body as ApifreaksApi.InternalServerErrorBody,
+                        _response.rawResponse,
+                    );
+                case 503:
+                    throw new ApifreaksApi.ServiceUnavailableError(
+                        _response.error.body as ApifreaksApi.ServiceUnavailableErrorBody,
+                        _response.rawResponse,
+                    );
+                case 504:
+                    throw new ApifreaksApi.GatewayTimeoutError(
+                        _response.error.body as ApifreaksApi.GatewayTimeoutErrorBody,
+                        _response.rawResponse,
+                    );
+                default:
+                    throw new errors.ApifreaksApiError({
+                        statusCode: _response.error.statusCode,
+                        body: _response.error.body,
+                        rawResponse: _response.rawResponse,
+                    });
+            }
+        }
+
+        return handleNonStatusCodeError(_response.error, _response.rawResponse, "GET", "/v1.0/credits/usage/info");
     }
 
     /**

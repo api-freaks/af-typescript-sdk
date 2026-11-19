@@ -8,7 +8,7 @@ import type * as ApifreaksApi from "../../index.js";
 export interface CurrentWeatherRequest {
     /** Your API key */
     apiKey: string;
-    /** Response format returned by the API. */
+    /** Response format returned by the API. Only JSON is supported. */
     format?: ApifreaksApi.CurrentWeatherRequestFormat;
     /** City name, place name, or full address. */
     location?: string;

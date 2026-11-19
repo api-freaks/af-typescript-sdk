@@ -29,6 +29,10 @@ export interface BulkPhoneValidateResponseItem {
     ndc_length?: number | undefined;
     /** Whether the number can be dialled internationally. */
     can_be_internationally_dialled?: boolean | undefined;
+    /** Short error category. Present only when this item failed validation (e.g. malformed number, conflicting region parameters). */
+    error?: string | undefined;
+    /** Human-readable reason for failure. Present only when this item failed validation. */
+    message?: string | undefined;
 }
 
 export namespace BulkPhoneValidateResponseItem {

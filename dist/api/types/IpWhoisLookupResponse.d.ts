@@ -10,6 +10,10 @@ export interface IpWhoisLookupResponse {
     abuse_contacts?: IpWhoisLookupResponse.AbuseContacts.Item[] | undefined;
     administrative_contacts?: IpWhoisLookupResponse.AdministrativeContacts.Item[] | undefined;
     whois_raw_response?: string | undefined;
+    /** BGP route objects announced by this IP's network. */
+    routes?: IpWhoisLookupResponse.Routes.Item[] | undefined;
+    /** WHOIS response from the rwhois server, if available. */
+    r_whois_raw_response?: (string | null) | undefined;
 }
 export declare namespace IpWhoisLookupResponse {
     type InetNums = InetNums.Item[];
@@ -74,6 +78,239 @@ export declare namespace IpWhoisLookupResponse {
         date_created?: string | undefined;
         date_updated?: string | undefined;
         source?: string | undefined;
+        /** Abuse contacts linked to this IRT. */
+        abuse_contacts?: (Irt.AbuseContacts.Item[] | null) | undefined;
+        /** Administrative contacts linked to this IRT. */
+        administrative_contacts?: (Irt.AdministrativeContacts.Item[] | null) | undefined;
+        /** Organization object containing the registrant's handle, name, address, contact details, and linked admin/tech/abuse contacts. */
+        organization?: Irt.Organization | undefined;
+        /** Technical contacts linked to this IRT. */
+        technical_contacts?: (Irt.TechnicalContacts.Item[] | null) | undefined;
+    }
+    namespace Irt {
+        type AbuseContacts = AbuseContacts.Item[];
+        namespace AbuseContacts {
+            /**
+             * Contact person or role object with handle, name, email, phone, and source reference.
+             */
+            interface Item {
+                /** Handle or unique identifier of this contact in WHOIS data. */
+                handle: string;
+                /** Name of the contact person or role. */
+                name?: (string | null) | undefined;
+                /** Address lines for this contact. */
+                address?: (string[] | null) | undefined;
+                /** Parsed street address from the address field. */
+                street?: (string | null) | undefined;
+                /** Parsed city from the address field. */
+                city?: (string | null) | undefined;
+                /** Parsed district from the address field. */
+                district?: (string | null) | undefined;
+                /** Parsed state from the address field. */
+                state?: (string | null) | undefined;
+                /** Parsed ZIP code from the address field. */
+                zip_code?: (string | null) | undefined;
+                /** Parsed country from the address field. */
+                country?: (string | null) | undefined;
+                /** Email addresses for this contact. */
+                email?: (string[] | null) | undefined;
+                /** Abuse mailbox email addresses for this contact. */
+                abuse_mailbox?: (string[] | null) | undefined;
+                /** Phone numbers for this contact. */
+                phone?: (string[] | null) | undefined;
+                /** Fax numbers for this contact. */
+                fax_no?: (string[] | null) | undefined;
+                /** Handles of organization objects managing this contact. */
+                organizations?: (string[] | null) | undefined;
+                /** Handles of admin persons or roles linked to this contact. */
+                admin_contacts?: (string[] | null) | undefined;
+                /** Handles of technical persons or roles linked to this contact. */
+                tech_contacts?: (string[] | null) | undefined;
+                /** Remarks for this contact object. */
+                remarks?: (string[] | null) | undefined;
+                /** Notify email addresses for this contact object. */
+                notify?: (string[] | null) | undefined;
+                /** Maintainer handles for this contact object. */
+                mnt_by?: (string[] | null) | undefined;
+                /** Referenced maintainer handles for this contact object. */
+                mnt_ref?: (string[] | null) | undefined;
+                /** Registration date of this contact object (YYYY-MM-DD). */
+                date_created?: (string | null) | undefined;
+                /** Last update date of this contact object (YYYY-MM-DD). */
+                date_updated?: (string | null) | undefined;
+                /** WHOIS data source (RIR registry URL) for this object. */
+                source: string;
+            }
+        }
+        type AdministrativeContacts = AdministrativeContacts.Item[];
+        namespace AdministrativeContacts {
+            /**
+             * Contact person or role object with handle, name, email, phone, and source reference.
+             */
+            interface Item {
+                /** Handle or unique identifier of this contact in WHOIS data. */
+                handle: string;
+                /** Name of the contact person or role. */
+                name?: (string | null) | undefined;
+                /** Address lines for this contact. */
+                address?: (string[] | null) | undefined;
+                /** Parsed street address from the address field. */
+                street?: (string | null) | undefined;
+                /** Parsed city from the address field. */
+                city?: (string | null) | undefined;
+                /** Parsed district from the address field. */
+                district?: (string | null) | undefined;
+                /** Parsed state from the address field. */
+                state?: (string | null) | undefined;
+                /** Parsed ZIP code from the address field. */
+                zip_code?: (string | null) | undefined;
+                /** Parsed country from the address field. */
+                country?: (string | null) | undefined;
+                /** Email addresses for this contact. */
+                email?: (string[] | null) | undefined;
+                /** Abuse mailbox email addresses for this contact. */
+                abuse_mailbox?: (string[] | null) | undefined;
+                /** Phone numbers for this contact. */
+                phone?: (string[] | null) | undefined;
+                /** Fax numbers for this contact. */
+                fax_no?: (string[] | null) | undefined;
+                /** Handles of organization objects managing this contact. */
+                organizations?: (string[] | null) | undefined;
+                /** Handles of admin persons or roles linked to this contact. */
+                admin_contacts?: (string[] | null) | undefined;
+                /** Handles of technical persons or roles linked to this contact. */
+                tech_contacts?: (string[] | null) | undefined;
+                /** Remarks for this contact object. */
+                remarks?: (string[] | null) | undefined;
+                /** Notify email addresses for this contact object. */
+                notify?: (string[] | null) | undefined;
+                /** Maintainer handles for this contact object. */
+                mnt_by?: (string[] | null) | undefined;
+                /** Referenced maintainer handles for this contact object. */
+                mnt_ref?: (string[] | null) | undefined;
+                /** Registration date of this contact object (YYYY-MM-DD). */
+                date_created?: (string | null) | undefined;
+                /** Last update date of this contact object (YYYY-MM-DD). */
+                date_updated?: (string | null) | undefined;
+                /** WHOIS data source (RIR registry URL) for this object. */
+                source: string;
+            }
+        }
+        /**
+         * Organization object containing the registrant's handle, name, address, contact details, and linked admin/tech/abuse contacts.
+         */
+        interface Organization {
+            /** Handle or unique identifier of this organization in WHOIS data. */
+            handle: string;
+            /** Name of the organization. */
+            name: string;
+            /** Type of the organization (e.g., BUSINESS, REGISTRY). */
+            type?: (string | null) | undefined;
+            /** Description values from the organization object. */
+            description?: (string[] | null) | undefined;
+            /** Full address lines of the organization. */
+            address?: (string[] | null) | undefined;
+            /** Parsed street address from the address field. */
+            street?: (string | null) | undefined;
+            /** Parsed city from the address field. */
+            city?: (string | null) | undefined;
+            /** Parsed district from the address field. */
+            district?: (string | null) | undefined;
+            /** Parsed state from the address field. */
+            state?: (string | null) | undefined;
+            /** Parsed ZIP code from the address field. */
+            zip_code?: (string | null) | undefined;
+            /** ISO 3166-1 alpha-2 country codes for the organization. */
+            country?: (string[] | null) | undefined;
+            /** Latitude parsed from the geoloc field. */
+            latitude?: (number | null) | undefined;
+            /** Longitude parsed from the geoloc field. */
+            longitude?: (number | null) | undefined;
+            /** Email addresses for the organization. */
+            email?: (string[] | null) | undefined;
+            /** Abuse mailbox email addresses for the organization. */
+            abuse_mailbox?: (string[] | null) | undefined;
+            /** Phone numbers for the organization. */
+            phone?: (string[] | null) | undefined;
+            /** Fax numbers for the organization. */
+            fax_no?: (string[] | null) | undefined;
+            /** Handles of admin persons or roles linked to this organization. */
+            admin_contacts?: (string[] | null) | undefined;
+            /** Handles of technical persons or roles linked to this organization. */
+            tech_contacts?: (string[] | null) | undefined;
+            /** Handles of abuse persons or roles linked to this organization. */
+            abuse_contacts?: (string[] | null) | undefined;
+            /** Remarks for this organization object. */
+            remarks?: (string[] | null) | undefined;
+            /** Notify email addresses for this organization object. */
+            notify?: (string[] | null) | undefined;
+            /** Reference notification email addresses for this organization object. */
+            ref_nfy?: (string[] | null) | undefined;
+            /** Maintainer handles for this organization object. */
+            mnt_by?: (string[] | null) | undefined;
+            /** Referenced maintainer handles for this organization object. */
+            mnt_ref?: (string[] | null) | undefined;
+            /** Registration date of this organization object (YYYY-MM-DD). */
+            date_created?: (string | null) | undefined;
+            /** Last update date of this organization object (YYYY-MM-DD). */
+            date_updated?: (string | null) | undefined;
+            /** WHOIS data source (RIR registry URL) for this object. */
+            source: string;
+        }
+        type TechnicalContacts = TechnicalContacts.Item[];
+        namespace TechnicalContacts {
+            /**
+             * Contact person or role object with handle, name, email, phone, and source reference.
+             */
+            interface Item {
+                /** Handle or unique identifier of this contact in WHOIS data. */
+                handle: string;
+                /** Name of the contact person or role. */
+                name?: (string | null) | undefined;
+                /** Address lines for this contact. */
+                address?: (string[] | null) | undefined;
+                /** Parsed street address from the address field. */
+                street?: (string | null) | undefined;
+                /** Parsed city from the address field. */
+                city?: (string | null) | undefined;
+                /** Parsed district from the address field. */
+                district?: (string | null) | undefined;
+                /** Parsed state from the address field. */
+                state?: (string | null) | undefined;
+                /** Parsed ZIP code from the address field. */
+                zip_code?: (string | null) | undefined;
+                /** Parsed country from the address field. */
+                country?: (string | null) | undefined;
+                /** Email addresses for this contact. */
+                email?: (string[] | null) | undefined;
+                /** Abuse mailbox email addresses for this contact. */
+                abuse_mailbox?: (string[] | null) | undefined;
+                /** Phone numbers for this contact. */
+                phone?: (string[] | null) | undefined;
+                /** Fax numbers for this contact. */
+                fax_no?: (string[] | null) | undefined;
+                /** Handles of organization objects managing this contact. */
+                organizations?: (string[] | null) | undefined;
+                /** Handles of admin persons or roles linked to this contact. */
+                admin_contacts?: (string[] | null) | undefined;
+                /** Handles of technical persons or roles linked to this contact. */
+                tech_contacts?: (string[] | null) | undefined;
+                /** Remarks for this contact object. */
+                remarks?: (string[] | null) | undefined;
+                /** Notify email addresses for this contact object. */
+                notify?: (string[] | null) | undefined;
+                /** Maintainer handles for this contact object. */
+                mnt_by?: (string[] | null) | undefined;
+                /** Referenced maintainer handles for this contact object. */
+                mnt_ref?: (string[] | null) | undefined;
+                /** Registration date of this contact object (YYYY-MM-DD). */
+                date_created?: (string | null) | undefined;
+                /** Last update date of this contact object (YYYY-MM-DD). */
+                date_updated?: (string | null) | undefined;
+                /** WHOIS data source (RIR registry URL) for this object. */
+                source: string;
+            }
+        }
     }
     interface Organization {
         handle?: string | undefined;
@@ -99,6 +336,20 @@ export declare namespace IpWhoisLookupResponse {
         abuse_contacts?: string[] | undefined;
         languages?: string[] | undefined;
         remarks?: string[] | undefined;
+        /** Notify email addresses for this organization object. */
+        notify?: (string[] | null) | undefined;
+        /** Reference notification email addresses for this organization object. */
+        ref_nfy?: (string[] | null) | undefined;
+        /** Maintainer handles for this organization object. */
+        mnt_by?: (string[] | null) | undefined;
+        /** Referenced maintainer handles for this organization object. */
+        mnt_ref?: (string[] | null) | undefined;
+        /** Registration date of this organization object (YYYY-MM-DD). */
+        date_created?: (string | null) | undefined;
+        /** Last update date of this organization object (YYYY-MM-DD). */
+        date_updated?: (string | null) | undefined;
+        /** WHOIS data source (RIR registry URL) for this object. */
+        source?: string | undefined;
     }
     type TechnicalContacts = TechnicalContacts.Item[];
     namespace TechnicalContacts {
@@ -108,6 +359,42 @@ export declare namespace IpWhoisLookupResponse {
             email?: string[] | undefined;
             phone?: string[] | undefined;
             source?: string | undefined;
+            /** Abuse mailbox email addresses for this contact. */
+            abuse_mailbox?: (string[] | null) | undefined;
+            /** Address lines for this contact. */
+            address?: (string[] | null) | undefined;
+            /** Handles of admin persons or roles linked to this contact. */
+            admin_contacts?: (string[] | null) | undefined;
+            /** Parsed city from the address field. */
+            city?: (string | null) | undefined;
+            /** Parsed country from the address field. */
+            country?: (string | null) | undefined;
+            /** Registration date of this contact object (YYYY-MM-DD). */
+            date_created?: (string | null) | undefined;
+            /** Last update date of this contact object (YYYY-MM-DD). */
+            date_updated?: (string | null) | undefined;
+            /** Parsed district from the address field. */
+            district?: (string | null) | undefined;
+            /** Fax numbers for this contact. */
+            fax_no?: (string[] | null) | undefined;
+            /** Maintainer handles for this contact object. */
+            mnt_by?: (string[] | null) | undefined;
+            /** Referenced maintainer handles for this contact object. */
+            mnt_ref?: (string[] | null) | undefined;
+            /** Notify email addresses for this contact object. */
+            notify?: (string[] | null) | undefined;
+            /** Handles of organization objects managing this contact. */
+            organizations?: (string[] | null) | undefined;
+            /** Remarks for this contact object. */
+            remarks?: (string[] | null) | undefined;
+            /** Parsed state from the address field. */
+            state?: (string | null) | undefined;
+            /** Parsed street address from the address field. */
+            street?: (string | null) | undefined;
+            /** Handles of technical persons or roles linked to this contact. */
+            tech_contacts?: (string[] | null) | undefined;
+            /** Parsed ZIP code from the address field. */
+            zip_code?: (string | null) | undefined;
         }
     }
     type AbuseContacts = AbuseContacts.Item[];
@@ -118,6 +405,42 @@ export declare namespace IpWhoisLookupResponse {
             email?: string[] | undefined;
             phone?: string[] | undefined;
             source?: string | undefined;
+            /** Abuse mailbox email addresses for this contact. */
+            abuse_mailbox?: (string[] | null) | undefined;
+            /** Address lines for this contact. */
+            address?: (string[] | null) | undefined;
+            /** Handles of admin persons or roles linked to this contact. */
+            admin_contacts?: (string[] | null) | undefined;
+            /** Parsed city from the address field. */
+            city?: (string | null) | undefined;
+            /** Parsed country from the address field. */
+            country?: (string | null) | undefined;
+            /** Registration date of this contact object (YYYY-MM-DD). */
+            date_created?: (string | null) | undefined;
+            /** Last update date of this contact object (YYYY-MM-DD). */
+            date_updated?: (string | null) | undefined;
+            /** Parsed district from the address field. */
+            district?: (string | null) | undefined;
+            /** Fax numbers for this contact. */
+            fax_no?: (string[] | null) | undefined;
+            /** Maintainer handles for this contact object. */
+            mnt_by?: (string[] | null) | undefined;
+            /** Referenced maintainer handles for this contact object. */
+            mnt_ref?: (string[] | null) | undefined;
+            /** Notify email addresses for this contact object. */
+            notify?: (string[] | null) | undefined;
+            /** Handles of organization objects managing this contact. */
+            organizations?: (string[] | null) | undefined;
+            /** Remarks for this contact object. */
+            remarks?: (string[] | null) | undefined;
+            /** Parsed state from the address field. */
+            state?: (string | null) | undefined;
+            /** Parsed street address from the address field. */
+            street?: (string | null) | undefined;
+            /** Handles of technical persons or roles linked to this contact. */
+            tech_contacts?: (string[] | null) | undefined;
+            /** Parsed ZIP code from the address field. */
+            zip_code?: (string | null) | undefined;
         }
     }
     type AdministrativeContacts = AdministrativeContacts.Item[];
@@ -128,6 +451,92 @@ export declare namespace IpWhoisLookupResponse {
             email?: string[] | undefined;
             phone?: string[] | undefined;
             source?: string | undefined;
+            /** Abuse mailbox email addresses for this contact. */
+            abuse_mailbox?: (string[] | null) | undefined;
+            /** Address lines for this contact. */
+            address?: (string[] | null) | undefined;
+            /** Handles of admin persons or roles linked to this contact. */
+            admin_contacts?: (string[] | null) | undefined;
+            /** Parsed city from the address field. */
+            city?: (string | null) | undefined;
+            /** Parsed country from the address field. */
+            country?: (string | null) | undefined;
+            /** Registration date of this contact object (YYYY-MM-DD). */
+            date_created?: (string | null) | undefined;
+            /** Last update date of this contact object (YYYY-MM-DD). */
+            date_updated?: (string | null) | undefined;
+            /** Parsed district from the address field. */
+            district?: (string | null) | undefined;
+            /** Fax numbers for this contact. */
+            fax_no?: (string[] | null) | undefined;
+            /** Maintainer handles for this contact object. */
+            mnt_by?: (string[] | null) | undefined;
+            /** Referenced maintainer handles for this contact object. */
+            mnt_ref?: (string[] | null) | undefined;
+            /** Notify email addresses for this contact object. */
+            notify?: (string[] | null) | undefined;
+            /** Handles of organization objects managing this contact. */
+            organizations?: (string[] | null) | undefined;
+            /** Remarks for this contact object. */
+            remarks?: (string[] | null) | undefined;
+            /** Parsed state from the address field. */
+            state?: (string | null) | undefined;
+            /** Parsed street address from the address field. */
+            street?: (string | null) | undefined;
+            /** Handles of technical persons or roles linked to this contact. */
+            tech_contacts?: (string[] | null) | undefined;
+            /** Parsed ZIP code from the address field. */
+            zip_code?: (string | null) | undefined;
+        }
+    }
+    type Routes = Routes.Item[];
+    namespace Routes {
+        /**
+         * BGP route object containing the route prefix, origin AS, and related metadata.
+         */
+        interface Item {
+            /** BGP route prefix (e.g., 8.8.8.0/24). */
+            route?: (string | null) | undefined;
+            /** Origin AS number for this route. */
+            origin?: (string | null) | undefined;
+            /** Description values for this route object. */
+            description?: (string[] | null) | undefined;
+            /** Country of the organization managing this route. */
+            country?: (string | null) | undefined;
+            /** Pingable IP addresses in this route. */
+            pingable?: (string[] | null) | undefined;
+            /** Handles of pingable contacts for this route. */
+            ping_hdl?: (string[] | null) | undefined;
+            /** Sub-allocation holes (more specific routes) within this route. */
+            holes?: (string[] | null) | undefined;
+            /** Route sets this route is a member of. */
+            member_of?: (string[] | null) | undefined;
+            /** Injection details for this route. */
+            inject?: (string[] | null) | undefined;
+            /** Aggregation method for this route. */
+            aggr_mtd?: (string | null) | undefined;
+            /** Aggregation boundary for this route. */
+            aggr_bndry?: (string | null) | undefined;
+            /** Export composition for this route. */
+            export_comps?: (string | null) | undefined;
+            /** Route components. */
+            components?: (string | null) | undefined;
+            /** Handles of organization objects related to this route. */
+            organizations?: (string[] | null) | undefined;
+            /** Remarks for this route object. */
+            remarks?: (string[] | null) | undefined;
+            /** Notify email addresses for this route object. */
+            notify?: (string[] | null) | undefined;
+            /** Lower-level maintainer handles for this route. */
+            mnt_lower?: (string[] | null) | undefined;
+            /** Maintainer handles for this route object. */
+            mnt_by?: (string[] | null) | undefined;
+            /** Registration date of this route object (YYYY-MM-DD). */
+            date_created?: (string | null) | undefined;
+            /** Last update date of this route object (YYYY-MM-DD). */
+            date_updated?: (string | null) | undefined;
+            /** WHOIS data source for this route object. */
+            source?: (string | null) | undefined;
         }
     }
 }

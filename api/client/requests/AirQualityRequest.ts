@@ -11,7 +11,7 @@ import type * as ApifreaksApi from "../../index.js";
 export interface AirQualityRequest {
     /** Your API key */
     apiKey: string;
-    /** Response format returned by the API. */
+    /** Response format returned by the API. Only JSON is supported. */
     format?: ApifreaksApi.AirQualityRequestFormat;
     /** Starting date for AQI forecast data in YYYY-MM-DD format. Forecast dates must be current or future dates only. Past dates are not allowed for forecast data. The difference between endDate and startDate must not exceed 5 days. */
     startDate?: string;

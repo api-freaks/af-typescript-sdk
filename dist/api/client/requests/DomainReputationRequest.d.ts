@@ -1,0 +1,16 @@
+import type * as ApifreaksApi from "../../index.js";
+/**
+ * @example
+ *     {
+ *         apiKey: "apiKey",
+ *         domainName: "domainName"
+ *     }
+ */
+export interface DomainReputationRequest {
+    /** Your API key */
+    apiKey: string;
+    /** Format of the response. */
+    format?: ApifreaksApi.DomainReputationRequestFormat;
+    /** The domain name to assess (e.g. example.com). Must contain at least one dot and be at most 253 characters. Automatically lowercased. */
+    domainName: string;
+}

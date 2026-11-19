@@ -15,6 +15,7 @@ export declare namespace ZipcodeSearchByRadiusResponse {
         interface Item {
             code?: string | undefined;
             region?: string | undefined;
+            region_code?: string | undefined;
             city?: string | undefined;
             district?: string | undefined;
             distance?: number | undefined;

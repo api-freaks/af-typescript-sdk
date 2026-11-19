@@ -11,7 +11,7 @@ import type * as ApifreaksApi from "../../index.js";
 export interface WeatherForecastRequest {
     /** Your API key */
     apiKey: string;
-    /** Response format returned by the API. */
+    /** Response format returned by the API. Only JSON is supported. */
     format?: ApifreaksApi.WeatherForecastRequestFormat;
     /** Start date for the forecast in YYYY-MM-DD format. Forecast dates must be current or future dates only. Past dates are not allowed for forecast data. The difference between startDate and endDate must not exceed 16 days. */
     startDate?: string;

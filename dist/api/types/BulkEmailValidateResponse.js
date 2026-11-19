@@ -4,16 +4,19 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.BulkEmailValidateResponse = void 0;
 var BulkEmailValidateResponse;
 (function (BulkEmailValidateResponse) {
-    let EmailValidationResponses;
-    (function (EmailValidationResponses) {
+    let EmailResponse;
+    (function (EmailResponse) {
         let Item;
         (function (Item) {
             Item.ValidEmail = {
                 Valid: "valid",
-                Invalid: "Invalid",
-                Unknown: "Unknown",
-                Risky: "Risky",
+                AcceptAll: "accept_all",
+                Invalid: "invalid",
+                InvalidEmail: "INVALID_EMAIL",
+                Unknown: "unknown",
+                Risky: "risky",
+                AppServerBlocked: "app_server_blocked",
             };
-        })(Item = EmailValidationResponses.Item || (EmailValidationResponses.Item = {}));
-    })(EmailValidationResponses = BulkEmailValidateResponse.EmailValidationResponses || (BulkEmailValidateResponse.EmailValidationResponses = {}));
+        })(Item = EmailResponse.Item || (EmailResponse.Item = {}));
+    })(EmailResponse = BulkEmailValidateResponse.EmailResponse || (BulkEmailValidateResponse.EmailResponse = {}));
 })(BulkEmailValidateResponse || (exports.BulkEmailValidateResponse = BulkEmailValidateResponse = {}));

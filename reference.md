@@ -1,5 +1,7 @@
 # Reference
 
+Examples assume a `client` created as shown in the README (`new ApifreaksApiClient()`) and, for file uploads, `import * as fs from "fs";`.
+
 <details><summary><code>client.geolocationLookup(request) -> Promise<ApifreaksApi.GeolocationLookupResponse></code></summary>
 <dl>
 <dd>
@@ -29,7 +31,7 @@ Get detailed geolocation data for an IP address including country, city, timezon
 ```typescript
 const response = await client.geolocationLookup({
     apiKey: "apiKey"
-})
+});
 ```
 </dd>
 </dl>
@@ -97,6 +99,14 @@ const response = await client.geolocationLookup({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -135,7 +145,7 @@ Supports up to `50,000` IP-addresses/host-names per request.
 const response = await client.bulkGeolocationLookup({
     apiKey: "apiKey",
     ips: ["ips"]
-})
+});
 ```
 </dd>
 </dl>
@@ -203,212 +213,10 @@ const response = await client.bulkGeolocationLookup({
 </dd>
 </dl>
 
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.geolocationLookupV2(request) -> Promise<ApifreaksApi.GeolocationLookupV2Response></code></summary>
 <dl>
 <dd>
 
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Get detailed geolocation data (v2.0) for an IP address, hostname or domain including country, city, timezone, currency, ASN, company, and optional security, abuse and user-agent information. Uses the `/v2.0/geolocation/lookup` endpoint.
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-const response = await client.geolocationLookupV2({
-    apiKey: "apiKey"
-})
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**apiKey:** `string` — Your API key
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**format:** `ApifreaksApi.GeolocationLookupV2RequestFormat` optional — Format of the response.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**ip:** `string` optional — IPv4, IPv6, or domain name for geolocation lookup. Omit to detect the caller's IP.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**lang:** `ApifreaksApi.GeolocationLookupV2RequestLang` optional — Response language for location fields
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**fields:** `string` optional — Comma separated list of fields to include in response
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**excludes:** `string` optional — Comma separated list of fields to exclude from response
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**include:** `string` optional — Additional modules to include (geo_accuracy, dma_code, user_agent, security, abuse, hostname, liveHostname, hostnameFallbackLive, or `*` for all)
-    
-</dd>
-</dl>
-
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.bulkGeolocationLookupV2(request) -> Promise<ApifreaksApi.BulkGeolocationLookupV2ResponseItem[]></code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Retrieve detailed geolocation data (v2.0) for multiple IP addresses, hostnames or domain names in a single request.
-Supports up to `50,000` IP-addresses/host-names per request. Uses the `/v2.0/geolocation/lookup` endpoint.
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-const response = await client.bulkGeolocationLookupV2({
-    apiKey: "apiKey",
-    ips: ["ips"]
-})
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**apiKey:** `string` — Your API key
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**format:** `ApifreaksApi.BulkGeolocationLookupV2RequestFormat` optional — Format of the response.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**lang:** `string` optional — Language of the response.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**fields:** `string` optional — Comma-separated list of fields to include in the response.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**excludes:** `string` optional — Comma-separated list of fields to exclude from the response (except "ip").
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**include:** `string` optional — Comma-separated list of additional modules to include in the response.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**ips:** `string[]` — List of IP addresses, hostnames or domain names to lookup
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -449,7 +257,7 @@ Get comprehensive security information for a given IP address. Detects VPNs, pro
 ```typescript
 const response = await client.ipSecurityLookup({
     apiKey: "apiKey"
-})
+});
 ```
 </dd>
 </dl>
@@ -501,6 +309,14 @@ const response = await client.ipSecurityLookup({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -538,7 +354,7 @@ The Bulk IP Security Lookup API allows you to retrieve security details for up t
 const response = await client.bulkIpSecurityLookup({
     apiKey: "apiKey",
     ips: ["ips"]
-})
+});
 ```
 </dd>
 </dl>
@@ -590,6 +406,14 @@ const response = await client.bulkIpSecurityLookup({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -627,7 +451,7 @@ Convert a given address or place name into geographic coordinates (latitude and 
 const response = await client.geocoderSearch({
     apiKey: "apiKey",
     query: "query"
-})
+});
 ```
 </dd>
 </dl>
@@ -703,6 +527,22 @@ const response = await client.geocoderSearch({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**Accept-Language:** `string` optional — Preferred language order for showing search results. This may either be a simple comma-separated list of language codes or a single entry. The results will be in the 1st language which is matched from the header. As a fallback if the results are not supported in the given language, 'en' will be used.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -741,7 +581,7 @@ const response = await client.geocoderReverse({
     apiKey: "apiKey",
     lat: 1.1,
     lon: 1.1
-})
+});
 ```
 </dd>
 </dl>
@@ -785,6 +625,22 @@ const response = await client.geocoderReverse({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**Accept-Language:** `string` optional — Preferred language order for showing search results. This may either be a simple comma-separated list of language codes or a single entry. The results will be in the 1st language which is matched from the header. As a fallback if the results are not supported in the given language, en will be used.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -824,7 +680,7 @@ dates, nameservers, and registrant information.
 const response = await client.domainWhoisLookup({
     apiKey: "apiKey",
     domainName: "domainName"
-})
+});
 ```
 </dd>
 </dl>
@@ -856,6 +712,14 @@ const response = await client.domainWhoisLookup({
 <dd>
 
 **domainName:** `string` — Domain name for WHOIS lookup
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -897,7 +761,7 @@ Retrieve WHOIS information for `100 Domains per Request`.
 const response = await client.bulkDomainWhoisLookup({
     apiKey: "apiKey",
     domainNames: ["domainNames"]
-})
+});
 ```
 </dd>
 </dl>
@@ -933,148 +797,10 @@ const response = await client.bulkDomainWhoisLookup({
 </dd>
 </dl>
 
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.domainWhoisLookupV2(request) -> Promise<ApifreaksApi.DomainWhoisLookupV2Response></code></summary>
 <dl>
 <dd>
 
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Get live WHOIS registration details (v2.0) for a domain name, including registrar, contacts, secure DNS, eligibility and registry data. Uses the `/v2.0/domain/whois/live` endpoint.
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-const response = await client.domainWhoisLookupV2({
-    apiKey: "apiKey",
-    domainName: "domainName"
-})
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**apiKey:** `string` — Your API key
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**format:** `ApifreaksApi.DomainWhoisLookupV2RequestFormat` optional — Response format (defaults to json)
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**domainName:** `string` — Domain name for WHOIS lookup
-    
-</dd>
-</dl>
-
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.bulkDomainWhoisLookupV2(request) -> Promise<ApifreaksApi.BulkDomainWhoisLookupV2Response></code></summary>
-<dl>
-<dd>
-
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Retrieve live WHOIS information (v2.0) for `100 Domains per Request`. Uses the `/v2.0/domain/whois/live` endpoint.
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-const response = await client.bulkDomainWhoisLookupV2({
-    apiKey: "apiKey",
-    domainNames: ["domainNames"]
-})
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**apiKey:** `string` — Your API key
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**format:** `ApifreaksApi.BulkDomainWhoisLookupV2RequestFormat` optional — Format of the response.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**domainNames:** `string[]` — A list of domain names for which WHOIS data is requested.
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -1116,7 +842,7 @@ Returns WHOIS registration details for a specified IP address (IPv4 or IPv6).
 const response = await client.ipWhoisLookup({
     apiKey: "apiKey",
     ip: "ip"
-})
+});
 ```
 </dd>
 </dl>
@@ -1148,6 +874,14 @@ const response = await client.ipWhoisLookup({
 <dd>
 
 **ip:** `string` — The IP address (IPv4 or IPv6) for which WHOIS data is requested.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -1189,7 +923,7 @@ Returns WHOIS registration details for a specified ASN, with or without the 'as'
 const response = await client.asnWhoisLookup({
     apiKey: "apiKey",
     asn: "asn"
-})
+});
 ```
 </dd>
 </dl>
@@ -1221,6 +955,14 @@ const response = await client.asnWhoisLookup({
 <dd>
 
 **asn:** `string` — The Autonomous System Number (ASN) to retrieve WHOIS data for. Can be prefixed with 'as' or not.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -1263,7 +1005,7 @@ This endpoint provides a timeline of all recorded changes in domain registration
 const response = await client.domainWhoisHistory({
     apiKey: "apiKey",
     domainName: "domainName"
-})
+});
 ```
 </dd>
 </dl>
@@ -1295,6 +1037,14 @@ const response = await client.domainWhoisHistory({
 <dd>
 
 **domainName:** `string` — Domain name for historical WHOIS lookup
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -1335,7 +1085,7 @@ Performs a reverse WHOIS search using one or more search parameters like keyword
 ```typescript
 const response = await client.domainWhoisReverse({
     apiKey: "apiKey"
-})
+});
 ```
 </dd>
 </dl>
@@ -1406,7 +1156,23 @@ const response = await client.domainWhoisReverse({
 <dl>
 <dd>
 
+**mode:** `ApifreaksApi.DomainWhoisReverseRequestMode` optional
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **page:** `number` optional — Page number for paginated results.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -1448,7 +1214,7 @@ Retrieve real-time DNS records for any hostname. Supports multiple record types 
 const response = await client.domainDnsLookup({
     apiKey: "apiKey",
     type: ["type"]
-})
+});
 ```
 </dd>
 </dl>
@@ -1479,7 +1245,7 @@ const response = await client.domainDnsLookup({
 <dl>
 <dd>
 
-**ipAddress:** `string` optional — Hostname or URL whose DNS records are required. */ "host-name"?: string; /** The IP address for requested DNS's PTR record. 'type' parameter must be set to 'all'.
+**host-name:** `string` optional — Hostname or URL whose DNS records are required. Give either `host-name` or `ipAddress`.
     
 </dd>
 </dl>
@@ -1487,7 +1253,23 @@ const response = await client.domainDnsLookup({
 <dl>
 <dd>
 
-**type:** `string | string[]` — A comma-separated list of DNS record types for lookup. Possible values: A, AAAA, MX, NS, SOA, SPF, TXT, CNAME, or all. When ipAddress is provided, type must be "all". **Required**
+**ipAddress:** `string` optional — The IP address whose PTR (reverse DNS) record is required. Give either `host-name` or `ipAddress`; with `ipAddress`, set `type` to `all` or `PTR`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**type:** `string | string[]` optional — DNS record types to look up, sent as a comma-separated list (e.g. `A,MX`). Possible values: A, AAAA, MX, NS, SOA, SPF, TXT, CNAME, PTR, or all. When ipAddress is provided, use "all" or "PTR".
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -1531,7 +1313,7 @@ const response = await client.bulkDomainDnsLookup({
     apiKey: "apiKey",
     type: ["type"],
     domainNames: ["domainNames"]
-})
+});
 ```
 </dd>
 </dl>
@@ -1562,15 +1344,7 @@ const response = await client.bulkDomainDnsLookup({
 <dl>
 <dd>
 
-**type:** `string | string[]` — A comma-separated list of DNS record types for lookup. Possible values: A, AAAA, MX, NS, SOA, SPF, TXT, CNAME, or all **Required**
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**ipAddresses:** `string[]` optional — List of IP addresses to look up.
+**type:** `string | string[]` optional — DNS record types to look up, sent as a comma-separated list (e.g. `A,MX`). Possible values: A, AAAA, MX, NS, SOA, SPF, TXT, CNAME, or all.
     
 </dd>
 </dl>
@@ -1579,6 +1353,22 @@ const response = await client.bulkDomainDnsLookup({
 <dd>
 
 **domainNames:** `string[]` — List of hostnames to lookup DNS records for
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**ipAddresses:** `string[]` optional — Array of IP addresses to include in the lookup for PTR record enrichment.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -1622,7 +1412,7 @@ const response = await client.domainDnsHistory({
     apiKey: "apiKey",
     "host-name": "host-name",
     type: ["type"]
-})
+});
 ```
 </dd>
 </dl>
@@ -1653,7 +1443,15 @@ const response = await client.domainDnsHistory({
 <dl>
 <dd>
 
-**type:** `string | string[]` — Hostname or URL whose historical DNS records are required */ "host-name": string; /** A comma-separated list of DNS record types for lookup. Possible values: A, AAAA, MX, NS, SOA, SPF, TXT, CNAME, or all **Required**
+**host-name:** `string` — Hostname or URL whose historical DNS records are required
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**type:** `string | string[]` optional — DNS record types to look up, sent as a comma-separated list (e.g. `A,MX`). Possible values: A, AAAA, MX, NS, SOA, SPF, TXT, CNAME, or all.
     
 </dd>
 </dl>
@@ -1662,6 +1460,14 @@ const response = await client.domainDnsHistory({
 <dd>
 
 **page:** `number` optional — Page number for paginated results
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -1704,7 +1510,7 @@ const response = await client.domainDnsReverse({
     apiKey: "apiKey",
     type: "A",
     value: "value"
-})
+});
 ```
 </dd>
 </dl>
@@ -1764,6 +1570,14 @@ const response = await client.domainDnsReverse({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -1803,47 +1617,33 @@ const response = await client.webScrape({
     apiKey: "apiKey",
     url: "https://example.com",
     body: {
-        blockUrl: ["https://example.com/ads.js", "https://tracker.example.com/*"],
-        cookies: [{
-                name: "sessionid",
-                value: "abc123"
-            }, {
-                name: "user_pref",
-                value: "darkmode"
-            }],
         instructions: [{
-                fill: {
-                    place: "#username",
-                    value: "myuser"
+                postForm: {
+                    selector: "#loginForm",
+                    data: {
+                        "username": "myuser",
+                        "password": "mypassword"
+                    }
                 }
-            }, {
-                fill: {
-                    place: "#password",
-                    value: "mypassword"
-                }
-            }, {
-                click: "#loginButton"
-            }, {
-                wait: 2000
             }, {
                 extract: {
-                    html: "#profile",
-                    text: "#welcome-message",
-                    user_data: "#user-info"
+                    "mainContent": "#main-content",
+                    "welcomeMessage": "#welcome-message"
                 }
             }, {
-                blockElement: [".ad-banner", "//div[@class='popup']"]
+                getForm: {
+                    selector: "#searchForm",
+                    data: {
+                        "query": "API scraping"
+                    }
+                }
             }, {
-                generalImageCaptcha: [{
-                        imagePath: "#captcha-img",
-                        textField: "#captcha-input",
-                        imageUpdatePath: "#refresh-captcha",
-                        captchaFailedPath: "#captcha-error",
-                        model: "mini-ocr-v1"
-                    }]
+                extract: {
+                    "searchResults": "#search-results"
+                }
             }]
     }
-})
+});
 ```
 </dd>
 </dl>
@@ -1898,7 +1698,7 @@ const response = await client.webScrape({
 <dl>
 <dd>
 
-**proxy:** `ApifreaksApi.WebScrapeRequestProxy` optional — Use proxy for requests
+**proxy:** `ApifreaksApi.WebScrapeRequestProxy` optional — Use a proxy for the request. Pass true/false to toggle the default proxy pool, or a proxy URL string to use a specific proxy.
     
 </dd>
 </dl>
@@ -1931,6 +1731,22 @@ const response = await client.webScrape({
 <dd>
 
 **captcha:** `boolean` optional — if true user can provide captcha instructions in the instructions to solve image captchas. Only works if **jsEnabled** is **true**.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**body:** `ApifreaksApi.WebScrapeRequestBody`
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -1972,7 +1788,7 @@ Validates a single email address and returns result.
 const response = await client.emailValidate({
     apiKey: "apiKey",
     email: "email"
-})
+});
 ```
 </dd>
 </dl>
@@ -2024,6 +1840,14 @@ const response = await client.emailValidate({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -2063,7 +1887,7 @@ const response = await client.bulkEmailValidate({
     emailData: [{
             email: "email"
         }]
-})
+});
 ```
 </dd>
 </dl>
@@ -2094,7 +1918,7 @@ const response = await client.bulkEmailValidate({
 <dl>
 <dd>
 
-**emailData:** `BulkEmailValidateRequest.EmailData.Item[]` — Array of email objects for bulk validation
+**emailData:** `ApifreaksApi.BulkEmailValidateRequest.EmailData.Item[]` — Array of email objects for bulk validation
     
 </dd>
 </dl>
@@ -2102,7 +1926,64 @@ const response = await client.bulkEmailValidate({
 <dl>
 <dd>
 
-**email:** `string` — Email address to validate
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.disposableEmailCheckV2(request) -> Promise<ApifreaksApi.DisposableEmailCheckV2Response></code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Validates email syntax and checks the domain for disposable, free, spam, and role-account signals, plus MX/A DNS records. Send the email (and optionally an ip) as a JSON request body. When an ip is included, the response also carries geolocation and security data for it.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+const response = await client.disposableEmailCheckV2({
+    apiKey: "apiKey",
+    email: "test@sogetthis.com"
+});
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**apiKey:** `string` — Your API key
     
 </dd>
 </dl>
@@ -2110,7 +1991,7 @@ const response = await client.bulkEmailValidate({
 <dl>
 <dd>
 
-**name:** `string | undefined` optional — Name associated with the email address
+**format:** `ApifreaksApi.DisposableEmailCheckV2RequestFormat` optional — Format of the response.
     
 </dd>
 </dl>
@@ -2118,7 +1999,111 @@ const response = await client.bulkEmailValidate({
 <dl>
 <dd>
 
-**ip:** `string | undefined` optional — IP address associated with the email address
+**email:** `string` — The email address to check.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**ip:** `string` optional — Optional IP address to look up for location and security data, such as the IP the signup came from.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.bulkDisposableEmailCheckV2(request) -> Promise<ApifreaksApi.BulkDisposableEmailCheckV2Response></code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Checks a bulk of email addresses (each with an optional ip) and returns a disposable email check result for each, in the same order as the request. Maximum `100` entries per request.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+const response = await client.bulkDisposableEmailCheckV2({
+    apiKey: "apiKey",
+    emailData: [{
+            email: "abc"
+        }, {
+            email: "john@microsoft.com",
+            ip: "8.8.8.8"
+        }, {
+            email: "test@mailinator.com"
+        }]
+});
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**apiKey:** `string` — Your API key
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**format:** `ApifreaksApi.BulkDisposableEmailCheckV2RequestFormat` optional — Format of the response.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**emailData:** `ApifreaksApi.BulkDisposableEmailCheckV2Request.EmailData.Item[]` — Entries to check. Maximum 100 per request. Must not be empty, and must not contain null entries or entries without a valid email.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -2160,7 +2145,7 @@ Validates a single phone number and returns detailed metadata including carrier,
 const response = await client.phoneValidate({
     apiKey: "apiKey",
     number: "+14155552671"
-})
+});
 ```
 </dd>
 </dl>
@@ -2212,6 +2197,14 @@ const response = await client.phoneValidate({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -2255,7 +2248,7 @@ const response = await client.bulkPhoneValidate({
         }, {
             number: "+919876543210"
         }]
-})
+});
 ```
 </dd>
 </dl>
@@ -2286,7 +2279,7 @@ const response = await client.bulkPhoneValidate({
 <dl>
 <dd>
 
-**numbers:** `BulkPhoneValidateRequest.Numbers.Item[]` — Array of phone number objects. Maximum 100 per request.
+**numbers:** `ApifreaksApi.BulkPhoneValidateRequest.Numbers.Item[]` — Array of phone number objects. Maximum 100 per request.
     
 </dd>
 </dl>
@@ -2294,23 +2287,7 @@ const response = await client.bulkPhoneValidate({
 <dl>
 <dd>
 
-**number:** `string` — Phone number to validate.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**region:** `string | undefined` optional — Two-letter ISO country code. Required for local format numbers. Cannot be used together with dialer_region.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**dialer_region:** `string | undefined` optional — Two-letter ISO country code of the dialing origin. Required for IDD format numbers. Cannot be used together with region.
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -2353,7 +2330,7 @@ This endpoint provides detailed information about the SSL certificate including 
 const response = await client.domainSslLookup({
     apiKey: "apiKey",
     domainName: "domainName"
-})
+});
 ```
 </dd>
 </dl>
@@ -2397,6 +2374,14 @@ const response = await client.domainSslLookup({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -2435,7 +2420,7 @@ This endpoint provides comprehensive information about each certificate in the c
 const response = await client.domainSslChainLookup({
     apiKey: "apiKey",
     domainName: "domainName"
-})
+});
 ```
 </dd>
 </dl>
@@ -2479,6 +2464,14 @@ const response = await client.domainSslChainLookup({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -2516,7 +2509,7 @@ The Domain Search API is designed to simplify the process of finding available d
 const response = await client.domainAvailabilityCheck({
     apiKey: "apiKey",
     domain: "domain"
-})
+});
 ```
 </dd>
 </dl>
@@ -2560,6 +2553,14 @@ const response = await client.domainAvailabilityCheck({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -2597,7 +2598,7 @@ Perform Bulk Domain Availability checks using a list of domains. Supports upto `
 const response = await client.bulkDomainAvailabilityCheck({
     apiKey: "apiKey",
     domainNames: ["domainNames"]
-})
+});
 ```
 </dd>
 </dl>
@@ -2641,6 +2642,14 @@ const response = await client.bulkDomainAvailabilityCheck({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -2678,7 +2687,7 @@ The Domain Search API is designed to simplify the process of finding available d
 const response = await client.domainAvailabilitySuggestions({
     apiKey: "apiKey",
     domain: "domain"
-})
+});
 ```
 </dd>
 </dl>
@@ -2725,7 +2734,7 @@ const response = await client.domainAvailabilitySuggestions({
 <dl>
 <dd>
 
-**count:** `number` optional — Number of suggestions to retrieve.
+**count:** `number` optional — Number of suggestions to retrieve. The API returns a minimum of 5 suggestions regardless of a lower value.
     
 </dd>
 </dl>
@@ -2733,7 +2742,15 @@ const response = await client.domainAvailabilitySuggestions({
 <dl>
 <dd>
 
-**sug:** `boolean` optional — Whether to return domain suggestions.
+**sug:** `boolean` optional — Controls the response shape. When `false`, returns a single availability object for the queried domain only. When omitted or `true`, returns an array of suggested domains instead.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -2775,7 +2792,7 @@ The Subdomain Lookup API is designed to retrieve subdomains related to the given
 const response = await client.subdomainsLookup({
     apiKey: "apiKey",
     domain: "domain"
-})
+});
 ```
 </dd>
 </dl>
@@ -2843,6 +2860,1414 @@ const response = await client.subdomainsLookup({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.domainTyposquatting(request) -> Promise<ApifreaksApi.DomainTyposquattingResponse></code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+The Domain Typosquatting API searches for registered domains that are typo or look-alike variants of a brand keyword, or that match a wildcard pattern. Results include registration lifecycle data and drop status across 1529+ TLDs, paginated at 100 domains per page.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+const response = await client.domainTyposquatting({
+    apiKey: "apiKey"
+});
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**apiKey:** `string` — Your API key
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**format:** `ApifreaksApi.DomainTyposquattingRequestFormat` optional — Format of the response.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**keyword:** `string` optional — Brand or label to find typo variants for. 3-63 characters, letters, digits, or hyphens, a single label with no dots. Case-insensitive. Use either keyword or pattern, never both.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**pattern:** `string` optional — Wildcard search string that combines fuzzy matching with * wildcards. 3-63 characters total, * is the only supported wildcard and each one matches zero or more characters, maximum 3 asterisks per request. Use either keyword or pattern, never both.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**pageToken:** `string` optional — Token from nextPageToken in the previous response. Required to retrieve page 2 and onward. The original keyword or pattern must be passed alongside the token on every page request. Results page at 100 domains per page.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.domainReputation(request) -> Promise<ApifreaksApi.DomainReputationResponse></code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+The Domain Reputation API evaluates a domain against threat intelligence sources, DGA (domain generation algorithm) scoring, trust signals, and email deliverability configuration, returning a consolidated risk assessment with a verdict, severity, and supporting evidence.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+const response = await client.domainReputation({
+    apiKey: "apiKey",
+    domainName: "domainName"
+});
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**apiKey:** `string` — Your API key
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**format:** `ApifreaksApi.DomainReputationRequestFormat` optional — Format of the response.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**domainName:** `string` — The domain name to assess (e.g. example.com). Must contain at least one dot and be at most 253 characters. Automatically lowercased.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.astronomyLookupV2(request) -> Promise<ApifreaksApi.AstronomyLookupV2Response></code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Retrieve sunrise and sunset times, current position of the moon, and other related information by specifying a location address, location coordinates, IP address, or using the client IP address if no parameter is passed.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+const response = await client.astronomyLookupV2({
+    apiKey: "apiKey"
+});
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**apiKey:** `string` — Your API key
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**format:** `ApifreaksApi.AstronomyLookupV2RequestFormat` optional — Format of the response. Can be "json" or "xml".
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**location:** `string` optional — Extract astronomy information using location (preferably city)
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**lat:** `number` optional — Latitude to extract astronomy information using location coordinates
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**long:** `number` optional — Longitude to extract astronomy information using location coordinates
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**ip:** `string` optional — IPv4 or IPv6 address to extract astronomy information using IP address
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**lang:** `ApifreaksApi.AstronomyLookupV2RequestLang` optional — Response language of "location" field in case of lookup through IP address only.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**date:** `string` optional — Specific date (format YYYY-MM-DD) for which astronomy data is required
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**elevation:** `number` optional — Elevation above sea level at the location, in meters. The value should be between 0 meter and a maximum value of 10,000 meters. Negative value is set to 0.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**time_zone:** `string` optional — Time zone to receive all time-based data in your preferred local time.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.timezoneLookupV2(request) -> Promise<ApifreaksApi.TimezoneLookupV2Response></code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Get current time, date, and timezone details by specifying a timezone name, location address, GPS coordinates, IP address, IATA/ICAO airport code, UN/LOCODE, or use the client IP if no parameter is provided.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+const response = await client.timezoneLookupV2({
+    apiKey: "apiKey"
+});
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**apiKey:** `string` — Your API key
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**format:** `ApifreaksApi.TimezoneLookupV2RequestFormat` optional — Format of the response. Possible values: json, xml.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**ip:** `string` optional — IPv4 or IPv6 address to extract timezone information.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**tz:** `string` optional — Timezone name in IANA format (e.g., Asia/Kolkata) to retrieve information directly.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**location:** `string` optional — Location string (preferably city and country) to extract timezone.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**lat:** `number` optional — Latitude for geolocation-based timezone lookup. Only time_zone is returned for this mode; no location object is included.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**long:** `number` optional — Longitude for geolocation-based timezone lookup. Only time_zone is returned for this mode; no location object is included.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**lang:** `ApifreaksApi.TimezoneLookupV2RequestLang` optional — Response language for location fields. Default: en.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**iata_code:** `string` optional — 3-letter IATA airport code (e.g., LHR) to extract timezone.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**icao_code:** `string` optional — 4-letter ICAO airport code (e.g., KJFK) to extract timezone.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**lo_code:** `string` optional — 5-letter UN/LOCODE city code to extract timezone.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.geolocationLookupV2(request) -> Promise<ApifreaksApi.GeolocationLookupV2Response></code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Get detailed IP geolocation data for an IP address including country, city, timezone, currency, and optional threat intelligence and user-agent information.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+const response = await client.geolocationLookupV2({
+    apiKey: "apiKey"
+});
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**apiKey:** `string` — Your API key
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**format:** `ApifreaksApi.GeolocationLookupV2RequestFormat` optional — Format of the response.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**ip:** `string` optional — IPv4, IPv6, or hostname for geolocation lookup.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**lang:** `ApifreaksApi.GeolocationLookupV2RequestLang` optional — Response language for location fields. Default: en.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**fields:** `string` optional — Comma-separated list of fields to include in response. For example, `location` includes all location fields, `location.city` is a specific field.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**excludes:** `string` optional — Comma-separated list of fields to exclude from response.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**include:** `string` optional — Comma-separated list of additional data modules to include. Possible values: security (threat intelligence), hostname (IP-Hostname lookup), liveHostname (live hostname lookup), hostnameFallbackLive (hostname with live fallback), user_agent (parse User-Agent header), abuse (abuse contact info), dma_code (DMA code), geo_accuracy (accuracy_radius, confidence, locality), * (all modules).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.bulkGeolocationLookupV2(request) -> Promise<ApifreaksApi.BulkGeolocationLookupV2ResponseItem[]></code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Get detailed IP geolocation data for multiple IP addresses including country, city, timezone, currency, and optional threat intelligence information. Supports up to 50,000 IP addresses per request.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+const response = await client.bulkGeolocationLookupV2({
+    apiKey: "apiKey",
+    ips: ["ips"]
+});
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**apiKey:** `string` — Your API key
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**format:** `ApifreaksApi.BulkGeolocationLookupV2RequestFormat` optional — Format of the response.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**lang:** `ApifreaksApi.BulkGeolocationLookupV2RequestLang` optional — Response language for location fields. Default: en.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**fields:** `string` optional — Comma-separated list of fields to include in the response. For example, `location` includes all location fields, `location.city` is a specific field.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**excludes:** `string` optional — Comma-separated list of fields to exclude from response.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**include:** `string` optional — Comma-separated list of additional data modules to include. Possible values: security (threat intelligence), hostname (IP-Hostname lookup), liveHostname (live hostname lookup), user_agent (parse User-Agent header), abuse (abuse contact info), * (all modules).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**ips:** `string[]` — List of IP addresses or hostnames to lookup.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.domainWhoisLookupV2(request) -> Promise<ApifreaksApi.DomainWhoisLookupV2Response></code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns the current WHOIS record for the specified domain, including registrar details, registrant/administrative/technical/billing/reseller contacts, name servers, status codes, and raw WHOIS text.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+const response = await client.domainWhoisLookupV2({
+    apiKey: "apiKey",
+    domainName: "domainName"
+});
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**apiKey:** `string` — Your API key
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**format:** `ApifreaksApi.DomainWhoisLookupV2RequestFormat` optional — Format of the response.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**domainName:** `string` — Domain name to retrieve WHOIS data for (e.g. example.com).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.bulkDomainWhoisLookupV2(request) -> Promise<ApifreaksApi.BulkDomainWhoisLookupV2Response></code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns the current WHOIS record for each requested domain, in request order. Supports up to 100 domain names per request; a domain that fails to resolve yields an error item instead of failing the whole batch.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+const response = await client.bulkDomainWhoisLookupV2({
+    apiKey: "apiKey",
+    domainNames: ["domainNames"]
+});
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**apiKey:** `string` — Your API key
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**format:** `ApifreaksApi.BulkDomainWhoisLookupV2RequestFormat` optional — Format of the response.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**domainNames:** `string[]` — List of domain names to retrieve WHOIS data for.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.commodityLatestRatesV2(request) -> Promise<ApifreaksApi.CommodityLatestRatesV2Response></code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns the current live price for the requested commodity symbols. Unresolved symbols degrade to a 206 partial response instead of failing the whole request.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+const response = await client.commodityLatestRatesV2({
+    apiKey: "apiKey",
+    symbols: ["symbols"]
+});
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**apiKey:** `string` — Your API key
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**format:** `ApifreaksApi.CommodityLatestRatesV2RequestFormat` optional — Response format. Currently only `json` is supported.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**symbols:** `string | string[]` optional — Comma-separated list of commodity symbols (e.g., XAU, WTIOIL-SPOT). Case-insensitive; duplicates are deduplicated server-side, with one response entry and one credit charge per unique symbol.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**quote:** `string` optional — Target currency for the exchange rate. If omitted (or set to `default`), the default quote currency of each commodity is used. Requires a premium plan; ignored on lower-tier plans.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.commodityHistoricalRatesV2(request) -> Promise<ApifreaksApi.CommodityHistoricalRatesV2Response></code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns OHLC price data for the requested commodity symbols on a specific date. Falls back to the nearest earlier rate if none exists for the exact date. Unresolved symbols degrade to a 206 partial response instead of failing the whole request.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+const response = await client.commodityHistoricalRatesV2({
+    apiKey: "apiKey",
+    symbols: ["symbols"],
+    date: "2023-01-15"
+});
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**apiKey:** `string` — Your API key
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**format:** `ApifreaksApi.CommodityHistoricalRatesV2RequestFormat` optional — Response format. Currently only `json` is supported.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**symbols:** `string | string[]` optional — Comma-separated list of commodity symbols. Case-insensitive; duplicates are deduplicated server-side, with one response entry and one credit charge per unique symbol.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**date:** `string` — Date in YYYY-MM-DD format. Data available from 1990 onwards.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.commodityFluctuationV2(request) -> Promise<ApifreaksApi.CommodityFluctuationV2Response></code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns price fluctuation metrics (start, end, change, percent change) for the requested commodity symbols over a date range. For monthly-updated commodities the range snaps to month boundaries. Unresolved symbols degrade to a 206 partial response instead of failing the whole request.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+const response = await client.commodityFluctuationV2({
+    apiKey: "apiKey",
+    symbols: ["symbols"],
+    startDate: "2023-01-15",
+    endDate: "2023-01-15"
+});
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**apiKey:** `string` — Your API key
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**format:** `ApifreaksApi.CommodityFluctuationV2RequestFormat` optional — Response format. Currently only `json` is supported.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**symbols:** `string | string[]` optional — Comma-separated list of commodity symbols. Case-insensitive; duplicates are deduplicated server-side, with one response entry and one credit charge per unique symbol.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**startDate:** `string` — Start date (YYYY-MM-DD)
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**endDate:** `string` — End date (YYYY-MM-DD)
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.commodityTimeSeriesV2(request) -> Promise<ApifreaksApi.CommodityTimeSeriesV2Response></code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns day-by-day OHLC data for the requested commodity symbols within a date range, indexed by date. Non-trading days are excluded. Unresolved symbols degrade to a 206 partial response instead of failing the whole request.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+const response = await client.commodityTimeSeriesV2({
+    apiKey: "apiKey",
+    symbols: ["symbols"],
+    startDate: "2023-01-15",
+    endDate: "2023-01-15"
+});
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**apiKey:** `string` — Your API key
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**format:** `ApifreaksApi.CommodityTimeSeriesV2RequestFormat` optional — Response format. Currently only `json` is supported.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**symbols:** `string | string[]` optional — Comma-separated list of commodity symbols. Case-insensitive; duplicates are deduplicated server-side, with one response entry and one credit charge per unique symbol.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**startDate:** `string` — Start date (YYYY-MM-DD)
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**endDate:** `string` — End date (YYYY-MM-DD). Maximum range is 365 days.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.commoditySymbolsV2(request) -> Promise<ApifreaksApi.CommoditySymbolsV2Response></code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns the list of supported commodity symbols with metadata. Deprecated symbols stay listed with status "inactive" and a deprecationDate.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+const response = await client.commoditySymbolsV2({
+    apiKey: "apiKey"
+});
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**apiKey:** `string` — Your API key
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**format:** `ApifreaksApi.CommoditySymbolsV2RequestFormat` optional — Response format. Currently only `json` is supported.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.commodityIntradayRatesV2(request) -> Promise<ApifreaksApi.CommodityIntradayRatesV2Response></code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Returns the prices of one commodity through a UTC day at the requested interval, keyed by UTC timestamp. Each request costs a flat 50 credits however many points it returns.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+const response = await client.commodityIntradayRatesV2({
+    apiKey: "apiKey",
+    symbols: "symbols",
+    interval: "1m",
+    date: "2023-01-15"
+});
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**apiKey:** `string` — Your API key
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**symbols:** `string` — Exactly one commodity symbol. Case-insensitive. Sending two or more returns a 400. Only symbols updated every second, every minute, or every 10 minutes have intraday rates; symbols updated hourly or less often return a 400. Use the Commodity Symbols endpoint for all valid values.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**interval:** `ApifreaksApi.CommodityIntradayRatesV2RequestInterval` — Spacing between points. Case-insensitive. Symbols updated every 10 minutes accept only `10m`, `30m`, `1h`, `2h`, `4h`, `8h`, `12h`, `1d`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**date:** `string` — The UTC day to read, in `YYYY-MM-DD` format. Cannot be in the future. For today, points stop at the current UTC minute.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**startTime:** `string` optional — First mark of the window, as a 24-hour UTC time in `HH:mm`. Must fall on a mark of the interval (for example, `14:30` works for `5m` or `30m`, but not for `1h`). For `1d` it can only be `00:00`.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**metadata:** `boolean` optional — Whether to include the `metadata` object. Pass `false` to receive only the prices.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -2877,10 +4302,10 @@ This API merges multiple PDF files into a single PDF, in the order they are prov
 <dd>
 
 ```typescript
-import { createReadStream } from "fs";
-await client.pdfMerge({
-    apiKey: "apiKey"
-})
+const response = await client.pdfMerge({
+    apiKey: "apiKey",
+    file: [fs.createReadStream("/path/to/file")]
+});
 ```
 </dd>
 </dl>
@@ -2951,7 +4376,23 @@ await client.pdfMerge({
 <dl>
 <dd>
 
-**file:** `core.file.Uploadable[] | undefined` optional — Optional custom header for webhook requests. Format: `Key:Value` (e.g., `Authorization:Bearer token123`). This will be sent as an HTTP header in the webhook call. */ "X-Webhook-Authorization"?: string; /** The PDF file(s) to be processed. If this parameter is not provided, you must specify `file_id` to use previously uploaded files.
+**X-Webhook-Authorization:** `string` optional — Optional custom header for webhook requests. Format: `Key:Value` (e.g., `Authorization:Bearer token123`). This will be sent as an HTTP header in the webhook call.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**file:** `core.file.Uploadable[]` optional — The PDF file(s) to be processed. If this parameter is not provided, you must specify `file_id` to use previously uploaded files.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -2990,11 +4431,11 @@ This API removes a selection or range of pages from a PDF file.
 <dd>
 
 ```typescript
-import { createReadStream } from "fs";
-await client.pdfRemovePages({
+const response = await client.pdfRemovePages({
     apiKey: "apiKey",
-    pages: "pages"
-})
+    pages: "pages",
+    file: fs.createReadStream("/path/to/file")
+});
 ```
 </dd>
 </dl>
@@ -3073,7 +4514,23 @@ await client.pdfRemovePages({
 <dl>
 <dd>
 
-**file:** `core.file.Uploadable | undefined` optional — Optional custom header for webhook requests. Format: `Key:Value` (e.g., `Authorization:Bearer token123`). This will be sent as an HTTP header in the webhook call. */ "X-Webhook-Authorization"?: string; /** The PDF file to be processed. If this parameter is not provided, you must specify `file_id` to use a previously uploaded file.
+**X-Webhook-Authorization:** `string` optional — Optional custom header for webhook requests. Format: `Key:Value` (e.g., `Authorization:Bearer token123`). This will be sent as an HTTP header in the webhook call.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**file:** `core.file.Uploadable` optional — The PDF file to be processed. If this parameter is not provided, you must specify `file_id` to use a previously uploaded file.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -3112,10 +4569,10 @@ This API splits a PDF into multiple parts based on specified page numbers or ran
 <dd>
 
 ```typescript
-import { createReadStream } from "fs";
-await client.pdfSplit({
-    apiKey: "apiKey"
-})
+const response = await client.pdfSplit({
+    apiKey: "apiKey",
+    file: fs.createReadStream("/path/to/file")
+});
 ```
 </dd>
 </dl>
@@ -3194,7 +4651,23 @@ await client.pdfSplit({
 <dl>
 <dd>
 
-**file:** `core.file.Uploadable | undefined` optional — Optional custom header for webhook requests. Format: `Key:Value` (e.g., `Authorization:Bearer token123`). This will be sent as an HTTP header in the webhook call. */ "X-Webhook-Authorization"?: string; /** The PDF file to be processed. If this parameter is not provided, you must specify `file_id` to use a previously uploaded file.
+**X-Webhook-Authorization:** `string` optional — Optional custom header for webhook requests. Format: `Key:Value` (e.g., `Authorization:Bearer token123`). This will be sent as an HTTP header in the webhook call.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**file:** `core.file.Uploadable` optional — The PDF file to be processed. If this parameter is not provided, you must specify `file_id` to use a previously uploaded file.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -3233,11 +4706,11 @@ This API rotates pages of a PDF by a specified angle (in multiples of 90 degrees
 <dd>
 
 ```typescript
-import { createReadStream } from "fs";
-await client.pdfRotate({
+const response = await client.pdfRotate({
     apiKey: "apiKey",
-    rotate: 1
-})
+    rotate: 1,
+    file: fs.createReadStream("/path/to/file")
+});
 ```
 </dd>
 </dl>
@@ -3324,7 +4797,23 @@ await client.pdfRotate({
 <dl>
 <dd>
 
-**file:** `core.file.Uploadable | undefined` optional — Optional custom header for webhook requests. Format: `Key:Value` (e.g., `Authorization:Bearer token123`). This will be sent as an HTTP header in the webhook call. */ "X-Webhook-Authorization"?: string; /** The PDF file to be processed. If this parameter is not provided, you must specify `file_id` to use a previously uploaded file.
+**X-Webhook-Authorization:** `string` optional — Optional custom header for webhook requests. Format: `Key:Value` (e.g., `Authorization:Bearer token123`). This will be sent as an HTTP header in the webhook call.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**file:** `core.file.Uploadable` optional — The PDF file to be processed. If this parameter is not provided, you must specify `file_id` to use a previously uploaded file.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -3363,11 +4852,11 @@ This API compresses a given PDF file to reduce its file size.
 <dd>
 
 ```typescript
-import { createReadStream } from "fs";
-await client.pdfCompress({
+const response = await client.pdfCompress({
     apiKey: "apiKey",
-    compression_level: "low"
-})
+    compression_level: "low",
+    file: fs.createReadStream("/path/to/file")
+});
 ```
 </dd>
 </dl>
@@ -3446,7 +4935,23 @@ await client.pdfCompress({
 <dl>
 <dd>
 
-**file:** `core.file.Uploadable | undefined` optional — Optional custom header for webhook requests. Format: `Key:Value` (e.g., `Authorization:Bearer token123`). This will be sent as an HTTP header in the webhook call. */ "X-Webhook-Authorization"?: string; /** The PDF file to be processed. If this parameter is not provided, you must specify `file_id` to use a previously uploaded file.
+**X-Webhook-Authorization:** `string` optional — Optional custom header for webhook requests. Format: `Key:Value` (e.g., `Authorization:Bearer token123`). This will be sent as an HTTP header in the webhook call.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**file:** `core.file.Uploadable` optional — The PDF file to be processed. If this parameter is not provided, you must specify `file_id` to use a previously uploaded file.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -3485,11 +4990,11 @@ This API extracts specific pages or page ranges from a PDF file and returns them
 <dd>
 
 ```typescript
-import { createReadStream } from "fs";
-await client.pdfExtractPages({
+const response = await client.pdfExtractPages({
     apiKey: "apiKey",
-    pages: "pages"
-})
+    pages: "pages",
+    file: fs.createReadStream("/path/to/file")
+});
 ```
 </dd>
 </dl>
@@ -3576,7 +5081,23 @@ await client.pdfExtractPages({
 <dl>
 <dd>
 
-**file:** `core.file.Uploadable | undefined` optional — Optional custom header for webhook requests. Format: `Key:Value` (e.g., `Authorization:Bearer token123`). This will be sent as an HTTP header in the webhook call. */ "X-Webhook-Authorization"?: string; /** The PDF file to be processed. If this parameter is not provided, you must specify `file_id` to use a previously uploaded file.
+**X-Webhook-Authorization:** `string` optional — Optional custom header for webhook requests. Format: `Key:Value` (e.g., `Authorization:Bearer token123`). This will be sent as an HTTP header in the webhook call.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**file:** `core.file.Uploadable` optional — The PDF file to be processed. If this parameter is not provided, you must specify `file_id` to use a previously uploaded file.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -3615,10 +5136,10 @@ API endpoint that linearizes any given PDF, restructuring it for faster loading 
 <dd>
 
 ```typescript
-import { createReadStream } from "fs";
-await client.pdfLinearize({
-    apiKey: "apiKey"
-})
+const response = await client.pdfLinearize({
+    apiKey: "apiKey",
+    file: fs.createReadStream("/path/to/file")
+});
 ```
 </dd>
 </dl>
@@ -3689,7 +5210,23 @@ await client.pdfLinearize({
 <dl>
 <dd>
 
-**file:** `core.file.Uploadable | undefined` optional — Optional custom header for webhook requests. Format: `Key:Value` (e.g., `Authorization:Bearer token123`). This will be sent as an HTTP header in the webhook call. */ "X-Webhook-Authorization"?: string; /** The PDF file to be processed. If this parameter is not provided, you must specify `file_id` to use a previously uploaded file.
+**X-Webhook-Authorization:** `string` optional — Optional custom header for webhook requests. Format: `Key:Value` (e.g., `Authorization:Bearer token123`). This will be sent as an HTTP header in the webhook call.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**file:** `core.file.Uploadable` optional — The PDF file to be processed. If this parameter is not provided, you must specify `file_id` to use a previously uploaded file.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -3728,11 +5265,11 @@ This API encrypts a PDF file by setting a password required to open it.
 <dd>
 
 ```typescript
-import { createReadStream } from "fs";
-await client.pdfEncrypt({
+const response = await client.pdfEncrypt({
     apiKey: "apiKey",
-    user_password: "user_password"
-})
+    user_password: "user_password",
+    file: fs.createReadStream("/path/to/file")
+});
 ```
 </dd>
 </dl>
@@ -3827,7 +5364,23 @@ await client.pdfEncrypt({
 <dl>
 <dd>
 
-**file:** `core.file.Uploadable | undefined` optional — Optional custom header for webhook requests. Format: `Key:Value` (e.g., `Authorization:Bearer token123`). This will be sent as an HTTP header in the webhook call. */ "X-Webhook-Authorization"?: string; /** The PDF file to be processed. If this parameter is not provided, you must specify `file_id` to use a previously uploaded file.
+**X-Webhook-Authorization:** `string` optional — Optional custom header for webhook requests. Format: `Key:Value` (e.g., `Authorization:Bearer token123`). This will be sent as an HTTP header in the webhook call.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**file:** `core.file.Uploadable` optional — The PDF file to be processed. If this parameter is not provided, you must specify `file_id` to use a previously uploaded file.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -3866,11 +5419,11 @@ This API decrypts PDF files, removing all encryption, including open passwords a
 <dd>
 
 ```typescript
-import { createReadStream } from "fs";
-await client.pdfDecrypt({
+const response = await client.pdfDecrypt({
     apiKey: "apiKey",
-    file_password: "file_password"
-})
+    file_password: "file_password",
+    file: fs.createReadStream("/path/to/file")
+});
 ```
 </dd>
 </dl>
@@ -3949,7 +5502,23 @@ await client.pdfDecrypt({
 <dl>
 <dd>
 
-**file:** `core.file.Uploadable | undefined` optional — Optional custom header for webhook requests. Format: `Key:Value` (e.g., `Authorization:Bearer token123`). This will be sent as an HTTP header in the webhook call. */ "X-Webhook-Authorization"?: string; /** The PDF file to be processed. If this parameter is not provided, you must specify `file_id` to use a previously uploaded file.
+**X-Webhook-Authorization:** `string` optional — Optional custom header for webhook requests. Format: `Key:Value` (e.g., `Authorization:Bearer token123`). This will be sent as an HTTP header in the webhook call.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**file:** `core.file.Uploadable` optional — The PDF file to be processed. If this parameter is not provided, you must specify `file_id` to use a previously uploaded file.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -3988,12 +5557,12 @@ This API applies permission restrictions on a PDF file, such as disabling printi
 <dd>
 
 ```typescript
-import { createReadStream } from "fs";
-await client.pdfRestrict({
+const response = await client.pdfRestrict({
     apiKey: "apiKey",
     user_password: "user_password",
-    restrictions: ["print_high"]
-})
+    restrictions: ["print_high"],
+    file: fs.createReadStream("/path/to/file")
+});
 ```
 </dd>
 </dl>
@@ -4096,7 +5665,23 @@ await client.pdfRestrict({
 <dl>
 <dd>
 
-**file:** `core.file.Uploadable | undefined` optional — Optional custom header for webhook requests. Format: `Key:Value` (e.g., `Authorization:Bearer token123`). This will be sent as an HTTP header in the webhook call. */ "X-Webhook-Authorization"?: string; /** The PDF file to be processed. If this parameter is not provided, you must specify `file_id` to use a previously uploaded file.
+**X-Webhook-Authorization:** `string` optional — Optional custom header for webhook requests. Format: `Key:Value` (e.g., `Authorization:Bearer token123`). This will be sent as an HTTP header in the webhook call.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**file:** `core.file.Uploadable` optional — The PDF file to be processed. If this parameter is not provided, you must specify `file_id` to use a previously uploaded file.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -4135,11 +5720,12 @@ This API removes permission restrictions from a PDF while keeping it encrypted. 
 <dd>
 
 ```typescript
-import { createReadStream } from "fs";
-await client.pdfUnrestrict({
+const response = await client.pdfUnrestrict({
     apiKey: "apiKey",
-    file_password: "file_password"
-})
+    file_password: "file_password",
+    user_password: "user_password",
+    file: fs.createReadStream("/path/to/file")
+});
 ```
 </dd>
 </dl>
@@ -4202,7 +5788,7 @@ await client.pdfUnrestrict({
 <dl>
 <dd>
 
-**user_password:** `string` optional — Sets the user password for the PDF file. Password Length should be between 6 and 128 characters.
+**user_password:** `string` — Sets the user password for the PDF file. Password Length should be between 6 and 128 characters.
     
 </dd>
 </dl>
@@ -4234,7 +5820,23 @@ await client.pdfUnrestrict({
 <dl>
 <dd>
 
-**file:** `core.file.Uploadable | undefined` optional — Optional custom header for webhook requests. Format: `Key:Value` (e.g., `Authorization:Bearer token123`). This will be sent as an HTTP header in the webhook call. */ "X-Webhook-Authorization"?: string; /** The PDF file to be processed. If this parameter is not provided, you must specify `file_id` to use a previously uploaded file.
+**X-Webhook-Authorization:** `string` optional — Optional custom header for webhook requests. Format: `Key:Value` (e.g., `Authorization:Bearer token123`). This will be sent as an HTTP header in the webhook call.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**file:** `core.file.Uploadable` optional — The PDF file to be processed. If this parameter is not provided, you must specify `file_id` to use a previously uploaded file.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -4273,10 +5875,10 @@ This API converts a given PDF file into a sequence of PNG images.
 <dd>
 
 ```typescript
-import { createReadStream } from "fs";
-await client.pdfConvertToPng({
-    apiKey: "apiKey"
-})
+const response = await client.pdfConvertToPng({
+    apiKey: "apiKey",
+    file: fs.createReadStream("/path/to/file")
+});
 ```
 </dd>
 </dl>
@@ -4379,7 +5981,23 @@ await client.pdfConvertToPng({
 <dl>
 <dd>
 
-**file:** `core.file.Uploadable | undefined` optional — Optional custom header for webhook requests. Format: `Key:Value` (e.g., `Authorization:Bearer token123`). This will be sent as an HTTP header in the webhook call. */ "X-Webhook-Authorization"?: string; /** The PDF file to be processed. If this parameter is not provided, you must specify `file_id` to use a previously uploaded file.
+**X-Webhook-Authorization:** `string` optional — Optional custom header for webhook requests. Format: `Key:Value` (e.g., `Authorization:Bearer token123`). This will be sent as an HTTP header in the webhook call.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**file:** `core.file.Uploadable` optional — The PDF file to be processed. If this parameter is not provided, you must specify `file_id` to use a previously uploaded file.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -4418,10 +6036,10 @@ This API converts a given PDF file into a sequence of JPG images.
 <dd>
 
 ```typescript
-import { createReadStream } from "fs";
-await client.pdfConvertToJpg({
-    apiKey: "apiKey"
-})
+const response = await client.pdfConvertToJpg({
+    apiKey: "apiKey",
+    file: fs.createReadStream("/path/to/file")
+});
 ```
 </dd>
 </dl>
@@ -4532,7 +6150,23 @@ await client.pdfConvertToJpg({
 <dl>
 <dd>
 
-**file:** `core.file.Uploadable | undefined` optional — Optional custom header for webhook requests. Format: `Key:Value` (e.g., `Authorization:Bearer token123`). This will be sent as an HTTP header in the webhook call. */ "X-Webhook-Authorization"?: string; /** The PDF file to be processed. If this parameter is not provided, you must specify `file_id` to use a previously uploaded file.
+**X-Webhook-Authorization:** `string` optional — Optional custom header for webhook requests. Format: `Key:Value` (e.g., `Authorization:Bearer token123`). This will be sent as an HTTP header in the webhook call.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**file:** `core.file.Uploadable` optional — The PDF file to be processed. If this parameter is not provided, you must specify `file_id` to use a previously uploaded file.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -4571,10 +6205,10 @@ This API converts a given PDF file into a sequence of TIFF images. The output im
 <dd>
 
 ```typescript
-import { createReadStream } from "fs";
-await client.pdfConvertToTiff({
-    apiKey: "apiKey"
-})
+const response = await client.pdfConvertToTiff({
+    apiKey: "apiKey",
+    file: fs.createReadStream("/path/to/file")
+});
 ```
 </dd>
 </dl>
@@ -4677,7 +6311,23 @@ await client.pdfConvertToTiff({
 <dl>
 <dd>
 
-**file:** `core.file.Uploadable | undefined` optional — Optional custom header for webhook requests. Format: `Key:Value` (e.g., `Authorization:Bearer token123`). This will be sent as an HTTP header in the webhook call. */ "X-Webhook-Authorization"?: string; /** The PDF file to be processed. If this parameter is not provided, you must specify `file_id` to use a previously uploaded file.
+**X-Webhook-Authorization:** `string` optional — Optional custom header for webhook requests. Format: `Key:Value` (e.g., `Authorization:Bearer token123`). This will be sent as an HTTP header in the webhook call.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**file:** `core.file.Uploadable` optional — The PDF file to be processed. If this parameter is not provided, you must specify `file_id` to use a previously uploaded file.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -4716,10 +6366,10 @@ Converts a PDF file to a BMP image.
 <dd>
 
 ```typescript
-import { createReadStream } from "fs";
-await client.pdfConvertToBmp({
-    apiKey: "apiKey"
-})
+const response = await client.pdfConvertToBmp({
+    apiKey: "apiKey",
+    file: fs.createReadStream("/path/to/file")
+});
 ```
 </dd>
 </dl>
@@ -4822,7 +6472,23 @@ await client.pdfConvertToBmp({
 <dl>
 <dd>
 
-**file:** `core.file.Uploadable | undefined` optional — Optional custom header for webhook requests. Format: `Key:Value` (e.g., `Authorization:Bearer token123`). This will be sent as an HTTP header in the webhook call. */ "X-Webhook-Authorization"?: string; /** The PDF file to be processed. If this parameter is not provided, you must specify `file_id` to use a previously uploaded file.
+**X-Webhook-Authorization:** `string` optional — Optional custom header for webhook requests. Format: `Key:Value` (e.g., `Authorization:Bearer token123`). This will be sent as an HTTP header in the webhook call.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**file:** `core.file.Uploadable` optional — The PDF file to be processed. If this parameter is not provided, you must specify `file_id` to use a previously uploaded file.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -4861,10 +6527,10 @@ This API converts a given PDF file into a sequence of GIF images.
 <dd>
 
 ```typescript
-import { createReadStream } from "fs";
-await client.pdfConvertToGif({
-    apiKey: "apiKey"
-})
+const response = await client.pdfConvertToGif({
+    apiKey: "apiKey",
+    file: fs.createReadStream("/path/to/file")
+});
 ```
 </dd>
 </dl>
@@ -4967,7 +6633,23 @@ await client.pdfConvertToGif({
 <dl>
 <dd>
 
-**file:** `core.file.Uploadable | undefined` optional — Optional custom header for webhook requests. Format: `Key:Value` (e.g., `Authorization:Bearer token123`). This will be sent as an HTTP header in the webhook call. */ "X-Webhook-Authorization"?: string; /** The PDF file to be processed. If this parameter is not provided, you must specify `file_id` to use a previously uploaded file.
+**X-Webhook-Authorization:** `string` optional — Optional custom header for webhook requests. Format: `Key:Value` (e.g., `Authorization:Bearer token123`). This will be sent as an HTTP header in the webhook call.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**file:** `core.file.Uploadable` optional — The PDF file to be processed. If this parameter is not provided, you must specify `file_id` to use a previously uploaded file.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -5006,10 +6688,10 @@ This API uploads multiple PDF files to the API Freaks server and generates their
 <dd>
 
 ```typescript
-import { createReadStream } from "fs";
-await client.pdfUploadResources({
-    apiKey: "apiKey"
-})
+const response = await client.pdfUploadResources({
+    apiKey: "apiKey",
+    file: [fs.createReadStream("/path/to/file")]
+});
 ```
 </dd>
 </dl>
@@ -5040,7 +6722,15 @@ await client.pdfUploadResources({
 <dl>
 <dd>
 
-**file:** `core.file.Uploadable[]` — The PDF files to be uploaded to the API Freaks server. Multiple files can be provided in an array. **Required**
+**file:** `core.file.Uploadable[]` optional — The PDF files to be uploaded to the API Freaks server. Multiple files can be provided in an array.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -5079,8 +6769,9 @@ This API uploads PDF files to the API Freaks server in binary format.
 <dd>
 
 ```typescript
-const response = await client.pdfUploadBinary(uploadable, {
+const response = await client.pdfUploadBinary(fs.createReadStream("/path/to/file"), {
     apiKey: "apiKey",
+    file_name: "file_name"
 });
 ```
 </dd>
@@ -5096,7 +6787,7 @@ const response = await client.pdfUploadBinary(uploadable, {
 <dl>
 <dd>
 
-**uploadable:** `core.file.Uploadable` — PDF file uploadable value to send as the binary request body.
+**uploadable:** `core.file.Uploadable` — File sent as the binary request body (a stream, Buffer, Blob or File).
     
 </dd>
 </dl>
@@ -5125,6 +6816,14 @@ const response = await client.pdfUploadBinary(uploadable, {
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -5132,7 +6831,7 @@ const response = await client.pdfUploadBinary(uploadable, {
 </dl>
 </details>
 
-<details><summary><code>client.pdfDownloadResource(request) -> Promise<BinaryResponse></code></summary>
+<details><summary><code>client.pdfDownloadResource(request) -> Promise<core.BinaryResponse></code></summary>
 <dl>
 <dd>
 
@@ -5159,12 +6858,10 @@ This API downloads PDF files or ZIP archives from the server using their unique 
 <dd>
 
 ```typescript
-const response = await client.pdfDownloadResource(
-{
+const response = await client.pdfDownloadResource({
     apiKey: "apiKey",
     resource_id: "resource_id"
-}
-);
+});
 ```
 </dd>
 </dl>
@@ -5187,7 +6884,23 @@ const response = await client.pdfDownloadResource(
 <dl>
 <dd>
 
+**format:** `ApifreaksApi.PdfDownloadResourceRequestFormat` optional
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **resource_id:** `string` — The unique identifier of the file or ZIP archive to download.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -5229,7 +6942,7 @@ This API checks the status of a previously initiated PDF processing task using i
 const response = await client.pdfGetTaskStatus({
     apiKey: "apiKey",
     task_id: "task_id"
-})
+});
 ```
 </dd>
 </dl>
@@ -5261,6 +6974,14 @@ const response = await client.pdfGetTaskStatus({
 <dd>
 
 **task_id:** `string` — The unique ID of the PDF processing task for which the status is requested.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -5302,7 +7023,7 @@ This API checks the status of a PDF file using its unique file ID, providing inf
 const response = await client.pdfGetFileStatus({
     apiKey: "apiKey",
     file_id: "file_id"
-})
+});
 ```
 </dd>
 </dl>
@@ -5334,6 +7055,14 @@ const response = await client.pdfGetFileStatus({
 <dd>
 
 **file_id:** `string` — The unique ID of the file whose status is requested.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -5374,7 +7103,7 @@ This API retrieves a list of all PDF files uploaded and generated by a specific 
 ```typescript
 const response = await client.pdfListFiles({
     apiKey: "apiKey"
-})
+});
 ```
 </dd>
 </dl>
@@ -5398,6 +7127,14 @@ const response = await client.pdfListFiles({
 <dd>
 
 **format:** `ApifreaksApi.PdfListFilesRequestFormat` optional — Specifies the desired format for the API response. Choose 'json' for a JSON object or 'xml' for an XML structure.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -5439,7 +7176,7 @@ This API deletes a PDF file using its unique file ID.
 const response = await client.pdfDeleteFile({
     apiKey: "apiKey",
     file_id: "file_id"
-})
+});
 ```
 </dd>
 </dl>
@@ -5475,6 +7212,14 @@ const response = await client.pdfDeleteFile({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -5482,7 +7227,237 @@ const response = await client.pdfDeleteFile({
 </dl>
 </details>
 
-<details><summary><code>client.screenshotCapture(request) -> Promise<BinaryResponse></code></summary>
+<details><summary><code>client.pdfGenerateFromTemplate(request) -> Promise<ApifreaksApi.PdfGenerateFromTemplateResponse></code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Renders the template identified by template_id with the JSON data supplied in the request body (or fetched from data_url). Returns a hosted URL for the generated PDF. Provide either a request body or a data_url; one of the two is required. The keys of the data object are the fields you bound when you designed the template in the APIFreaks PDF Template Builder, so the exact shape is up to you. Pin the version parameter to a specific template version (e.g. version=v2) so later design changes never touch what is already live; omit it to use the latest version.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+const response = await client.pdfGenerateFromTemplate({
+    apiKey: "apiKey",
+    template_id: "template_id",
+    body: {
+        "candidate_name": "Ava Thompson",
+        "candidate_title": "Senior Operations Analyst",
+        "email": "ava.thompson@example.com",
+        "phone": "+1 (555) 381-2048",
+        "city": "Austin, TX",
+        "portfolio_url": "portfolio.example.com",
+        "profile_summary": "Analytical operations professional with 8+ years of experience improving reporting pipelines, streamlining process documentation, and coordinating cross-functional delivery for distributed teams across multiple time zones.",
+        "company_name": "Northwind Logistics",
+        "job_title": "Operations Analyst",
+        "employment_period": "2021 - Present",
+        "job_achievement_1": "Led weekly KPI reporting for finance, fulfillment, and customer success stakeholders across three business units.",
+        "job_achievement_2": "Reduced manual reconciliation work by 35% through workflow redesign and documentation automation.",
+        "job_achievement_3": "Spearheaded a cross-team initiative that improved on-time delivery metrics by 18% within six months.",
+        "skills": [
+            {
+                "skill": "Process Improvement",
+                "level": "Advanced",
+                "years": "7"
+            },
+            {
+                "skill": "Stakeholder Reporting",
+                "level": "Expert",
+                "years": "8"
+            },
+            {
+                "skill": "Cross-functional Coordination",
+                "level": "Advanced",
+                "years": "5"
+            },
+            {
+                "skill": "Workflow Documentation",
+                "level": "Advanced",
+                "years": "6"
+            }
+        ],
+        "degree": "B.S. in Information Systems",
+        "institution": "University of Texas",
+        "graduation_year": "2018",
+        "certification_1": "Certified Business Analysis Professional (CBAP)",
+        "certification_2": "Six Sigma Green Belt",
+        "languages": "English (Native), Spanish (Professional)"
+    }
+});
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**apiKey:** `string` — Your API key
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**template_id:** `string` — The template to render, from the APIFreaks PDF Template Builder. Copy it from your dashboard when you save the template.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**version:** `string` optional — Template version to render, e.g. v2. Must start with v. Omit this parameter entirely to use the latest version; the literal value 'latest' is not accepted by the API.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**data_url:** `string` optional — A URL the API fetches your JSON data from, instead of the request body. Provide this when you are not sending a request body.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**body:** `Record<string, unknown>` — Free-form JSON object whose keys map to the fields bound in the template.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.bulkPdfGenerateFromTemplate(request) -> Promise<ApifreaksApi.BulkPdfGenerateFromTemplateResponseItem[]></code></summary>
+<dl>
+<dd>
+
+#### 📝 Description
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+Upload a CSV file where each row is one record. The API generates one PDF per row and returns an array of results, each with its own pdf_url. Rows are processed independently, so a failure in one row does not block the rest of the batch. The response gives a row-by-row breakdown of which PDFs succeeded and which failed.
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### 🔌 Usage
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+```typescript
+const response = await client.bulkPdfGenerateFromTemplate({
+    file: fs.createReadStream("/path/to/your/file"),
+    apiKey: "apiKey",
+    template_id: "template_id"
+});
+```
+</dd>
+</dl>
+</dd>
+</dl>
+
+#### ⚙️ Parameters
+
+<dl>
+<dd>
+
+<dl>
+<dd>
+
+**apiKey:** `string` — Your API key
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**template_id:** `string` — The template to render, from the APIFreaks PDF Template Builder. Copy it from your dashboard when you save the template.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**version:** `string` optional — Template version to render, e.g. v2. Must start with v. Omit this parameter entirely to use the latest version; the literal value 'latest' is not accepted by the API.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**file:** `core.file.Uploadable` — A CSV file uploaded as form-data where each row is one record. One PDF is generated per row.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
+</dd>
+</dl>
+
+</dd>
+</dl>
+</details>
+
+<details><summary><code>client.screenshotCapture(request) -> Promise<ApifreaksApi.ScreenshotCaptureResponse></code></summary>
 <dl>
 <dd>
 
@@ -5510,12 +7485,10 @@ Supports multiple output formats including JSON, image, GIF, MP4, and WebM.
 <dd>
 
 ```typescript
-const response = await client.screenshotCapture(
-{
+const response = await client.screenshotCapture({
     apiKey: "apiKey",
     url: "url"
-}
-);
+});
 ```
 </dd>
 </dl>
@@ -5538,7 +7511,7 @@ const response = await client.screenshotCapture(
 <dl>
 <dd>
 
-**output:** `ApifreaksApi.ScreenshotCaptureRequestOutput` optional — Output format for screenshot results
+**output:** `ApifreaksApi.ScreenshotCaptureRequestOutput` optional — Output format for screenshot results. The SDKs support only `json`, which returns metadata with the captured file's URL in `screenshot`; download the file from that URL. (The API's `output=image`, which returns the raw file, is not supported by the SDK methods.)
     
 </dd>
 </dl>
@@ -5754,7 +7727,39 @@ const response = await client.screenshotCapture(
 <dl>
 <dd>
 
-**css_url:** `string` optional — X position of the clipping rectangle in pixels */ "clip[x]"?: number; /** Y position of the clipping rectangle in pixels */ "clip[y]"?: number; /** Width of the clipping rectangle in pixels */ "clip[width]"?: number; /** Height of the clipping rectangle in pixels */ "clip[height]"?: number; /** URL to CSS file
+**clip[x]:** `number` optional — X position of the clipping rectangle in pixels
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**clip[y]:** `number` optional — Y position of the clipping rectangle in pixels
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**clip[width]:** `number` optional — Width of the clipping rectangle in pixels
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**clip[height]:** `number` optional — Height of the clipping rectangle in pixels
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**css_url:** `string` optional — URL to CSS file
     
 </dd>
 </dl>
@@ -5959,6 +7964,326 @@ const response = await client.screenshotCapture(
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**fail_on_error:** `boolean` optional
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**longitude:** `number` optional
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**latitude:** `number` optional
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**proxy:** `string` optional
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**headers:** `string` optional
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**cookies:** `string` optional
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**scroll_to_element:** `string` optional
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**selector:** `string` optional
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**user_agent:** `string` optional
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**accept_languages:** `string` optional
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**custom_html:** `string` optional
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**image_quality:** `number` optional
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**captcha_error:** `string` optional — CSS selector of the message shown for a wrong answer. While it is visible, the solver tries again.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**captcha_image:** `string` optional — CSS selector of the captcha picture. Required when solve_captcha is true.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**captcha_input:** `string` optional — CSS selector of the box the answer is typed into. Required when solve_captcha is true.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**captcha_refresh:** `string` optional — CSS selector of the control that loads a new captcha picture before the next try.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**captcha_retries:** `number` optional — Number of guesses the solver makes, from 1 to 5.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**captcha_submit:** `string` optional — CSS selector of the button to click after the answer is typed.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**classic_proxy:** `boolean` optional — Loads the page through a datacenter proxy. Adds 20 credits per request. Ignored when premium_proxy is true or a custom proxy is set.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**click_recursion:** `number` optional — Number of times to click the selector (when set via `selector_to_click`).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**country:** `string` optional — Two-letter country code, such as US or DE, for the exit address of classic_proxy or premium_proxy. Ignored when you send your own proxy. Any two-letter code is sent, including one that is not listed. Classic proxy countries: BG, GE, DE, HN, MD, UA, GB, US. Premium proxy countries: AF, AL, DZ, AO, AG, AR, AM, AW, AU, AT, AZ, BS, BH, BD, BB, BY, BE, BZ, BJ, BT, BO, BQ, BA, BW, BR, BN, BG, BF, BI, CV, KH, CM, CA, KY, CF, TD, CL, CN, CO, KM, CG, CR, CI, HR, CU, CW, CY, CZ, CD, DK, DJ, DM, DO, EC, EG, SV, GQ, EE, SZ, ET, FO, FJ, FI, FR, GF, PF, GA, GM, GE, DE, GH, GI, GR, GL, GD, GP, GU, GT, GG, GN, GW, GY, HT, HN, HK, HU, IS, IN, ID, IR, IQ, IE, IL, IT, JM, JP, JE, JO, KZ, KE, XK, KW, KG, LA, LV, LB, LS, LR, LY, LT, MO, MG, MW, MY, MV, ML, MT, MQ, MR, MU, YT, MX, MD, MN, ME, MA, MZ, MM, NA, NP, NL, NC, NZ, NI, NE, NG, MK, NO, OM, PK, PS, PA, PG, PY, PE, PH, PL, PT, PR, QA, RE, RO, RU, RW, KN, LC, VC, WS, SA, SN, RS, SC, SL, SG, SK, SI, SB, SO, ZA, KR, SS, ES, LK, SD, SR, SE, CH, SY, TW, TJ, TZ, TH, TL, TG, TO, TT, TN, TR, TM, UG, UA, AE, GB, US, UY, UZ, VE, VN, YE, ZM, ZW.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**extract_markdown:** `boolean` optional — Extracts rendered page content as a structured .md (Markdown) file. Preserves headings, lists, links. Only with output=json.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**format:** `ApifreaksApi.ScreenshotCaptureRequestFormat` optional — Response format: json (default).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**get_image_urls:** `boolean` optional — Extracts all image URLs from the rendered DOM and returns them in structured format. Only with output=json.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**gpu:** `boolean` optional — Renders the page with a GPU, including WebGL and canvas content. Adds 20 credits per request.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**markdown:** `string` optional — Markdown to render instead of loading a URL. Works like custom_html, so you can capture a README or notes without hosting a page.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**ocr_model:** `ApifreaksApi.ScreenshotCaptureRequestOcrModel` optional — Recognition model used by the captcha solver: mini-ocr-v1 (default) or ocr-v1.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**pdf_options[format]:** `ApifreaksApi.ScreenshotCaptureRequestPdfOptionsFormat` optional — Paper size of the PDF. Applies when file_type is PDF. Without it, width and height are used if set, otherwise the page renders as one long page: A0, A1, A2, A3, A4, A5, A6, Letter, Legal, Tabloid, or Ledger.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**pdf_options[landscape]:** `boolean` optional — Renders the PDF in landscape orientation, swapping the width and height of the paper size. Applies when file_type is PDF.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**pdf_options[media]:** `ApifreaksApi.ScreenshotCaptureRequestPdfOptionsMedia` optional — CSS media type used to render the PDF: print or screen.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**pdf_options[page_range]:** `string` optional — Pages to keep in the PDF, as start-end, for example 1-3 or 5-5. Pages are rendered first and then trimmed. Has no effect on a single-page PDF. Applies when file_type is PDF.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**pdf_options[print_background]:** `boolean` optional — Includes background colors and images in the PDF. Applies when file_type is PDF.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**premium_proxy:** `boolean` optional — Loads the page through a residential proxy. Adds 200 credits per request. Used instead of classic_proxy.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**scroll_delay:** `number` optional — Delay in milliseconds between scroll steps when `lazy_load` is enabled. Use higher values for heavy pages.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**selector_to_click:** `string` optional — CSS selector for an element to click before capturing the screenshot. Useful for opening dropdowns, modals, or triggering content.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**solve_captcha:** `boolean` optional — Solves a captcha made of text drawn in a picture, then takes the screenshot. Requires captcha_image and captcha_input. Adds 20 credits per request.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**stealth:** `boolean` optional — Makes the browser look like a regular visitor for pages that block automated traffic. No extra credits.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**timezone:** `string` optional — IANA timezone the browser uses while rendering, such as Asia/Karachi or Europe/London. Useful for clocks and localized dates.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**video:** `boolean` optional — Records visible viewport only for a specified duration. Use with `duration` parameter. Ideal for dashboards and animations.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -5999,7 +8324,7 @@ const response = await client.bulkScreenshotCapture({
     urls: [{
             url: "url"
         }]
-})
+});
 ```
 </dd>
 </dl>
@@ -6022,7 +8347,23 @@ const response = await client.bulkScreenshotCapture({
 <dl>
 <dd>
 
-**urls:** `BulkScreenshotCaptureRequest.Urls.Item[]` — List of website URLs to capture screenshots of
+**format:** `ApifreaksApi.BulkScreenshotCaptureRequestFormat` optional
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**urls:** `ApifreaksApi.BulkScreenshotCaptureRequest.Urls.Item[]` — List of website URLs to capture screenshots of
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -6063,7 +8404,7 @@ Get live forex rates for all world currencies with customizable update frequency
 ```typescript
 const response = await client.currencyLatestRates({
     apiKey: "apiKey"
-})
+});
 ```
 </dd>
 </dl>
@@ -6115,6 +8456,14 @@ const response = await client.currencyLatestRates({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -6152,7 +8501,7 @@ Get historical exchange rates for any specific date
 const response = await client.currencyHistoricalRates({
     apiKey: "apiKey",
     date: "2023-01-15"
-})
+});
 ```
 </dd>
 </dl>
@@ -6204,6 +8553,14 @@ const response = await client.currencyHistoricalRates({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -6242,7 +8599,7 @@ const response = await client.currencyConvertLatest({
     apiKey: "apiKey",
     from: "from",
     to: "to"
-})
+});
 ```
 </dd>
 </dl>
@@ -6289,7 +8646,7 @@ const response = await client.currencyConvertLatest({
 <dl>
 <dd>
 
-**amount:** `string` optional — Amount to convert
+**amount:** `number` optional — Amount to convert
     
 </dd>
 </dl>
@@ -6298,6 +8655,14 @@ const response = await client.currencyConvertLatest({
 <dd>
 
 **updates:** `ApifreaksApi.CurrencyConvertLatestRequestUpdates` optional — Exchange rates update period (1d=daily, 1h=hourly, 10m=10 minutes, 1m=1 minute)
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -6341,7 +8706,7 @@ const response = await client.currencyConvertHistorical({
     from: "from",
     to: "to",
     date: "2023-01-15"
-})
+});
 ```
 </dd>
 </dl>
@@ -6388,7 +8753,7 @@ const response = await client.currencyConvertHistorical({
 <dl>
 <dd>
 
-**amount:** `string` optional — The Amount to be converted
+**amount:** `number` optional — The Amount to be converted
     
 </dd>
 </dl>
@@ -6397,6 +8762,14 @@ const response = await client.currencyConvertHistorical({
 <dd>
 
 **date:** `string` — specific date (format YYYY-MM-DD) of which exchange rates is used.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -6438,7 +8811,7 @@ Get exchange rates for a time range
 const response = await client.currencyTimeSeries({
     apiKey: "apiKey",
     startDate: "2023-01-15"
-})
+});
 ```
 </dd>
 </dl>
@@ -6498,6 +8871,14 @@ const response = await client.currencyTimeSeries({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -6536,7 +8917,7 @@ const response = await client.currencyFluctuation({
     apiKey: "apiKey",
     startDate: "2023-01-15",
     base: "USD"
-})
+});
 ```
 </dd>
 </dl>
@@ -6596,6 +8977,14 @@ const response = await client.currencyFluctuation({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -6633,7 +9022,7 @@ Convert amount using user's location
 const response = await client.currencyConvertByIp({
     apiKey: "apiKey",
     from: "from"
-})
+});
 ```
 </dd>
 </dl>
@@ -6688,7 +9077,15 @@ const response = await client.currencyConvertByIp({
 <dl>
 <dd>
 
-**amount:** `string` optional — Amount to convert
+**amount:** `number` optional — Amount to convert
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -6729,7 +9126,7 @@ Get list of all supported currencies with their metadata
 ```typescript
 const response = await client.currencySupported({
     apiKey: "apiKey"
-})
+});
 ```
 </dd>
 </dl>
@@ -6753,6 +9150,14 @@ const response = await client.currencySupported({
 <dd>
 
 **format:** `ApifreaksApi.CurrencySupportedRequestFormat` optional — Format of the response.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -6793,7 +9198,7 @@ Get currency symbols and codes
 ```typescript
 const response = await client.currencySymbols({
     apiKey: "apiKey"
-})
+});
 ```
 </dd>
 </dl>
@@ -6817,6 +9222,14 @@ const response = await client.currencySymbols({
 <dd>
 
 **format:** `ApifreaksApi.CurrencySymbolsRequestFormat` optional — Format of the response.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -6857,7 +9270,7 @@ Get information about historical data availability and limits
 ```typescript
 const response = await client.currencyHistoricalLimits({
     apiKey: "apiKey"
-})
+});
 ```
 </dd>
 </dl>
@@ -6881,6 +9294,14 @@ const response = await client.currencyHistoricalLimits({
 <dd>
 
 **format:** `ApifreaksApi.CurrencyHistoricalLimitsRequestFormat` optional — Format of the response.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -6923,7 +9344,7 @@ const response = await client.commodityLatestRates({
     apiKey: "apiKey",
     symbols: ["symbols"],
     updates: "10m"
-})
+});
 ```
 </dd>
 </dl>
@@ -6954,7 +9375,7 @@ const response = await client.commodityLatestRates({
 <dl>
 <dd>
 
-**symbols:** `string | string[]` — Comma separated list of desired commodities symbols *(e.g. XAU,XAG,WTI,BRENT)* **Required**
+**symbols:** `string | string[]` optional — Comma separated list of desired commodities symbols *(e.g. XAU,XAG,WTI,BRENT)* **Required**
     
 </dd>
 </dl>
@@ -6971,6 +9392,14 @@ const response = await client.commodityLatestRates({
 <dd>
 
 **quote:** `string` optional — Specifies the target currency for the exchange rate; default quote currency is the market currency of commodity *(e.g. USD, EUR, INR)*
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -7013,7 +9442,7 @@ const response = await client.commodityHistoricalRates({
     apiKey: "apiKey",
     date: "2023-01-15",
     symbols: ["symbols"]
-})
+});
 ```
 </dd>
 </dl>
@@ -7052,7 +9481,15 @@ const response = await client.commodityHistoricalRates({
 <dl>
 <dd>
 
-**symbols:** `string | string[]` — Comma-separated list of commodity symbols **Required**
+**symbols:** `string | string[]` optional — Comma-separated list of commodity symbols
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -7096,7 +9533,7 @@ const response = await client.commodityFluctuation({
     symbols: ["symbols"],
     startDate: "2023-01-15",
     endDate: "2023-01-15"
-})
+});
 ```
 </dd>
 </dl>
@@ -7127,7 +9564,7 @@ const response = await client.commodityFluctuation({
 <dl>
 <dd>
 
-**symbols:** `string | string[]` — Comma-separated list of commodity symbols **Required**
+**symbols:** `string | string[]` optional — Comma-separated list of commodity symbols
     
 </dd>
 </dl>
@@ -7144,6 +9581,14 @@ const response = await client.commodityFluctuation({
 <dd>
 
 **endDate:** `string` — End date (YYYY-MM-DD)
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -7187,7 +9632,7 @@ const response = await client.commodityTimeSeries({
     symbols: ["symbols"],
     startDate: "2023-01-15",
     endDate: "2023-01-15"
-})
+});
 ```
 </dd>
 </dl>
@@ -7218,7 +9663,7 @@ const response = await client.commodityTimeSeries({
 <dl>
 <dd>
 
-**symbols:** `string | string[]` — Comma-separated list of commodity symbols **Required**
+**symbols:** `string | string[]` optional — Comma-separated list of commodity symbols
     
 </dd>
 </dl>
@@ -7235,6 +9680,14 @@ const response = await client.commodityTimeSeries({
 <dd>
 
 **endDate:** `string` — End date (YYYY-MM-DD)
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -7275,7 +9728,7 @@ Get list of supported commodities
 ```typescript
 const response = await client.commoditySymbols({
     apiKey: "apiKey"
-})
+});
 ```
 </dd>
 </dl>
@@ -7299,6 +9752,14 @@ const response = await client.commoditySymbols({
 <dd>
 
 **format:** `ApifreaksApi.CommoditySymbolsRequestFormat` optional — Format of the response.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -7339,7 +9800,7 @@ Retrieves a list of supported countries.
 ```typescript
 const response = await client.vatSupportedCountries({
     apiKey: "apiKey"
-})
+});
 ```
 </dd>
 </dl>
@@ -7370,7 +9831,15 @@ const response = await client.vatSupportedCountries({
 <dl>
 <dd>
 
-**type:** `ApifreaksApi.VatSupportedCountriesRequestType` optional — Type of supported country. Supported values: IBAN, SWIFT, VAT. By default, it returns all supported countries for all types.
+**type:** `ApifreaksApi.VatSupportedCountriesRequestType` optional — Which list to return: VAT (`VAT_Supported_Countries_And_States`), IBAN (`IBAN_Supported_Countries`) or SWIFT (`SWIFT_Supported_Countries`). Each value returns only its own list. If omitted (or unknown), all three lists are returned.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -7411,7 +9880,7 @@ Fetches VAT rate based on the specified or originating IP address.
 ```typescript
 const response = await client.vatRateByIp({
     apiKey: "apiKey"
-})
+});
 ```
 </dd>
 </dl>
@@ -7443,6 +9912,14 @@ const response = await client.vatRateByIp({
 <dd>
 
 **ipAddress:** `string` optional — IPv4 or IPv6 address to look up VAT rate for. If omitted, the originating IP address will be used.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -7484,7 +9961,7 @@ Fetches VAT rates for a single country or state provided via query parameters.
 const response = await client.vatRateByCountry({
     apiKey: "apiKey",
     country: "country"
-})
+});
 ```
 </dd>
 </dl>
@@ -7528,6 +10005,14 @@ const response = await client.vatRateByCountry({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -7535,7 +10020,7 @@ const response = await client.vatRateByCountry({
 </dl>
 </details>
 
-<details><summary><code>client.bulkVatRateByCountry(request) -> Promise<ApifreaksApi.BulkVatRateByCountryResponse></code></summary>
+<details><summary><code>client.bulkVatRateByCountry(request) -> Promise<ApifreaksApi.BulkVatRateByCountryResponseItem[]></code></summary>
 <dl>
 <dd>
 
@@ -7570,7 +10055,7 @@ const response = await client.bulkVatRateByCountry({
             country: "United_States",
             state: "New_York"
         }]
-})
+});
 ```
 </dd>
 </dl>
@@ -7601,7 +10086,7 @@ const response = await client.bulkVatRateByCountry({
 <dl>
 <dd>
 
-**country:** `string` — Country identifier in Alpha-2 (US), Alpha-3 (USA), or full name (United_States). Pair with "state" for regional lookup; values are case-insensitive and may use underscores.
+**countries:** `ApifreaksApi.BulkVatRateByCountryRequest.Countries.Item[]`
     
 </dd>
 </dl>
@@ -7609,7 +10094,7 @@ const response = await client.bulkVatRateByCountry({
 <dl>
 <dd>
 
-**state:** `string | undefined` optional — Optional state identifier in Alpha-2 (NY) or full name (New_York). Use with the country field for state-level VAT; values are case-insensitive and may use underscores.
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -7651,7 +10136,7 @@ Validates an EU or UK VAT number and returns registration status details.
 const response = await client.vatValidate({
     apiKey: "apiKey",
     vatNumber: "vatNumber"
-})
+});
 ```
 </dd>
 </dl>
@@ -7695,6 +10180,14 @@ const response = await client.vatValidate({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -7732,7 +10225,7 @@ Checks an IBAN for structural validity, checksum accuracy, and bank metadata.
 const response = await client.ibanValidate({
     apiKey: "apiKey",
     iban: "iban"
-})
+});
 ```
 </dd>
 </dl>
@@ -7764,6 +10257,14 @@ const response = await client.ibanValidate({
 <dd>
 
 **iban:** `string` — IBAN to validate.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -7804,7 +10305,7 @@ Fetches SWIFT codes for a given country, bank, and city.
 ```typescript
 const response = await client.swiftCodeFind({
     apiKey: "apiKey"
-})
+});
 ```
 </dd>
 </dl>
@@ -7856,6 +10357,14 @@ const response = await client.swiftCodeFind({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -7893,7 +10402,7 @@ Fetches detailed information about a SWIFT code.
 const response = await client.swiftCodeLookup({
     apiKey: "apiKey",
     swiftCode: "swiftCode"
-})
+});
 ```
 </dd>
 </dl>
@@ -7929,6 +10438,14 @@ const response = await client.swiftCodeLookup({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -7952,7 +10469,7 @@ const response = await client.swiftCodeLookup({
 const response = await client.zipcodeLookup({
     apiKey: "apiKey",
     code: "code"
-})
+});
 ```
 </dd>
 </dl>
@@ -7996,6 +10513,14 @@ const response = await client.zipcodeLookup({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -8033,7 +10558,7 @@ Validates a bulk of ZIP/postal codes and returns result for each. Maximum `100` 
 const response = await client.bulkZipcodeLookup({
     apiKey: "apiKey",
     codes: ["codes"]
-})
+});
 ```
 </dd>
 </dl>
@@ -8077,6 +10602,14 @@ const response = await client.bulkZipcodeLookup({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -8101,7 +10634,7 @@ const response = await client.zipcodeSearchByCity({
     apiKey: "apiKey",
     city: "city",
     country: "country"
-})
+});
 ```
 </dd>
 </dl>
@@ -8161,6 +10694,14 @@ const response = await client.zipcodeSearchByCity({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -8183,9 +10724,8 @@ const response = await client.zipcodeSearchByCity({
 ```typescript
 const response = await client.zipcodeSearchByRegion({
     apiKey: "apiKey",
-    country: "country",
-    region: "region"
-})
+    country: "country"
+});
 ```
 </dd>
 </dl>
@@ -8224,7 +10764,7 @@ const response = await client.zipcodeSearchByRegion({
 <dl>
 <dd>
 
-**region:** `string` — Name of the region, state or province associated with the country.
+**region:** `string` optional — Name of the region, state or province associated with the country. Either region or region_code is required; region_code takes priority if both are given.
     
 </dd>
 </dl>
@@ -8233,6 +10773,22 @@ const response = await client.zipcodeSearchByRegion({
 <dd>
 
 **page:** `number` optional — Page no. to retrieve paginated results.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**region_code:** `string` optional — ISO code of the region, state, or province associated with the country. Either region or region_code is required. region_code takes priority if both are given.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -8260,7 +10816,7 @@ const response = await client.zipcodeSearchByRegion({
 const response = await client.zipcodeSearchByRadius({
     apiKey: "apiKey",
     radius: 1.1
-})
+});
 ```
 </dd>
 </dl>
@@ -8344,6 +10900,14 @@ const response = await client.zipcodeSearchByRadius({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -8382,7 +10946,7 @@ const response = await client.zipcodeDistance({
     apiKey: "apiKey",
     compare: ["compare"],
     country: "country"
-})
+});
 ```
 </dd>
 </dl>
@@ -8453,7 +11017,15 @@ const response = await client.zipcodeDistance({
 <dl>
 <dd>
 
-**unit:** `ZipcodeDistanceRequest.Unit` optional — Supported distance units are m, km, mi, ft, yd, in.
+**unit:** `ApifreaksApi.ZipcodeDistanceRequest.Unit` optional — Supported distance units are m, km, mi, ft, yd, in.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -8496,7 +11068,7 @@ const response = await client.zipcodeDistanceMatch({
     apiKey: "apiKey",
     codes: ["codes"],
     country: "country"
-})
+});
 ```
 </dd>
 </dl>
@@ -8551,7 +11123,15 @@ const response = await client.zipcodeDistanceMatch({
 <dl>
 <dd>
 
-**unit:** `ZipcodeDistanceMatchRequest.Unit` optional — Supported distance units are m, km, mi, ft, yd, in.
+**unit:** `ApifreaksApi.ZipcodeDistanceMatchRequest.Unit` optional — Supported distance units are m, km, mi, ft, yd, in.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -8592,7 +11172,7 @@ Get current weather data including temperature, humidity, precipitation, wind co
 ```typescript
 const response = await client.currentWeather({
     apiKey: "apiKey"
-})
+});
 ```
 </dd>
 </dl>
@@ -8615,7 +11195,7 @@ const response = await client.currentWeather({
 <dl>
 <dd>
 
-**format:** `ApifreaksApi.CurrentWeatherRequestFormat` optional — Response format returned by the API.
+**format:** `ApifreaksApi.CurrentWeatherRequestFormat` optional — Response format returned by the API. Only JSON is supported.
     
 </dd>
 </dl>
@@ -8656,6 +11236,14 @@ const response = await client.currentWeather({
 <dd>
 
 **timezone:** `string` optional — Timezone for the results.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -8706,7 +11294,7 @@ const response = await client.bulkCurrentWeather({
         }, {
             location: "seoul"
         }]
-})
+});
 ```
 </dd>
 </dl>
@@ -8729,7 +11317,7 @@ const response = await client.bulkCurrentWeather({
 <dl>
 <dd>
 
-**format:** `ApifreaksApi.BulkCurrentWeatherRequestFormat` optional — Response format returned by the API.
+**format:** `ApifreaksApi.BulkCurrentWeatherRequestFormat` optional — Response format returned by the API. Only JSON is supported.
     
 </dd>
 </dl>
@@ -8745,7 +11333,7 @@ const response = await client.bulkCurrentWeather({
 <dl>
 <dd>
 
-**locations:** `BulkCurrentWeatherRequest.Locations.Item[]` — Array of locations to fetch weather data for
+**locations:** `ApifreaksApi.BulkCurrentWeatherRequest.Locations.Item[]` — Array of locations to fetch weather data for
     
 </dd>
 </dl>
@@ -8753,31 +11341,7 @@ const response = await client.bulkCurrentWeather({
 <dl>
 <dd>
 
-**location:** `string | undefined` optional — City name, place name, or full address
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**lat:** `number | undefined` optional — Latitude
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**long:** `number | undefined` optional — Longitude
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**ip:** `string | undefined` optional — IP address
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -8818,7 +11382,7 @@ Access comprehensive weather forecasts with customizable precision - choose from
 ```typescript
 const response = await client.weatherForecast({
     apiKey: "apiKey"
-})
+});
 ```
 </dd>
 </dl>
@@ -8841,7 +11405,7 @@ const response = await client.weatherForecast({
 <dl>
 <dd>
 
-**format:** `ApifreaksApi.WeatherForecastRequestFormat` optional — Response format returned by the API.
+**format:** `ApifreaksApi.WeatherForecastRequestFormat` optional — Response format returned by the API. Only JSON is supported.
     
 </dd>
 </dl>
@@ -8918,6 +11482,14 @@ const response = await client.weatherForecast({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -8955,7 +11527,7 @@ Access past weather conditions for specific dates with records going back to 194
 const response = await client.historicalWeather({
     apiKey: "apiKey",
     date: "2023-01-15"
-})
+});
 ```
 </dd>
 </dl>
@@ -8978,7 +11550,7 @@ const response = await client.historicalWeather({
 <dl>
 <dd>
 
-**format:** `ApifreaksApi.HistoricalWeatherRequestFormat` optional — Response format returned by the API.
+**format:** `ApifreaksApi.HistoricalWeatherRequestFormat` optional — Response format returned by the API. Only JSON is supported.
     
 </dd>
 </dl>
@@ -9039,6 +11611,14 @@ const response = await client.historicalWeather({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -9077,7 +11657,7 @@ const response = await client.weatherTimeSeries({
     apiKey: "apiKey",
     startDate: "2023-01-15",
     endDate: "2023-01-15"
-})
+});
 ```
 </dd>
 </dl>
@@ -9100,7 +11680,7 @@ const response = await client.weatherTimeSeries({
 <dl>
 <dd>
 
-**format:** `ApifreaksApi.WeatherTimeSeriesRequestFormat` optional — Response format returned by the API.
+**format:** `ApifreaksApi.WeatherTimeSeriesRequestFormat` optional — Response format returned by the API. Only JSON is supported.
     
 </dd>
 </dl>
@@ -9169,6 +11749,14 @@ const response = await client.weatherTimeSeries({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -9205,7 +11793,7 @@ Provides hourly forecasts of marine conditions including wave heights, wave dire
 ```typescript
 const response = await client.marineWeather({
     apiKey: "apiKey"
-})
+});
 ```
 </dd>
 </dl>
@@ -9228,7 +11816,7 @@ const response = await client.marineWeather({
 <dl>
 <dd>
 
-**format:** `ApifreaksApi.MarineWeatherRequestFormat` optional — Response format returned by the API.
+**format:** `ApifreaksApi.MarineWeatherRequestFormat` optional — Response format returned by the API. Only JSON is supported.
     
 </dd>
 </dl>
@@ -9297,6 +11885,14 @@ const response = await client.marineWeather({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -9333,7 +11929,7 @@ Monitor and predict air quality conditions using European and US AQI standards. 
 ```typescript
 const response = await client.airQuality({
     apiKey: "apiKey"
-})
+});
 ```
 </dd>
 </dl>
@@ -9356,7 +11952,7 @@ const response = await client.airQuality({
 <dl>
 <dd>
 
-**format:** `ApifreaksApi.AirQualityRequestFormat` optional — Response format returned by the API.
+**format:** `ApifreaksApi.AirQualityRequestFormat` optional — Response format returned by the API. Only JSON is supported.
     
 </dd>
 </dl>
@@ -9425,6 +12021,14 @@ const response = await client.airQuality({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -9463,7 +12067,7 @@ const response = await client.floodForecast({
     apiKey: "apiKey",
     startDate: "2023-01-15",
     endDate: "2023-01-15"
-})
+});
 ```
 </dd>
 </dl>
@@ -9486,7 +12090,7 @@ const response = await client.floodForecast({
 <dl>
 <dd>
 
-**format:** `ApifreaksApi.FloodForecastRequestFormat` optional — Response format returned by the API.
+**format:** `ApifreaksApi.FloodForecastRequestFormat` optional — Response format returned by the API. Only JSON is supported.
     
 </dd>
 </dl>
@@ -9555,6 +12159,14 @@ const response = await client.floodForecast({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -9591,7 +12203,7 @@ Retrieve countries, optionally filtered by region or subregion.
 ```typescript
 const response = await client.getCountries({
     apiKey: "apiKey"
-})
+});
 ```
 </dd>
 </dl>
@@ -9635,6 +12247,14 @@ const response = await client.getCountries({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -9658,7 +12278,7 @@ const response = await client.getCountries({
 const response = await client.getCountryDetails({
     apiKey: "apiKey",
     country: "country"
-})
+});
 ```
 </dd>
 </dl>
@@ -9694,6 +12314,14 @@ const response = await client.getCountryDetails({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -9716,7 +12344,7 @@ const response = await client.getCountryDetails({
 ```typescript
 const response = await client.getRegions({
     apiKey: "apiKey"
-})
+});
 ```
 </dd>
 </dl>
@@ -9744,6 +12372,14 @@ const response = await client.getRegions({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -9765,9 +12401,8 @@ const response = await client.getRegions({
 
 ```typescript
 const response = await client.getSubregions({
-    apiKey: "apiKey",
-    region: "region"
-})
+    apiKey: "apiKey"
+});
 ```
 </dd>
 </dl>
@@ -9798,7 +12433,15 @@ const response = await client.getSubregions({
 <dl>
 <dd>
 
-**region:** `string` — Name of the region.
+**region:** `string` optional — Name of the region. If omitted, all subregions are returned.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -9840,7 +12483,7 @@ Retrieve administrative units based on ISO 3166-1 alpha-2 country code.
 const response = await client.getAdminLevels({
     apiKey: "apiKey",
     country: "country"
-})
+});
 ```
 </dd>
 </dl>
@@ -9872,6 +12515,14 @@ const response = await client.getAdminLevels({
 <dd>
 
 **country:** `string` — Country code in ISO 3166-1 alpha-2 format
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -9913,7 +12564,7 @@ Retrieve administrative divisions for a given country using ISO 3166-1 alpha-2 c
 const response = await client.getAdminUnits({
     apiKey: "apiKey",
     country: "country"
-})
+});
 ```
 </dd>
 </dl>
@@ -9952,7 +12603,15 @@ const response = await client.getAdminUnits({
 <dl>
 <dd>
 
-**adminLevels:** `string | string[]` optional — Comma-separated list to filter results by one or more administrative levels.
+**admin_level:** `string | string[]` optional — Filter results by one or more administrative level names (e.g. `land`, `state`, `province`), sent as a comma-separated list. Use the admin levels endpoint to list the levels a country has.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -9995,7 +12654,7 @@ const response = await client.getAdminUnitDetails({
     apiKey: "apiKey",
     country: "country",
     admin_unit: "admin_unit"
-})
+});
 ```
 </dd>
 </dl>
@@ -10039,6 +12698,14 @@ const response = await client.getAdminUnitDetails({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -10076,7 +12743,7 @@ Retrieve a list of cities within a country, optionally filtered by an administra
 const response = await client.getCities({
     apiKey: "apiKey",
     country: "country"
-})
+});
 ```
 </dd>
 </dl>
@@ -10120,6 +12787,14 @@ const response = await client.getCities({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -10127,7 +12802,7 @@ const response = await client.getCities({
 </dl>
 </details>
 
-<details><summary><code>client.getSupportedFlags(request) -> Promise<ApifreaksApi.GetSupportedFlagsResponseItem[]></code></summary>
+<details><summary><code>client.getSupportedFlags(request) -> Promise<ApifreaksApi.GetSupportedFlagsResponse></code></summary>
 <dl>
 <dd>
 
@@ -10156,7 +12831,7 @@ Get list of all supported flags with their metadata
 ```typescript
 const response = await client.getSupportedFlags({
     apiKey: "apiKey"
-})
+});
 ```
 </dd>
 </dl>
@@ -10176,6 +12851,14 @@ const response = await client.getSupportedFlags({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -10183,7 +12866,7 @@ const response = await client.getSupportedFlags({
 </dl>
 </details>
 
-<details><summary><code>client.getFlags(request) -> Promise<BinaryResponse></code></summary>
+<details><summary><code>client.getFlags(request) -> Promise<core.BinaryResponse></code></summary>
 <dl>
 <dd>
 
@@ -10210,14 +12893,12 @@ Retrieve the flag for a specific country
 <dd>
 
 ```typescript
-const response = await client.getFlags(
-{
+const response = await client.getFlags({
     apiKey: "apiKey",
     name: "name",
     shape: "flat",
     type: "country"
-}
-);
+});
 ```
 </dd>
 </dl>
@@ -10277,6 +12958,14 @@ const response = await client.getFlags(
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -10313,7 +13002,7 @@ Retrieve current time, date, and timezone-related information by specifying a ti
 ```typescript
 const response = await client.timezoneLookup({
     apiKey: "apiKey"
-})
+});
 ```
 </dd>
 </dl>
@@ -10413,138 +13102,10 @@ const response = await client.timezoneLookup({
 </dd>
 </dl>
 
-</dd>
-</dl>
-
-</dd>
-</dl>
-</details>
-
-<details><summary><code>client.timezoneLookupV2(request) -> Promise<ApifreaksApi.TimezoneLookupV2Response></code></summary>
 <dl>
 <dd>
 
-#### 📝 Description
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-Get detailed timezone information (v2.0) by IP, timezone name, coordinates, location, airport code or UN/LOCODE, including DST transitions and localized date-time fields. Uses the `/v2.0/geolocation/timezone` endpoint.
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### 🔌 Usage
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-```typescript
-const response = await client.timezoneLookupV2({
-    apiKey: "apiKey"
-})
-```
-</dd>
-</dl>
-</dd>
-</dl>
-
-#### ⚙️ Parameters
-
-<dl>
-<dd>
-
-<dl>
-<dd>
-
-**apiKey:** `string` — Your API key
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**format:** `ApifreaksApi.TimezoneLookupV2RequestFormat` optional — Format of the response
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**ip:** `string` optional — IPv4 or IPv6 address to extract timezone information.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**tz:** `string` optional — Timezone name (e.g., "Asia/Kolkata") to retrieve information directly.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**location:** `string` optional — Location string (preferably city and country) to extract timezone.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**lat:** `number` optional — Latitude for geolocation lookup.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**long:** `number` optional — Longitude for geolocation lookup.
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**lang:** `ApifreaksApi.TimezoneLookupV2RequestLang` optional — Language code for response localization (default is "en").
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**iata_code:** `string` optional — 3-letter IATA airport code (e.g., JFK).
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**icao_code:** `string` optional — 4-letter ICAO airport code (e.g., KJFK).
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**lo_code:** `string` optional — 5-letter UN/LO city code.
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -10585,7 +13146,7 @@ Converts a given time from one timezone to another using various input types lik
 ```typescript
 const response = await client.timezoneConvert({
     apiKey: "apiKey"
-})
+});
 ```
 </dd>
 </dl>
@@ -10733,6 +13294,14 @@ const response = await client.timezoneConvert({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -10769,8 +13338,8 @@ Parse User Agent string to get detailed browser, device, and operating system in
 ```typescript
 const response = await client.userAgentLookup({
     apiKey: "apiKey",
-    userAgent: "userAgent"
-})
+    "User-Agent": "User-Agent"
+});
 ```
 </dd>
 </dl>
@@ -10793,7 +13362,7 @@ const response = await client.userAgentLookup({
 <dl>
 <dd>
 
-**userAgent:** `string` — The User-Agent string to look up. Sent as the "User-Agent" HTTP header. **Required**
+**format:** `ApifreaksApi.UserAgentLookupRequestFormat` optional — Format of the response
     
 </dd>
 </dl>
@@ -10801,7 +13370,15 @@ const response = await client.userAgentLookup({
 <dl>
 <dd>
 
-**format:** `ApifreaksApi.UserAgentLookupRequestFormat` optional — Format of the response
+**User-Agent:** `string` — The User-Agent string to parse, sent as the User-Agent HTTP header.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -10825,7 +13402,7 @@ const response = await client.userAgentLookup({
 <dl>
 <dd>
 
-Parse up to `50,000 User-Agent strings` at once in a single request.
+Parse up to `20000 User-Agent strings` at once in a single request; exceeding that returns a 413, not a 400.
 </dd>
 </dl>
 </dd>
@@ -10843,7 +13420,7 @@ Parse up to `50,000 User-Agent strings` at once in a single request.
 const response = await client.bulkUserAgentLookup({
     apiKey: "apiKey",
     uaStrings: ["uaStrings"]
-})
+});
 ```
 </dd>
 </dl>
@@ -10874,7 +13451,15 @@ const response = await client.bulkUserAgentLookup({
 <dl>
 <dd>
 
-**uaStrings:** `string[]` — List of user agent strings to parse
+**uaStrings:** `string[]` — Array of User-Agent strings to parse. Maximum 20000 strings per request — exceeding that returns a 413.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -10924,8 +13509,8 @@ Perform Optical Character Recognition (OCR) on images, PDFs, or ZIP archives. Su
 const response = await client.ocrPredict({
     apiKey: "apiKey",
     model: "mini-ocr-v1",
-    model: "mini-ocr-v1"
-})
+    file: fs.createReadStream("/path/to/file")
+});
 ```
 </dd>
 </dl>
@@ -10948,7 +13533,7 @@ const response = await client.ocrPredict({
 <dl>
 <dd>
 
-**url:** `string` optional — URL of the image or PDF (required if `file` not provided)
+**model:** `ApifreaksApi.OcrPredictRequestModel` — OCR model to use. `mini-ocr-v1` for CAPTCHA OCR, `ocr-v1` for general OCR.
     
 </dd>
 </dl>
@@ -10956,7 +13541,7 @@ const response = await client.ocrPredict({
 <dl>
 <dd>
 
-**model:** `OcrPredictRequest.OcrPredictRequestModel` — OCR model to use.
+**url:** `string` optional — URL of the image or PDF (required if `file` is not uploaded).
     
 </dd>
 </dl>
@@ -10980,7 +13565,23 @@ const response = await client.ocrPredict({
 <dl>
 <dd>
 
-**new_line:** `number` optional — Set to 1 to split output text into individual lines (default: 0)
+**new_line:** `number` optional — Set to 1 to split output text into individual lines (default: 0). This changes the shape of `OCRText` (see the response).
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**file:** `core.file.Uploadable` optional — Image, PDF, or ZIP file for OCR (required if `url` not provided). Supported formats: .png, .jpg, .jpeg, .bmp, .tiff, .gif, .pcx, .pdf, .zip. **Note:** PDFs containing images in them are allowed only for processing. The request body must contain only this file; every other option is a query parameter.
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -11022,7 +13623,7 @@ Analyze text for grammar errors and return the exact words flagged as grammatica
 const response = await client.grammarDetect({
     apiKey: "apiKey",
     text: "The global mental is health crisis is now a serious and compelex problem. It need quick and ongoing action from policymakers, healthcare workers, and the whole society."
-})
+});
 ```
 </dd>
 </dl>
@@ -11046,6 +13647,14 @@ const response = await client.grammarDetect({
 <dd>
 
 **text:** `string` — Text to analyze for grammar errors
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -11087,7 +13696,7 @@ Submit text with grammatical issues and receive a clean grammar-corrected result
 const response = await client.grammarCorrect({
     apiKey: "apiKey",
     text: "The global mental is health crisis is now a serious and compelex problem. It need quick and ongoing action from policymakers, healthcare workers, and the whole society."
-})
+});
 ```
 </dd>
 </dl>
@@ -11111,6 +13720,14 @@ const response = await client.grammarCorrect({
 <dd>
 
 **text:** `string` — Text to correct
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -11152,7 +13769,7 @@ Analyze text and return weak, vague, or filler words with zero-based word positi
 const response = await client.weakWordsDetect({
     apiKey: "apiKey",
     text: "Many people cannot get the support they need to handle their conditions well."
-})
+});
 ```
 </dd>
 </dl>
@@ -11176,6 +13793,14 @@ const response = await client.weakWordsDetect({
 <dd>
 
 **text:** `string` — Text to analyze for weak words
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>
@@ -11217,7 +13842,7 @@ Analyze text readability using industry-standard formulas including Flesch Readi
 const response = await client.readabilityScore({
     apiKey: "apiKey",
     text: "The global mental is health crisis is now a serious and compelex problem. It needs quick and ongoing action from policymakers, healthcare workers, and the whole society."
-})
+});
 ```
 </dd>
 </dl>
@@ -11261,6 +13886,14 @@ const response = await client.readabilityScore({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -11297,7 +13930,7 @@ Retrieve sunrise and sunset times, current position of the moon, and other relat
 ```typescript
 const response = await client.astronomyLookup({
     apiKey: "apiKey"
-})
+});
 ```
 </dd>
 </dl>
@@ -11360,6 +13993,14 @@ const response = await client.astronomyLookup({
 <dl>
 <dd>
 
+**lang:** `string` optional
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
 **date:** `string` optional — Date for astronomy data (YYYY-MM-DD)
     
 </dd>
@@ -11373,6 +14014,22 @@ const response = await client.astronomyLookup({
 </dd>
 </dl>
 
+<dl>
+<dd>
+
+**time_zone:** `string` optional
+    
+</dd>
+</dl>
+
+<dl>
+<dd>
+
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
+    
+</dd>
+</dl>
+
 </dd>
 </dl>
 
@@ -11380,7 +14037,7 @@ const response = await client.astronomyLookup({
 </dl>
 </details>
 
-<details><summary><code>client.astronomyLookupV2(request) -> Promise<ApifreaksApi.AstronomyLookupV2Response></code></summary>
+<details><summary><code>client.getCreditsUsage(request) -> Promise<ApifreaksApi.GetCreditsUsageResponse></code></summary>
 <dl>
 <dd>
 
@@ -11392,7 +14049,7 @@ const response = await client.astronomyLookup({
 <dl>
 <dd>
 
-Get astronomy data (v2.0) — sun and moon rise/set times, twilight, golden/blue hour, moon phase and illumination — for a location, coordinates or IP. Uses the `/v2.0/geolocation/astronomy` endpoint.
+Returns subscription, subscription-surcharge, and one-off credit balances for the authenticated organization's account.
 </dd>
 </dl>
 </dd>
@@ -11407,9 +14064,9 @@ Get astronomy data (v2.0) — sun and moon rise/set times, twilight, golden/blue
 <dd>
 
 ```typescript
-const response = await client.astronomyLookupV2({
+const response = await client.getCreditsUsage({
     apiKey: "apiKey"
-})
+});
 ```
 </dd>
 </dl>
@@ -11432,7 +14089,7 @@ const response = await client.astronomyLookupV2({
 <dl>
 <dd>
 
-**format:** `ApifreaksApi.AstronomyLookupV2RequestFormat` optional — Format of the response.
+**format:** `ApifreaksApi.GetCreditsUsageRequestFormat` optional — Format of the response. Possible values: json, xml.
     
 </dd>
 </dl>
@@ -11440,63 +14097,7 @@ const response = await client.astronomyLookupV2({
 <dl>
 <dd>
 
-**location:** `string` optional — Location name or address
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**lat:** `number` optional — Latitude for location coordinates
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**long:** `number` optional — Longitude for location coordinates
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**ip:** `string` optional — IP address for location detection
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**lang:** `string` optional — Language code for response localization (default is "en").
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**date:** `string` optional — Date for astronomy data (YYYY-MM-DD)
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**elevation:** `number` optional — Elevation in meters (default 0, maximum 10,000)
-    
-</dd>
-</dl>
-
-<dl>
-<dd>
-
-**time_zone:** `string` optional — Timezone of the location for which astronomy data is required
+**requestOptions:** `ApifreaksApiClient.RequestOptions` optional — Per-request overrides (timeout, retries, headers, abort signal).
     
 </dd>
 </dl>

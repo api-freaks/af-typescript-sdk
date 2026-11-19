@@ -4,5 +4,4 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.FloodForecastRequestFormat = void 0;
 exports.FloodForecastRequestFormat = {
     Json: "json",
-    Xml: "xml",
 };

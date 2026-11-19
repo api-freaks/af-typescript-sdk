@@ -35,17 +35,10 @@ var __importStar = (this && this.__importStar) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.normalizeClientOptions = normalizeClientOptions;
-const headers_js_1 = require("./core/headers.js");
 const core = __importStar(require("./core/index.js"));
 function normalizeClientOptions(options) {
-    const headers = (0, headers_js_1.mergeHeaders)({
-        "X-Fern-Language": "JavaScript",
-        "X-Fern-Runtime": core.RUNTIME.type,
-        "X-Fern-Runtime-Version": core.RUNTIME.version,
-    }, options?.headers);
     return {
         ...options,
         logging: core.logging.createLogger(options?.logging),
-        headers,
     };
 }

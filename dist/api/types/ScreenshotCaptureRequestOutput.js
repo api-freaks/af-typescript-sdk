@@ -4,5 +4,4 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ScreenshotCaptureRequestOutput = void 0;
 exports.ScreenshotCaptureRequestOutput = {
     Json: "json",
-    Image: "image",
 };

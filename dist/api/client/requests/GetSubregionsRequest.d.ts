@@ -2,8 +2,7 @@ import type * as ApifreaksApi from "../../index.js";
 /**
  * @example
  *     {
- *         apiKey: "apiKey",
- *         region: "region"
+ *         apiKey: "apiKey"
  *     }
  */
 export interface GetSubregionsRequest {
@@ -11,6 +10,6 @@ export interface GetSubregionsRequest {
     apiKey: string;
     /** Format of the response */
     format?: ApifreaksApi.GetSubregionsRequestFormat;
-    /** Name of the region. */
-    region: string;
+    /** Name of the region. If omitted, all subregions are returned. */
+    region?: string;
 }

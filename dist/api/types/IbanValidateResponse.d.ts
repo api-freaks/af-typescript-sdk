@@ -50,5 +50,11 @@ export declare namespace IbanValidateResponse {
         account?: string | undefined;
         /** Indicates whether given IBAN country supports Single Euro Payments Area (SEPA) */
         sepa: boolean;
+        /** Name of the branch or office. Null when not resolvable. */
+        branch_name?: (string | null) | undefined;
+        /** Type of institution: "FIIN" (financial institution) or "NFIN" (non-financial institution). Null when not resolvable. */
+        instit_type?: (string | null) | undefined;
+        /** Postal/ZIP code of the bank branch. Null when not resolvable. */
+        postal_code?: (string | null) | undefined;
     }
 }

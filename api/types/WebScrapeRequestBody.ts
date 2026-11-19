@@ -9,139 +9,103 @@ export type WebScrapeRequestBody =
                     value: string;
                 }[]
               | undefined;
-          instructions: (
-              | {
-                    fill?:
-                        | {
-                              place: string;
-                              value: string;
-                          }
-                        | undefined;
-                }
-              | {
-                    click?: string | undefined;
-                }
-              | {
-                    clickIfExist?: string | undefined;
-                }
-              | {
-                    enter?: string | undefined;
-                }
-              | {
-                    newTab?: boolean | undefined;
-                }
-              | {
-                    moveToRelativeTab?: number | undefined;
-                }
-              | {
-                    wait?: number | undefined;
-                }
-              | {
-                    waitFor?: string | undefined;
-                }
-              | {
-                    select?:
-                        | {
-                              place: string;
-                              value: string;
-                          }
-                        | undefined;
-                }
-              | {
-                    jsExe?: string | undefined;
-                }
-              | {
-                    conditionalCheck?: Record<string, unknown>[] | undefined;
-                }
-              | {
-                    clickButtonByValue?:
-                        | {
-                              place: string;
-                              value: string;
-                          }
-                        | undefined;
-                }
-              | {
-                    generalImageCaptcha?:
-                        | {
-                              imagePath?: string | undefined;
-                              textField?: string | undefined;
-                              imageUpdatePath?: string | undefined;
-                              captchaFailedPath?: string | undefined;
-                              model?:
-                                  | ("mini-ocr-v1" | "Model20" | "Model05" | "Model141" | "Model150" | "Model102")
-                                  | undefined;
-                          }[]
-                        | undefined;
-                }
-              | {
-                    blockElement?: string[] | undefined;
-                }
-              | {
-                    extract?:
-                        | {
-                              html?: string | undefined;
-                              text?: string | undefined;
-                              user_data?: string | undefined;
-                          }
-                        | undefined;
-                }
-              | {
-                    fillImageCaptcha?: Record<string, unknown>[] | undefined;
-                }
-              | {
-                    switchToIframe?: string | undefined;
-                }
-              | {
-                    switchToParentFrame?: boolean | undefined;
-                }
-              | {
-                    resolveAudioCaptcha?: Record<string, unknown> | undefined;
-                }
-              | {
-                    screenshot?: (string | boolean) | undefined;
-                }
-              | {
-                    saveimage?: string | undefined;
-                }
-          )[];
+          instructions: {
+              fill?:
+                  | {
+                        place: string;
+                        value: string;
+                    }
+                  | undefined;
+              click?: string | undefined;
+              clickIfExist?: string | undefined;
+              enter?: string | undefined;
+              newTab?: boolean | undefined;
+              moveToRelativeTab?: number | undefined;
+              wait?: number | undefined;
+              waitFor?: string | undefined;
+              select?:
+                  | {
+                        place: string;
+                        value: string;
+                    }
+                  | undefined;
+              jsExe?: string | undefined;
+              conditionalCheck?: Record<string, unknown>[] | undefined;
+              clickButtonByValue?:
+                  | {
+                        place: string;
+                        value: string;
+                    }
+                  | undefined;
+              generalImageCaptcha?:
+                  | {
+                        imagePath?: string | undefined;
+                        textField?: string | undefined;
+                        imageUpdatePath?: string | undefined;
+                        captchaFailedPath?: string | undefined;
+                        model?:
+                            | (
+                                  | "Model_1"
+                                  | "Model_2"
+                                  | "Model_3"
+                                  | "Model_4"
+                                  | "Model_5"
+                                  | "Model_6"
+                                  | "basicTnImageProcessing"
+                                  | "basicPhImageProcessing"
+                              )
+                            | undefined;
+                    }[]
+                  | undefined;
+              blockElement?: string[] | undefined;
+              extract?: Record<string, string> | undefined;
+              fillImageCaptcha?:
+                  | {
+                        imagePath?: string | undefined;
+                        textField?: string | undefined;
+                        imageUpdatePath?: string | undefined;
+                        captchaFailedPath?: string | undefined;
+                        model?:
+                            | (
+                                  | "Model_1"
+                                  | "Model_2"
+                                  | "Model_3"
+                                  | "Model_4"
+                                  | "Model_5"
+                                  | "Model_6"
+                                  | "basicTnImageProcessing"
+                                  | "basicPhImageProcessing"
+                              )
+                            | undefined;
+                    }[]
+                  | undefined;
+              switchToIframe?: string | undefined;
+              switchToParentFrame?: boolean | undefined;
+              resolveAudioCaptcha?:
+                  | {
+                        audioPath?: string | undefined;
+                        textField?: string | undefined;
+                    }
+                  | undefined;
+              screenshot?: string | undefined;
+              saveimage?: string | undefined;
+          }[];
       }
     | {
-          instructions: (
-              | {
-                    postForm?:
-                        | {
-                              selector?: string | undefined;
-                              data?:
-                                  | {
-                                        name?: string | undefined;
-                                    }
-                                  | undefined;
-                          }
-                        | undefined;
-                }
-              | {
-                    getForm?:
-                        | {
-                              selector?: string | undefined;
-                              data?:
-                                  | {
-                                        name?: string | undefined;
-                                    }
-                                  | undefined;
-                          }
-                        | undefined;
-                }
-              | {
-                    extract?:
-                        | {
-                              html?: string | undefined;
-                              text?: string | undefined;
-                          }
-                        | undefined;
-                }
-              | {
-                    getPage?: (string | boolean) | undefined;
-                }
-          )[];
+          instructions: {
+              postForm?:
+                  | {
+                        selector?: string | undefined;
+                        data?: Record<string, string> | undefined;
+                    }
+                  | undefined;
+              getForm?:
+                  | {
+                        selector?: string | undefined;
+                        data?: Record<string, string> | undefined;
+                    }
+                  | undefined;
+              extract?: Record<string, string> | undefined;
+              getPage?: string | undefined;
+          }[];
       };

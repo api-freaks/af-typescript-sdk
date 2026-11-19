@@ -28,6 +28,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.geolocationLookup({
@@ -54,6 +56,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.bulkGeolocationLookup({
@@ -63,59 +67,6 @@ export declare class ApifreaksApiClient {
      */
     bulkGeolocationLookup(request: ApifreaksApi.BulkGeolocationLookupRequest, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.BulkGeolocationLookupResponseItem[]>;
     private __bulkGeolocationLookup;
-    /**
-     * Get detailed geolocation data (v2.0) for an IP address, hostname or domain including country, city, timezone, currency, ASN, company, and optional security, abuse and user-agent information
-     *
-     * @param {ApifreaksApi.GeolocationLookupV2Request} request
-     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @throws {@link ApifreaksApi.BadRequestError}
-     * @throws {@link ApifreaksApi.UnauthorizedError}
-     * @throws {@link ApifreaksApi.PaymentRequiredError}
-     * @throws {@link ApifreaksApi.ForbiddenError}
-     * @throws {@link ApifreaksApi.NotFoundError}
-     * @throws {@link ApifreaksApi.NotAcceptableError}
-     * @throws {@link ApifreaksApi.ContentTooLargeError}
-     * @throws {@link ApifreaksApi.LockedError}
-     * @throws {@link ApifreaksApi.TooManyRequestsError}
-     * @throws {@link ApifreaksApi.InternalServerError}
-     * @throws {@link ApifreaksApi.ServiceUnavailableError}
-     * @throws {@link ApifreaksApi.GatewayTimeoutError}
-     *
-     * @example
-     *     await client.geolocationLookupV2({
-     *         apiKey: "apiKey"
-     *     })
-     */
-    geolocationLookupV2(request: ApifreaksApi.GeolocationLookupV2Request, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.GeolocationLookupV2Response>;
-    private __geolocationLookupV2;
-    /**
-     * Retrieve detailed geolocation data (v2.0) for multiple IP addresses, hostnames or domain names in a single request.
-     * Supports up to `50,000` IP-addresses/host-names per request.
-     *
-     * @param {ApifreaksApi.BulkGeolocationLookupV2Request} request
-     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @throws {@link ApifreaksApi.BadRequestError}
-     * @throws {@link ApifreaksApi.UnauthorizedError}
-     * @throws {@link ApifreaksApi.PaymentRequiredError}
-     * @throws {@link ApifreaksApi.ForbiddenError}
-     * @throws {@link ApifreaksApi.NotFoundError}
-     * @throws {@link ApifreaksApi.NotAcceptableError}
-     * @throws {@link ApifreaksApi.ContentTooLargeError}
-     * @throws {@link ApifreaksApi.TooManyRequestsError}
-     * @throws {@link ApifreaksApi.InternalServerError}
-     * @throws {@link ApifreaksApi.ServiceUnavailableError}
-     * @throws {@link ApifreaksApi.GatewayTimeoutError}
-     *
-     * @example
-     *     await client.bulkGeolocationLookupV2({
-     *         apiKey: "apiKey",
-     *         ips: ["ips"]
-     *     })
-     */
-    bulkGeolocationLookupV2(request: ApifreaksApi.BulkGeolocationLookupV2Request, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.BulkGeolocationLookupV2ResponseItem[]>;
-    private __bulkGeolocationLookupV2;
     /**
      * Get comprehensive security information for a given IP address. Detects VPNs, proxies, Tor nodes, and other security threats.
      *
@@ -134,6 +85,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.ipSecurityLookup({
@@ -159,6 +112,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.bulkIpSecurityLookup({
@@ -185,6 +140,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.geocoderSearch({
@@ -211,6 +168,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.geocoderReverse({
@@ -241,6 +200,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.domainWhoisLookup({
@@ -267,6 +228,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.bulkDomainWhoisLookup({
@@ -276,59 +239,6 @@ export declare class ApifreaksApiClient {
      */
     bulkDomainWhoisLookup(request: ApifreaksApi.BulkDomainWhoisLookupRequest, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.BulkDomainWhoisLookupResponse>;
     private __bulkDomainWhoisLookup;
-    /**
-     * Get live WHOIS registration details (v2.0) for a domain name, including registrar, contacts, secure DNS, eligibility and registry data.
-     *
-     * @param {ApifreaksApi.DomainWhoisLookupV2Request} request
-     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @throws {@link ApifreaksApi.BadRequestError}
-     * @throws {@link ApifreaksApi.UnauthorizedError}
-     * @throws {@link ApifreaksApi.PaymentRequiredError}
-     * @throws {@link ApifreaksApi.ForbiddenError}
-     * @throws {@link ApifreaksApi.NotFoundError}
-     * @throws {@link ApifreaksApi.NotAcceptableError}
-     * @throws {@link ApifreaksApi.RequestTimeoutError}
-     * @throws {@link ApifreaksApi.ContentTooLargeError}
-     * @throws {@link ApifreaksApi.TooManyRequestsError}
-     * @throws {@link ApifreaksApi.InternalServerError}
-     * @throws {@link ApifreaksApi.ServiceUnavailableError}
-     * @throws {@link ApifreaksApi.GatewayTimeoutError}
-     *
-     * @example
-     *     await client.domainWhoisLookupV2({
-     *         apiKey: "apiKey",
-     *         domainName: "domainName"
-     *     })
-     */
-    domainWhoisLookupV2(request: ApifreaksApi.DomainWhoisLookupV2Request, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.DomainWhoisLookupV2Response>;
-    private __domainWhoisLookupV2;
-    /**
-     * Retrieve live WHOIS information (v2.0) for `100 Domains per Request`.
-     *
-     * @param {ApifreaksApi.BulkDomainWhoisLookupV2Request} request
-     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @throws {@link ApifreaksApi.BadRequestError}
-     * @throws {@link ApifreaksApi.UnauthorizedError}
-     * @throws {@link ApifreaksApi.PaymentRequiredError}
-     * @throws {@link ApifreaksApi.ForbiddenError}
-     * @throws {@link ApifreaksApi.NotFoundError}
-     * @throws {@link ApifreaksApi.NotAcceptableError}
-     * @throws {@link ApifreaksApi.ContentTooLargeError}
-     * @throws {@link ApifreaksApi.TooManyRequestsError}
-     * @throws {@link ApifreaksApi.InternalServerError}
-     * @throws {@link ApifreaksApi.ServiceUnavailableError}
-     * @throws {@link ApifreaksApi.GatewayTimeoutError}
-     *
-     * @example
-     *     await client.bulkDomainWhoisLookupV2({
-     *         apiKey: "apiKey",
-     *         domainNames: ["domainNames"]
-     *     })
-     */
-    bulkDomainWhoisLookupV2(request: ApifreaksApi.BulkDomainWhoisLookupV2Request, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.BulkDomainWhoisLookupV2Response>;
-    private __bulkDomainWhoisLookupV2;
     /**
      * Returns WHOIS registration details for a specified IP address (IPv4 or IPv6).
      *
@@ -346,6 +256,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.ipWhoisLookup({
@@ -372,6 +284,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.asnWhoisLookup({
@@ -399,6 +313,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.domainWhoisHistory({
@@ -425,6 +341,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.domainWhoisReverse({
@@ -451,6 +369,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.domainDnsLookup({
@@ -479,6 +399,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.bulkDomainDnsLookup({
@@ -508,6 +430,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.domainDnsHistory({
@@ -536,6 +460,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.domainDnsReverse({
@@ -566,51 +492,21 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.webScrape({
      *         apiKey: "apiKey",
      *         url: "https://example.com",
      *         body: {
-     *             blockUrl: ["https://example.com/ads.js", "https://tracker.example.com/*"],
-     *             cookies: [{
-     *                     name: "sessionid",
-     *                     value: "abc123"
-     *                 }, {
-     *                     name: "user_pref",
-     *                     value: "darkmode"
-     *                 }],
-     *             instructions: [{
-     *                     fill: {
-     *                         place: "#username",
-     *                         value: "myuser"
-     *                     }
-     *                 }, {
-     *                     fill: {
-     *                         place: "#password",
-     *                         value: "mypassword"
-     *                     }
-     *                 }, {
-     *                     click: "#loginButton"
-     *                 }, {
-     *                     wait: 2000
-     *                 }, {
+     *             instructions: [{}, {}, {}, {}, {
      *                     extract: {
-     *                         html: "#profile",
-     *                         text: "#welcome-message",
-     *                         user_data: "#user-info"
+     *                         "profile": "#profile",
+     *                         "welcomeMessage": "#welcome-message",
+     *                         "userInfo": "#user-info"
      *                     }
-     *                 }, {
-     *                     blockElement: [".ad-banner", "//div[@class='popup']"]
-     *                 }, {
-     *                     generalImageCaptcha: [{
-     *                             imagePath: "#captcha-img",
-     *                             textField: "#captcha-input",
-     *                             imageUpdatePath: "#refresh-captcha",
-     *                             captchaFailedPath: "#captcha-error",
-     *                             model: "mini-ocr-v1"
-     *                         }]
-     *                 }]
+     *                 }, {}, {}]
      *         }
      *     })
      *
@@ -621,20 +517,27 @@ export declare class ApifreaksApiClient {
      *         body: {
      *             instructions: [{
      *                     postForm: {
-     *                         selector: "#loginForm"
+     *                         selector: "#loginForm",
+     *                         data: {
+     *                             "username": "myuser",
+     *                             "password": "mypassword"
+     *                         }
      *                     }
      *                 }, {
      *                     extract: {
-     *                         html: "#main-content",
-     *                         text: "#welcome-message"
+     *                         "mainContent": "#main-content",
+     *                         "welcomeMessage": "#welcome-message"
      *                     }
      *                 }, {
      *                     getForm: {
-     *                         selector: "#searchForm"
+     *                         selector: "#searchForm",
+     *                         data: {
+     *                             "query": "API scraping"
+     *                         }
      *                     }
      *                 }, {
      *                     extract: {
-     *                         text: "#search-results"
+     *                         "searchResults": "#search-results"
      *                     }
      *                 }]
      *         }
@@ -654,12 +557,13 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.ForbiddenError}
      * @throws {@link ApifreaksApi.NotFoundError}
      * @throws {@link ApifreaksApi.NotAcceptableError}
-     * @throws {@link ApifreaksApi.RequestTimeoutError}
      * @throws {@link ApifreaksApi.ContentTooLargeError}
      * @throws {@link ApifreaksApi.TooManyRequestsError}
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.emailValidate({
@@ -681,12 +585,13 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.ForbiddenError}
      * @throws {@link ApifreaksApi.NotFoundError}
      * @throws {@link ApifreaksApi.NotAcceptableError}
-     * @throws {@link ApifreaksApi.RequestTimeoutError}
      * @throws {@link ApifreaksApi.ContentTooLargeError}
      * @throws {@link ApifreaksApi.TooManyRequestsError}
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.bulkEmailValidate({
@@ -699,6 +604,76 @@ export declare class ApifreaksApiClient {
     bulkEmailValidate(request: ApifreaksApi.BulkEmailValidateRequest, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.BulkEmailValidateResponse>;
     private __bulkEmailValidate;
     /**
+     * Validates email syntax and checks the domain for disposable, free, spam, and role-account signals, plus MX/A DNS records. Send the email (and optionally an ip) as a JSON request body. When an ip is included, the response also carries geolocation and security data for it.
+     *
+     * @param {ApifreaksApi.DisposableEmailCheckV2Request} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
+     *
+     * @example
+     *     await client.disposableEmailCheckV2({
+     *         apiKey: "apiKey",
+     *         email: "test@sogetthis.com"
+     *     })
+     *
+     * @example
+     *     await client.disposableEmailCheckV2({
+     *         apiKey: "apiKey",
+     *         email: "someone@gmail.com",
+     *         ip: "8.8.8.8"
+     *     })
+     */
+    disposableEmailCheckV2(request: ApifreaksApi.DisposableEmailCheckV2Request, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.DisposableEmailCheckV2Response>;
+    private __disposableEmailCheckV2;
+    /**
+     * Checks a bulk of email addresses (each with an optional ip) and returns a disposable email check result for each, in the same order as the request. Maximum `100` entries per request.
+     *
+     * @param {ApifreaksApi.BulkDisposableEmailCheckV2Request} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
+     *
+     * @example
+     *     await client.bulkDisposableEmailCheckV2({
+     *         apiKey: "apiKey",
+     *         emailData: [{
+     *                 email: "abc"
+     *             }, {
+     *                 email: "john@microsoft.com",
+     *                 ip: "8.8.8.8"
+     *             }, {
+     *                 email: "test@mailinator.com"
+     *             }]
+     *     })
+     */
+    bulkDisposableEmailCheckV2(request: ApifreaksApi.BulkDisposableEmailCheckV2Request, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.BulkDisposableEmailCheckV2Response>;
+    private __bulkDisposableEmailCheckV2;
+    /**
      * Validates a single phone number and returns detailed metadata including carrier, line type, geolocation, time zones, and standardized formats.
      *
      * @param {ApifreaksApi.PhoneValidateRequest} request
@@ -709,14 +684,14 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.PaymentRequiredError}
      * @throws {@link ApifreaksApi.ForbiddenError}
      * @throws {@link ApifreaksApi.NotFoundError}
-     * @throws {@link ApifreaksApi.MethodNotAllowedError}
      * @throws {@link ApifreaksApi.NotAcceptableError}
-     * @throws {@link ApifreaksApi.RequestTimeoutError}
      * @throws {@link ApifreaksApi.ContentTooLargeError}
      * @throws {@link ApifreaksApi.TooManyRequestsError}
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.phoneValidate({
@@ -751,14 +726,14 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.PaymentRequiredError}
      * @throws {@link ApifreaksApi.ForbiddenError}
      * @throws {@link ApifreaksApi.NotFoundError}
-     * @throws {@link ApifreaksApi.MethodNotAllowedError}
      * @throws {@link ApifreaksApi.NotAcceptableError}
-     * @throws {@link ApifreaksApi.RequestTimeoutError}
      * @throws {@link ApifreaksApi.ContentTooLargeError}
      * @throws {@link ApifreaksApi.TooManyRequestsError}
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.bulkPhoneValidate({
@@ -821,6 +796,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.domainSslLookup({
@@ -848,6 +825,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.domainSslChainLookup({
@@ -875,6 +854,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.domainAvailabilityCheck({
@@ -896,12 +877,13 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.ForbiddenError}
      * @throws {@link ApifreaksApi.NotFoundError}
      * @throws {@link ApifreaksApi.NotAcceptableError}
-     * @throws {@link ApifreaksApi.RequestTimeoutError}
      * @throws {@link ApifreaksApi.ContentTooLargeError}
      * @throws {@link ApifreaksApi.TooManyRequestsError}
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.bulkDomainAvailabilityCheck({
@@ -929,6 +911,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.domainAvailabilitySuggestions({
@@ -950,12 +934,13 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.ForbiddenError}
      * @throws {@link ApifreaksApi.NotFoundError}
      * @throws {@link ApifreaksApi.NotAcceptableError}
-     * @throws {@link ApifreaksApi.RequestTimeoutError}
      * @throws {@link ApifreaksApi.ContentTooLargeError}
      * @throws {@link ApifreaksApi.TooManyRequestsError}
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.subdomainsLookup({
@@ -965,6 +950,401 @@ export declare class ApifreaksApiClient {
      */
     subdomainsLookup(request: ApifreaksApi.SubdomainsLookupRequest, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.SubdomainsLookupResponse>;
     private __subdomainsLookup;
+    /**
+     * The Domain Typosquatting API searches for registered domains that are typo or look-alike variants of a brand keyword, or that match a wildcard pattern. Results include registration lifecycle data and drop status across 1529+ TLDs, paginated at 100 domains per page.
+     *
+     * @param {ApifreaksApi.DomainTyposquattingRequest} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
+     *
+     * @example
+     *     await client.domainTyposquatting({
+     *         apiKey: "apiKey"
+     *     })
+     */
+    domainTyposquatting(request: ApifreaksApi.DomainTyposquattingRequest, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.DomainTyposquattingResponse>;
+    private __domainTyposquatting;
+    /**
+     * The Domain Reputation API evaluates a domain against threat intelligence sources, DGA (domain generation algorithm) scoring, trust signals, and email deliverability configuration, returning a consolidated risk assessment with a verdict, severity, and supporting evidence.
+     *
+     * @param {ApifreaksApi.DomainReputationRequest} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
+     *
+     * @example
+     *     await client.domainReputation({
+     *         apiKey: "apiKey",
+     *         domainName: "domainName"
+     *     })
+     */
+    domainReputation(request: ApifreaksApi.DomainReputationRequest, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.DomainReputationResponse>;
+    private __domainReputation;
+    /**
+     * Retrieve sunrise and sunset times, current position of the moon, and other related information by specifying a location address, location coordinates, IP address, or using the client IP address if no parameter is passed.
+     *
+     * @param {ApifreaksApi.AstronomyLookupV2Request} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
+     *
+     * @example
+     *     await client.astronomyLookupV2({
+     *         apiKey: "apiKey"
+     *     })
+     */
+    astronomyLookupV2(request: ApifreaksApi.AstronomyLookupV2Request, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.AstronomyLookupV2Response>;
+    private __astronomyLookupV2;
+    /**
+     * Get current time, date, and timezone details by specifying a timezone name, location address, GPS coordinates, IP address, IATA/ICAO airport code, UN/LOCODE, or use the client IP if no parameter is provided.
+     *
+     * @param {ApifreaksApi.TimezoneLookupV2Request} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
+     *
+     * @example
+     *     await client.timezoneLookupV2({
+     *         apiKey: "apiKey"
+     *     })
+     */
+    timezoneLookupV2(request: ApifreaksApi.TimezoneLookupV2Request, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.TimezoneLookupV2Response>;
+    private __timezoneLookupV2;
+    /**
+     * Get detailed IP geolocation data for an IP address including country, city, timezone, currency, and optional threat intelligence and user-agent information.
+     *
+     * @param {ApifreaksApi.GeolocationLookupV2Request} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.LockedError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
+     *
+     * @example
+     *     await client.geolocationLookupV2({
+     *         apiKey: "apiKey"
+     *     })
+     */
+    geolocationLookupV2(request: ApifreaksApi.GeolocationLookupV2Request, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.GeolocationLookupV2Response>;
+    private __geolocationLookupV2;
+    /**
+     * Get detailed IP geolocation data for multiple IP addresses including country, city, timezone, currency, and optional threat intelligence information. Supports up to 50,000 IP addresses per request.
+     *
+     * @param {ApifreaksApi.BulkGeolocationLookupV2Request} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
+     *
+     * @example
+     *     await client.bulkGeolocationLookupV2({
+     *         apiKey: "apiKey",
+     *         ips: ["ips"]
+     *     })
+     */
+    bulkGeolocationLookupV2(request: ApifreaksApi.BulkGeolocationLookupV2Request, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.BulkGeolocationLookupV2ResponseItem[]>;
+    private __bulkGeolocationLookupV2;
+    /**
+     * Returns the current WHOIS record for the specified domain, including registrar details, registrant/administrative/technical/billing/reseller contacts, name servers, status codes, and raw WHOIS text.
+     *
+     * @param {ApifreaksApi.DomainWhoisLookupV2Request} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
+     *
+     * @example
+     *     await client.domainWhoisLookupV2({
+     *         apiKey: "apiKey",
+     *         domainName: "domainName"
+     *     })
+     */
+    domainWhoisLookupV2(request: ApifreaksApi.DomainWhoisLookupV2Request, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.DomainWhoisLookupV2Response>;
+    private __domainWhoisLookupV2;
+    /**
+     * Returns the current WHOIS record for each requested domain, in request order. Supports up to 100 domain names per request; a domain that fails to resolve yields an error item instead of failing the whole batch.
+     *
+     * @param {ApifreaksApi.BulkDomainWhoisLookupV2Request} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
+     *
+     * @example
+     *     await client.bulkDomainWhoisLookupV2({
+     *         apiKey: "apiKey",
+     *         domainNames: ["domainNames"]
+     *     })
+     */
+    bulkDomainWhoisLookupV2(request: ApifreaksApi.BulkDomainWhoisLookupV2Request, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.BulkDomainWhoisLookupV2Response>;
+    private __bulkDomainWhoisLookupV2;
+    /**
+     * Returns the current live price for the requested commodity symbols. Unresolved symbols degrade to a 206 partial response instead of failing the whole request.
+     *
+     * @param {ApifreaksApi.CommodityLatestRatesV2Request} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
+     *
+     * @example
+     *     await client.commodityLatestRatesV2({
+     *         apiKey: "apiKey",
+     *         symbols: ["symbols"]
+     *     })
+     */
+    commodityLatestRatesV2(request: ApifreaksApi.CommodityLatestRatesV2Request, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.CommodityLatestRatesV2Response>;
+    private __commodityLatestRatesV2;
+    /**
+     * Returns OHLC price data for the requested commodity symbols on a specific date. Falls back to the nearest earlier rate if none exists for the exact date. Unresolved symbols degrade to a 206 partial response instead of failing the whole request.
+     *
+     * @param {ApifreaksApi.CommodityHistoricalRatesV2Request} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
+     *
+     * @example
+     *     await client.commodityHistoricalRatesV2({
+     *         apiKey: "apiKey",
+     *         symbols: ["symbols"],
+     *         date: "2023-01-15"
+     *     })
+     */
+    commodityHistoricalRatesV2(request: ApifreaksApi.CommodityHistoricalRatesV2Request, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.CommodityHistoricalRatesV2Response>;
+    private __commodityHistoricalRatesV2;
+    /**
+     * Returns price fluctuation metrics (start, end, change, percent change) for the requested commodity symbols over a date range. For monthly-updated commodities the range snaps to month boundaries. Unresolved symbols degrade to a 206 partial response instead of failing the whole request.
+     *
+     * @param {ApifreaksApi.CommodityFluctuationV2Request} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
+     *
+     * @example
+     *     await client.commodityFluctuationV2({
+     *         apiKey: "apiKey",
+     *         symbols: ["symbols"],
+     *         startDate: "2023-01-15",
+     *         endDate: "2023-01-15"
+     *     })
+     */
+    commodityFluctuationV2(request: ApifreaksApi.CommodityFluctuationV2Request, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.CommodityFluctuationV2Response>;
+    private __commodityFluctuationV2;
+    /**
+     * Returns day-by-day OHLC data for the requested commodity symbols within a date range, indexed by date. Non-trading days are excluded. Unresolved symbols degrade to a 206 partial response instead of failing the whole request.
+     *
+     * @param {ApifreaksApi.CommodityTimeSeriesV2Request} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
+     *
+     * @example
+     *     await client.commodityTimeSeriesV2({
+     *         apiKey: "apiKey",
+     *         symbols: ["symbols"],
+     *         startDate: "2023-01-15",
+     *         endDate: "2023-01-15"
+     *     })
+     */
+    commodityTimeSeriesV2(request: ApifreaksApi.CommodityTimeSeriesV2Request, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.CommodityTimeSeriesV2Response>;
+    private __commodityTimeSeriesV2;
+    /**
+     * Returns the list of supported commodity symbols with metadata. Deprecated symbols stay listed with status "inactive" and a deprecationDate.
+     *
+     * @param {ApifreaksApi.CommoditySymbolsV2Request} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
+     *
+     * @example
+     *     await client.commoditySymbolsV2({
+     *         apiKey: "apiKey"
+     *     })
+     */
+    commoditySymbolsV2(request: ApifreaksApi.CommoditySymbolsV2Request, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.CommoditySymbolsV2Response>;
+    private __commoditySymbolsV2;
+    /**
+     * Returns the prices of one commodity through a UTC day at the requested interval, keyed by UTC timestamp. Each request costs a flat 50 credits however many points it returns.
+     *
+     * @param {ApifreaksApi.CommodityIntradayRatesV2Request} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
+     *
+     * @example
+     *     await client.commodityIntradayRatesV2({
+     *         apiKey: "apiKey",
+     *         symbols: "symbols",
+     *         interval: "1m",
+     *         date: "2023-01-15"
+     *     })
+     */
+    commodityIntradayRatesV2(request: ApifreaksApi.CommodityIntradayRatesV2Request, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.CommodityIntradayRatesV2Response>;
+    private __commodityIntradayRatesV2;
     /**
      * This API merges multiple PDF files into a single PDF, in the order they are provided
      *
@@ -983,6 +1363,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -1010,6 +1392,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -1038,6 +1422,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -1065,6 +1451,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -1093,6 +1481,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -1120,6 +1510,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -1147,6 +1539,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -1174,6 +1568,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -1202,6 +1598,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -1230,6 +1628,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -1259,12 +1659,15 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
      *     await client.pdfUnrestrict({
      *         apiKey: "apiKey",
-     *         file_password: "file_password"
+     *         file_password: "file_password",
+     *         user_password: "user_password"
      *     })
      */
     pdfUnrestrict(request: ApifreaksApi.PdfUnrestrictRequest, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.PdfUnrestrictResponse>;
@@ -1286,6 +1689,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -1312,6 +1717,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -1338,6 +1745,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -1364,6 +1773,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -1390,6 +1801,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -1417,6 +1830,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     import { createReadStream } from "fs";
@@ -1445,6 +1860,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      */
     pdfUploadBinary(uploadable: core.file.Uploadable, request: ApifreaksApi.PdfUploadBinaryRequest, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.PdfUploadBinaryResponse>;
     private __pdfUploadBinary;
@@ -1462,6 +1879,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      */
     pdfDownloadResource(request: ApifreaksApi.PdfDownloadResourceRequest, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<core.BinaryResponse>;
     private __pdfDownloadResource;
@@ -1482,6 +1901,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.pdfGetTaskStatus({
@@ -1508,6 +1929,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.pdfGetFileStatus({
@@ -1534,6 +1957,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.pdfListFiles({
@@ -1559,6 +1984,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.pdfDeleteFile({
@@ -1569,8 +1996,144 @@ export declare class ApifreaksApiClient {
     pdfDeleteFile(request: ApifreaksApi.PdfDeleteFileRequest, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.PdfDeleteFileResponse>;
     private __pdfDeleteFile;
     /**
+     * Renders the template identified by template_id with the JSON data supplied in the request body (or fetched from data_url). Returns a hosted URL for the generated PDF. Provide either a request body or a data_url; one of the two is required. The keys of the data object are the fields you bound when you designed the template in the APIFreaks PDF Template Builder, so the exact shape is up to you. Pin the version parameter to a specific template version (e.g. version=v2) so later design changes never touch what is already live; omit it to use the latest version.
+     *
+     * @param {ApifreaksApi.PdfGenerateFromTemplateRequest} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.UnsupportedMediaTypeError}
+     * @throws {@link ApifreaksApi.UnprocessableEntityError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
+     *
+     * @example
+     *     await client.pdfGenerateFromTemplate({
+     *         apiKey: "apiKey",
+     *         template_id: "template_id",
+     *         body: {
+     *             "candidate_name": "Ava Thompson",
+     *             "candidate_title": "Senior Operations Analyst",
+     *             "email": "ava.thompson@example.com",
+     *             "phone": "+1 (555) 381-2048",
+     *             "city": "Austin, TX",
+     *             "portfolio_url": "portfolio.example.com",
+     *             "profile_summary": "Analytical operations professional with 8+ years of experience improving reporting pipelines, streamlining process documentation, and coordinating cross-functional delivery for distributed teams across multiple time zones.",
+     *             "company_name": "Northwind Logistics",
+     *             "job_title": "Operations Analyst",
+     *             "employment_period": "2021 - Present",
+     *             "job_achievement_1": "Led weekly KPI reporting for finance, fulfillment, and customer success stakeholders across three business units.",
+     *             "job_achievement_2": "Reduced manual reconciliation work by 35% through workflow redesign and documentation automation.",
+     *             "job_achievement_3": "Spearheaded a cross-team initiative that improved on-time delivery metrics by 18% within six months.",
+     *             "skills": [
+     *                 {
+     *                     "skill": "Process Improvement",
+     *                     "level": "Advanced",
+     *                     "years": "7"
+     *                 },
+     *                 {
+     *                     "skill": "Stakeholder Reporting",
+     *                     "level": "Expert",
+     *                     "years": "8"
+     *                 },
+     *                 {
+     *                     "skill": "Cross-functional Coordination",
+     *                     "level": "Advanced",
+     *                     "years": "5"
+     *                 },
+     *                 {
+     *                     "skill": "Workflow Documentation",
+     *                     "level": "Advanced",
+     *                     "years": "6"
+     *                 }
+     *             ],
+     *             "degree": "B.S. in Information Systems",
+     *             "institution": "University of Texas",
+     *             "graduation_year": "2018",
+     *             "certification_1": "Certified Business Analysis Professional (CBAP)",
+     *             "certification_2": "Six Sigma Green Belt",
+     *             "languages": "English (Native), Spanish (Professional)"
+     *         }
+     *     })
+     *
+     * @example
+     *     await client.pdfGenerateFromTemplate({
+     *         apiKey: "apiKey",
+     *         template_id: "template_id",
+     *         body: {
+     *             "report_title": "Quarterly Business Report",
+     *             "report_period": "Q4 2024",
+     *             "prepared_by": "Marketing Team",
+     *             "revenue": 125000,
+     *             "growth_rate": 15,
+     *             "customer_count": 520,
+     *             "monthly_comparison": [
+     *                 {
+     *                     "metric": "Revenue",
+     *                     "previous": "$108,000",
+     *                     "current": "$125,000",
+     *                     "change": "+15.7%"
+     *                 },
+     *                 {
+     *                     "metric": "Active Customers",
+     *                     "previous": "480",
+     *                     "current": "520",
+     *                     "change": "+8.3%"
+     *                 }
+     *             ]
+     *         }
+     *     })
+     */
+    pdfGenerateFromTemplate(request: ApifreaksApi.PdfGenerateFromTemplateRequest, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.PdfGenerateFromTemplateResponse>;
+    private __pdfGenerateFromTemplate;
+    /**
+     * Upload a CSV file where each row is one record. The API generates one PDF per row and returns an array of results, each with its own pdf_url. Rows are processed independently, so a failure in one row does not block the rest of the batch. The response gives a row-by-row breakdown of which PDFs succeeded and which failed.
+     *
+     * @param {ApifreaksApi.BulkPdfGenerateFromTemplateRequest} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
+     *
+     * @throws {@link ApifreaksApi.BadRequestError}
+     * @throws {@link ApifreaksApi.UnauthorizedError}
+     * @throws {@link ApifreaksApi.PaymentRequiredError}
+     * @throws {@link ApifreaksApi.ForbiddenError}
+     * @throws {@link ApifreaksApi.NotFoundError}
+     * @throws {@link ApifreaksApi.NotAcceptableError}
+     * @throws {@link ApifreaksApi.ContentTooLargeError}
+     * @throws {@link ApifreaksApi.UnsupportedMediaTypeError}
+     * @throws {@link ApifreaksApi.UnprocessableEntityError}
+     * @throws {@link ApifreaksApi.TooManyRequestsError}
+     * @throws {@link ApifreaksApi.InternalServerError}
+     * @throws {@link ApifreaksApi.ServiceUnavailableError}
+     * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
+     *
+     * @example
+     *     import { createReadStream } from "fs";
+     *     await client.bulkPdfGenerateFromTemplate({
+     *         file: fs.createReadStream("/path/to/your/file"),
+     *         apiKey: "apiKey",
+     *         template_id: "template_id"
+     *     })
+     */
+    bulkPdfGenerateFromTemplate(request: ApifreaksApi.BulkPdfGenerateFromTemplateRequest, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.BulkPdfGenerateFromTemplateResponseItem[]>;
+    private __bulkPdfGenerateFromTemplate;
+    /**
      * Capture full-page screenshots and videos of websites with advanced options like device simulation, custom code injection, cookie banner blocking, and scrollable content recording.
      * Supports multiple output formats including JSON, image, GIF, MP4, and WebM.
+     *
+     * @param {ApifreaksApi.ScreenshotCaptureRequest} request
+     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link ApifreaksApi.BadRequestError}
      * @throws {@link ApifreaksApi.UnauthorizedError}
@@ -1586,8 +2149,16 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
+     *
+     * @example
+     *     await client.screenshotCapture({
+     *         apiKey: "apiKey",
+     *         url: "url"
+     *     })
      */
-    screenshotCapture(request: ApifreaksApi.ScreenshotCaptureRequest, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<core.BinaryResponse>;
+    screenshotCapture(request: ApifreaksApi.ScreenshotCaptureRequest, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.ScreenshotCaptureResponse>;
     private __screenshotCapture;
     /**
      * Our Bulk Screenshot API allows you to capture screenshots of multiple webpages simultaneously, saving you time and effort. Instead of manually capturing each page one by one, you can batch process URLs and receive high-quality screenshots in the format you choose.
@@ -1607,6 +2178,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.bulkScreenshotCapture({
@@ -1635,6 +2208,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.currencyLatestRates({
@@ -1660,6 +2235,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.currencyHistoricalRates({
@@ -1686,6 +2263,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.currencyConvertLatest({
@@ -1713,6 +2292,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.currencyConvertHistorical({
@@ -1741,6 +2322,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.currencyTimeSeries({
@@ -1767,6 +2350,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.currencyFluctuation({
@@ -1794,6 +2379,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.currencyConvertByIp({
@@ -1820,6 +2407,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.currencySupported({
@@ -1845,6 +2434,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.currencySymbols({
@@ -1870,6 +2461,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.currencyHistoricalLimits({
@@ -1895,6 +2488,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.commodityLatestRates({
@@ -1922,6 +2517,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.commodityHistoricalRates({
@@ -1949,6 +2546,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.commodityFluctuation({
@@ -1977,6 +2576,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.commodityTimeSeries({
@@ -2005,6 +2606,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.commoditySymbols({
@@ -2030,6 +2633,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.vatSupportedCountries({
@@ -2055,6 +2660,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.vatRateByIp({
@@ -2080,6 +2687,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.vatRateByCountry({
@@ -2106,6 +2715,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.bulkVatRateByCountry({
@@ -2118,7 +2729,7 @@ export declare class ApifreaksApiClient {
      *             }]
      *     })
      */
-    bulkVatRateByCountry(request: ApifreaksApi.BulkVatRateByCountryRequest, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.BulkVatRateByCountryResponse>;
+    bulkVatRateByCountry(request: ApifreaksApi.BulkVatRateByCountryRequest, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.BulkVatRateByCountryResponseItem[]>;
     private __bulkVatRateByCountry;
     /**
      * Validates an EU or UK VAT number and returns registration status details.
@@ -2137,6 +2748,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.vatValidate({
@@ -2163,6 +2776,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.ibanValidate({
@@ -2189,6 +2804,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.swiftCodeFind({
@@ -2214,6 +2831,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.swiftCodeLookup({
@@ -2238,6 +2857,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.zipcodeLookup({
@@ -2264,6 +2885,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.bulkZipcodeLookup({
@@ -2288,6 +2911,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.zipcodeSearchByCity({
@@ -2313,12 +2938,13 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.zipcodeSearchByRegion({
      *         apiKey: "apiKey",
-     *         country: "country",
-     *         region: "region"
+     *         country: "country"
      *     })
      */
     zipcodeSearchByRegion(request: ApifreaksApi.ZipcodeSearchByRegionRequest, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.ZipcodeSearchByRegionResponse>;
@@ -2338,6 +2964,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.zipcodeSearchByRadius({
@@ -2364,6 +2992,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.zipcodeDistance({
@@ -2391,6 +3021,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.zipcodeDistanceMatch({
@@ -2418,6 +3050,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.currentWeather({
@@ -2443,6 +3077,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.bulkCurrentWeather({
@@ -2478,6 +3114,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.weatherForecast({
@@ -2503,6 +3141,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.historicalWeather({
@@ -2529,6 +3169,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.weatherTimeSeries({
@@ -2556,6 +3198,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.marineWeather({
@@ -2581,6 +3225,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.airQuality({
@@ -2606,6 +3252,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.floodForecast({
@@ -2633,6 +3281,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.getCountries({
@@ -2656,6 +3306,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.getCountryDetails({
@@ -2680,6 +3332,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.getRegions({
@@ -2703,11 +3357,12 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.getSubregions({
-     *         apiKey: "apiKey",
-     *         region: "region"
+     *         apiKey: "apiKey"
      *     })
      */
     getSubregions(request: ApifreaksApi.GetSubregionsRequest, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.GetSubregionsResponse>;
@@ -2729,6 +3384,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.getAdminLevels({
@@ -2755,6 +3412,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.getAdminUnits({
@@ -2781,6 +3440,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.getAdminUnitDetails({
@@ -2808,6 +3469,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.getCities({
@@ -2834,13 +3497,15 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.getSupportedFlags({
      *         apiKey: "apiKey"
      *     })
      */
-    getSupportedFlags(request: ApifreaksApi.GetSupportedFlagsRequest, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.GetSupportedFlagsResponseItem[]>;
+    getSupportedFlags(request: ApifreaksApi.GetSupportedFlagsRequest, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.GetSupportedFlagsResponse>;
     private __getSupportedFlags;
     /**
      * Retrieve the flag for a specific country
@@ -2856,6 +3521,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      */
     getFlags(request: ApifreaksApi.GetFlagsRequest, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<core.BinaryResponse>;
     private __getFlags;
@@ -2876,6 +3543,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.timezoneLookup({
@@ -2884,31 +3553,6 @@ export declare class ApifreaksApiClient {
      */
     timezoneLookup(request: ApifreaksApi.TimezoneLookupRequest, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.TimezoneLookupResponse>;
     private __timezoneLookup;
-    /**
-     * Get detailed timezone information (v2.0) by IP, timezone name, coordinates, location, airport code or UN/LOCODE, including DST transitions and localized date-time fields.
-     *
-     * @param {ApifreaksApi.TimezoneLookupV2Request} request
-     * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
-     *
-     * @throws {@link ApifreaksApi.BadRequestError}
-     * @throws {@link ApifreaksApi.UnauthorizedError}
-     * @throws {@link ApifreaksApi.PaymentRequiredError}
-     * @throws {@link ApifreaksApi.ForbiddenError}
-     * @throws {@link ApifreaksApi.NotFoundError}
-     * @throws {@link ApifreaksApi.NotAcceptableError}
-     * @throws {@link ApifreaksApi.ContentTooLargeError}
-     * @throws {@link ApifreaksApi.TooManyRequestsError}
-     * @throws {@link ApifreaksApi.InternalServerError}
-     * @throws {@link ApifreaksApi.ServiceUnavailableError}
-     * @throws {@link ApifreaksApi.GatewayTimeoutError}
-     *
-     * @example
-     *     await client.timezoneLookupV2({
-     *         apiKey: "apiKey"
-     *     })
-     */
-    timezoneLookupV2(request: ApifreaksApi.TimezoneLookupV2Request, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.TimezoneLookupV2Response>;
-    private __timezoneLookupV2;
     /**
      * Converts a given time from one timezone to another using various input types like timezone name, coordinates, location, or codes.
      *
@@ -2926,6 +3570,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.timezoneConvert({
@@ -2951,17 +3597,18 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.userAgentLookup({
-     *         apiKey: "apiKey",
-     *         userAgent: "userAgent"
+     *         apiKey: "apiKey"
      *     })
      */
     userAgentLookup(request: ApifreaksApi.UserAgentLookupRequest, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.UserAgentLookupResponse>;
     private __userAgentLookup;
     /**
-     * Parse up to `50,000 User-Agent strings` at once in a single request.
+     * Parse up to `20000 User-Agent strings` at once in a single request; exceeding that returns a 413, not a 400.
      *
      * @param {ApifreaksApi.BulkUserAgentLookupRequest} request
      * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
@@ -2977,6 +3624,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.bulkUserAgentLookup({
@@ -3011,11 +3660,13 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
+     *     import { createReadStream } from "fs";
      *     await client.ocrPredict({
      *         apiKey: "apiKey",
-     *         model: "mini-ocr-v1",
      *         model: "mini-ocr-v1"
      *     })
      */
@@ -3038,6 +3689,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.grammarDetect({
@@ -3064,6 +3717,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.grammarCorrect({
@@ -3090,6 +3745,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.weakWordsDetect({
@@ -3116,6 +3773,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.readabilityScore({
@@ -3142,6 +3801,8 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
      *     await client.astronomyLookup({
@@ -3151,9 +3812,9 @@ export declare class ApifreaksApiClient {
     astronomyLookup(request: ApifreaksApi.AstronomyLookupRequest, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.AstronomyLookupResponse>;
     private __astronomyLookup;
     /**
-     * Get astronomy data (v2.0) — sun and moon rise/set times, twilight, golden/blue hour, moon phase and illumination — for a location, coordinates or IP.
+     * Returns subscription, subscription-surcharge, and one-off credit balances for the authenticated organization's account.
      *
-     * @param {ApifreaksApi.AstronomyLookupV2Request} request
+     * @param {ApifreaksApi.GetCreditsUsageRequest} request
      * @param {ApifreaksApiClient.RequestOptions} requestOptions - Request-specific configuration.
      *
      * @throws {@link ApifreaksApi.BadRequestError}
@@ -3167,14 +3828,16 @@ export declare class ApifreaksApiClient {
      * @throws {@link ApifreaksApi.InternalServerError}
      * @throws {@link ApifreaksApi.ServiceUnavailableError}
      * @throws {@link ApifreaksApi.GatewayTimeoutError}
+     * @throws {@link errors.ApifreaksApiError}
+     * @throws {@link errors.ApifreaksApiTimeoutError}
      *
      * @example
-     *     await client.astronomyLookupV2({
+     *     await client.getCreditsUsage({
      *         apiKey: "apiKey"
      *     })
      */
-    astronomyLookupV2(request: ApifreaksApi.AstronomyLookupV2Request, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.AstronomyLookupV2Response>;
-    private __astronomyLookupV2;
+    getCreditsUsage(request: ApifreaksApi.GetCreditsUsageRequest, requestOptions?: ApifreaksApiClient.RequestOptions): core.HttpResponsePromise<ApifreaksApi.GetCreditsUsageResponse>;
+    private __getCreditsUsage;
     /**
      * Make a passthrough request using the SDK's configured auth, retry, logging, etc.
      * This is useful for making requests to endpoints not yet supported in the SDK.

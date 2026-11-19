@@ -9,6 +9,8 @@ export interface CommodityTimeSeriesV2Response {
     endDate: string;
     /** Map of trading dates (YYYY-MM-DD) to per-symbol OHLC data. Non-trading days are excluded. */
     rates: Record<string, Record<string, CommodityTimeSeriesV2Response.Rates.Value>>;
+    /** Present only on a 206 Partial Content response, when some requested symbols could not be resolved on any date in the range. Map of each unresolved symbol to a detail message and optional close-match suggestions. */
+    unresolved?: Record<string, CommodityTimeSeriesV2Response.Unresolved.Value> | undefined;
 }
 
 export namespace CommodityTimeSeriesV2Response {
@@ -22,6 +24,15 @@ export namespace CommodityTimeSeriesV2Response {
             low: number;
             /** Closing price on the given date. */
             close: number;
+        }
+    }
+
+    export namespace Unresolved {
+        export interface Value {
+            /** Detail message explaining why this symbol was not resolved. */
+            message?: string | undefined;
+            /** Optional list of supported symbols that closely match the unresolved symbol. */
+            suggestions?: string[] | undefined;
         }
     }
 }

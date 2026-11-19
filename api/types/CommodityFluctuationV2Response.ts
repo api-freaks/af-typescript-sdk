@@ -9,6 +9,8 @@ export interface CommodityFluctuationV2Response {
     endDate: string;
     /** Map keyed by commodity symbol; value contains fluctuation metrics. */
     rates: Record<string, CommodityFluctuationV2Response.Rates.Value>;
+    /** Present only on a 206 Partial Content response, when some requested symbols could not be resolved. Map of each unresolved symbol to a detail message and optional close-match suggestions. */
+    unresolved?: Record<string, CommodityFluctuationV2Response.Unresolved.Value> | undefined;
 }
 
 export namespace CommodityFluctuationV2Response {
@@ -22,6 +24,15 @@ export namespace CommodityFluctuationV2Response {
             change: number;
             /** Percentage price change from start to end date. May be negative. */
             changePercent: number;
+        }
+    }
+
+    export namespace Unresolved {
+        export interface Value {
+            /** Detail message explaining why this symbol was not resolved. */
+            message?: string | undefined;
+            /** Optional list of supported symbols that closely match the unresolved symbol. */
+            suggestions?: string[] | undefined;
         }
     }
 }

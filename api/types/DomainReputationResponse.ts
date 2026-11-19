@@ -26,6 +26,10 @@ export interface DomainReputationResponse {
     evidence_summary: DomainReputationResponse.EvidenceSummary;
     /** List of errors encountered during processing, if any (e.g. "WHOIS lookup failed"). An empty array means every signal resolved. */
     errors: string[];
+    /** Backlink profile of the domain. */
+    backlinks?: DomainReputationResponse.Backlinks | undefined;
+    /** Current registration status of the domain. */
+    registration?: DomainReputationResponse.Registration | undefined;
 }
 
 export namespace DomainReputationResponse {
@@ -41,7 +45,7 @@ export namespace DomainReputationResponse {
      * Overall risk assessment for the domain.
      */
     export interface RiskCategory {
-        /** Final verdict of the risk assessment. */
+        /** Final verdict of the risk assessment. `unknown` is returned when there is not enough data (e.g. the domain is not registered). */
         verdict: RiskCategory.Verdict;
         /** Confidence score for the verdict (0-1). */
         confidence: number;
@@ -58,10 +62,11 @@ export namespace DomainReputationResponse {
     }
 
     export namespace RiskCategory {
-        /** Final verdict of the risk assessment. */
+        /** Final verdict of the risk assessment. `unknown` is returned when there is not enough data (e.g. the domain is not registered). */
         export const Verdict = {
             Safe: "safe",
             Suspicious: "suspicious",
+            Unknown: "unknown",
         } as const;
         export type Verdict = (typeof Verdict)[keyof typeof Verdict];
         /** Severity level of the risk. */
@@ -285,15 +290,15 @@ export namespace DomainReputationResponse {
             /** Indicates whether the domain uses a free TLD extension. */
             uses_free_extension?: boolean | undefined;
             /** Indicates whether the domain uses a free SSL certificate. */
-            uses_free_ssl?: boolean | undefined;
+            uses_free_ssl?: (boolean | null) | undefined;
             /** Indicates whether WHOIS privacy protection is enabled. null when WHOIS data is unavailable. */
             has_privacy_whois?: (boolean | null) | undefined;
             /** Age of the SSL certificate in days. */
             ssl_age_days?: (number | null) | undefined;
             /** Indicates whether a DMARC record exists. */
-            has_dmarc?: boolean | undefined;
+            has_dmarc?: (boolean | null) | undefined;
             /** Indicates whether an SPF record exists. */
-            has_spf?: boolean | undefined;
+            has_spf?: (boolean | null) | undefined;
             /** Indicates whether the domain redirects to an external site. */
             redirects_externally?: boolean | undefined;
             /** Indicates whether obfuscated JavaScript was detected. */
@@ -346,9 +351,9 @@ export namespace DomainReputationResponse {
                 /** Indicates whether an SPF record was found. */
                 present: boolean;
                 /** SPF enforcement policy qualifier found in the record (e.g. ~all, -all). */
-                policy: string;
+                policy: string | null;
                 /** Raw SPF DNS TXT record string. */
-                record: string;
+                record: string | null;
             }
 
             /**
@@ -372,7 +377,7 @@ export namespace DomainReputationResponse {
                 /** Indicates whether a DMARC record was found. */
                 present: boolean;
                 /** DMARC enforcement policy applied to failing messages (e.g. none, quarantine, reject). */
-                policy: string;
+                policy: string | null;
                 /** Indicates whether DMARC aggregate / forensic reporting addresses are configured. */
                 reporting_configured: boolean;
             }
@@ -387,7 +392,7 @@ export namespace DomainReputationResponse {
             /** List of mail exchange server hostnames for the domain. */
             mx_records: string[];
             /** Email hosting provider inferred from the MX records. */
-            mx_provider: string;
+            mx_provider: string | null;
             /** Indicates whether the domain explicitly declines email via a null MX record. */
             null_mx: boolean;
         }
@@ -399,7 +404,7 @@ export namespace DomainReputationResponse {
             /** Indicates whether the domain appears on known spam blacklists. */
             spam_blacklisted: boolean;
             /** Indicates whether the domain was registered recently. */
-            newly_registered: boolean;
+            newly_registered: boolean | null;
             /** Age of the domain in days since registration. */
             domain_age_days?: (number | null) | undefined;
         }
@@ -477,5 +482,31 @@ export namespace DomainReputationResponse {
     export interface EvidenceSummary {
         /** List of reasons why the domain was flagged. Empty for a clean domain. */
         why_flagged: string[];
+    }
+
+    /**
+     * Backlink profile of the domain.
+     */
+    export interface Backlinks {
+        /** true if backlink data exists for the domain. When false, the other fields are null. */
+        found: boolean;
+        /** Domain the backlink data was matched to (for example `google.com`). null when no data was found. */
+        matched_domain?: (string | null) | undefined;
+        /** Total number of backlinks pointing to the domain (for example 174614443). null when no data was found. */
+        backlink_count?: (number | null) | undefined;
+        /** Number of distinct domains linking to the domain (for example 4336653). null when no data was found. */
+        referring_domains?: (number | null) | undefined;
+        /** Average number of backlinks per referring domain (backlink_count / referring_domains, for example 40.26). null when no data was found. */
+        referrer_link_density?: (number | null) | undefined;
+    }
+
+    /**
+     * Current registration status of the domain.
+     */
+    export interface Registration {
+        /** Registration status of the domain, for example `registered` or `not_registered`. */
+        status: string;
+        /** Number of earlier registrations found for the domain. Returned when the domain is not currently registered (for example `0`). */
+        past_registrations?: number | undefined;
     }
 }

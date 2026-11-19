@@ -133,7 +133,10 @@ export namespace BulkDomainWhoisLookupResponse {
                 expiry_date?: string | undefined;
                 name_servers?: string[] | undefined;
                 domain_status?: string[] | undefined;
+                /** Deprecated: the API never returns this key; the raw registry WHOIS text is in `whois_raw_registery`. */
                 whois_raw_registry?: string | undefined;
+                /** Raw WHOIS text returned by the registry's WHOIS server (the key is spelled `whois_raw_registery` by the API). */
+                whois_raw_registery?: string | undefined;
                 domain_registrar?: RegistryData.DomainRegistrar | undefined;
             }
 

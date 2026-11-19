@@ -10,13 +10,30 @@ class ApifreaksApiError extends Error {
         if (Error.captureStackTrace) {
             Error.captureStackTrace(this, this.constructor);
         }
-        this.name = this.constructor.name;
+        this.name = "ApifreaksApiError";
         this.statusCode = statusCode;
         this.body = body;
         this.rawResponse = rawResponse;
         if (cause != null) {
             this.cause = cause;
         }
+    }
+    get requestId() {
+        const headers = this.rawResponse?.headers;
+        if (headers == null) {
+            return undefined;
+        }
+        const requestId = headers.get("X-Request-Id");
+        if (requestId != null) {
+            return requestId;
+        }
+        let fallback;
+        headers.forEach((value, name) => {
+            if (fallback === undefined && /request[-_]?id$/i.test(name)) {
+                fallback = value;
+            }
+        });
+        return fallback;
     }
 }
 exports.ApifreaksApiError = ApifreaksApiError;

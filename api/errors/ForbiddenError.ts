@@ -2,9 +2,12 @@
 
 import type * as core from "../../core/index.js";
 import * as errors from "../../errors/index.js";
+import type * as ApifreaksApi from "../index.js";
 
 export class ForbiddenError extends errors.ApifreaksApiError {
-    constructor(body?: unknown, rawResponse?: core.RawResponse) {
+    public declare readonly body: ApifreaksApi.ForbiddenErrorBody;
+
+    constructor(body: ApifreaksApi.ForbiddenErrorBody, rawResponse?: core.RawResponse) {
         super({
             message: "ForbiddenError",
             statusCode: 403,
@@ -16,6 +19,6 @@ export class ForbiddenError extends errors.ApifreaksApiError {
             Error.captureStackTrace(this, this.constructor);
         }
 
-        this.name = this.constructor.name;
+        this.name = "ForbiddenError";
     }
 }

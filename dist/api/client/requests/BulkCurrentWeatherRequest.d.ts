@@ -18,7 +18,7 @@ import type * as ApifreaksApi from "../../index.js";
 export interface BulkCurrentWeatherRequest {
     /** Your API key */
     apiKey: string;
-    /** Response format returned by the API. */
+    /** Response format returned by the API. Only JSON is supported. */
     format?: ApifreaksApi.BulkCurrentWeatherRequestFormat;
     /** Timezone for the results. */
     timezone?: string;

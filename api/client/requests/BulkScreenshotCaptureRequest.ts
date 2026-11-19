@@ -25,8 +25,272 @@ export namespace BulkScreenshotCaptureRequest {
     export namespace Urls {
         export interface Item {
             url: string;
+            /** Sets the accepted languages for the HTTP request. This is sent as the Accept-Language header. */
+            accept_languages?: string | undefined;
+            /** Initial vertical scroll position in pixels before capture. Use to position mid-page content in viewport. Not supported for PDF. */
+            adjust_top?: number | undefined;
+            /** Blocks requests to known ad networks for cleaner, distraction-free screenshots. */
+            block_ads?: boolean | undefined;
+            /** Blocks live chat popups, support bubbles, and messaging interfaces. */
+            block_chat_widgets?: boolean | undefined;
+            /** Blocks EventSource (SSE) connections - prevents real-time data streams. */
+            block_event_source?: boolean | undefined;
+            /** Blocks all Fetch API requests - stops async data loading. */
+            block_fetch?: boolean | undefined;
+            /** Blocks external font files - page falls back to system defaults. Supported: woff, woff2, ttf, otf, eot. */
+            block_font?: boolean | undefined;
+            /** Blocks all image resources (jpg, png, gif, webp, svg, etc.) for faster rendering. */
+            block_images?: boolean | undefined;
+            /** Disables all JavaScript execution. Renders a static version of the page. Speeds up capture but may break dynamic content. */
+            block_js?: boolean | undefined;
+            /** Blocks manifest files (.json, .webmanifest) - disables PWA-related functionality. */
+            block_manifest?: boolean | undefined;
+            /** Blocks audio and video resources (mp3, mp4, webm, etc.) from loading. */
+            block_media?: boolean | undefined;
+            /** Fine-grained blocking of specific URLs or patterns. Separate multiple rules by comma, space, or newline. Default: empty. */
+            block_specific_requests?: string | undefined;
+            /** Blocks all stylesheets - page renders as raw HTML without visual formatting. */
+            block_stylesheets?: boolean | undefined;
+            /** Blocks subtitles and caption overlays from loading. */
+            block_text_track?: boolean | undefined;
+            /** Blocks tracking scripts and analytics services for cleaner, privacy-oriented renders. */
+            block_tracking?: boolean | undefined;
+            /** Blocks WebSocket connections - prevents real-time bidirectional communication. */
+            block_web_socket?: boolean | undefined;
+            /** Blocks all XMLHttpRequest (AJAX) calls - prevents dynamic API-driven content. */
+            block_xhr?: boolean | undefined;
+            /** CSS selectors to blur before capture. Masks sensitive data like emails, payments, or personal info. Multiple selectors supported. Default: empty. */
+            blur_selector?: string | undefined;
+            /** CSS selector of the message shown for a wrong answer. While it is visible, the solver tries again. */
+            captcha_error?: string | undefined;
+            /** CSS selector of the captcha picture. Required when solve_captcha is true. */
+            captcha_image?: string | undefined;
+            /** CSS selector of the box the answer is typed into. Required when solve_captcha is true. */
+            captcha_input?: string | undefined;
+            /** CSS selector of the control that loads a new captcha picture before the next try. */
+            captcha_refresh?: string | undefined;
+            /** Number of guesses the solver makes, from 1 to 5. */
+            captcha_retries?: number | undefined;
+            /** CSS selector of the button to click after the answer is typed. */
+            captcha_submit?: string | undefined;
+            /** Loads the page through a datacenter proxy. Adds 20 credits per request. Ignored when premium_proxy is true or a custom proxy is set. */
+            classic_proxy?: boolean | undefined;
+            /** Number of times to click the selector (when set via `selector_to_click`). */
+            click_recursion?: number | undefined;
+            /** Height of the clip area in pixels. Default: null. */
+            "clip[height]"?: number | undefined;
+            /** Width of the clip area in pixels. Default: null. */
+            "clip[width]"?: number | undefined;
+            /** X coordinate (in pixels) for the top-left corner of the clip area. Default: null. */
+            "clip[x]"?: number | undefined;
+            /** Y coordinate (in pixels) for the top-left corner of the clip area. Default: null. */
+            "clip[y]"?: number | undefined;
+            /** Cookies to include in the request before rendering. Supports single or multiple cookies. Example: `cookie=value; otherCookie=otherValue;`. */
+            cookies?: string | undefined;
+            /** Two-letter country code, such as US or DE, for the exit address of classic_proxy or premium_proxy. Ignored when you send your own proxy. Any two-letter code is sent, including one that is not listed. Classic proxy countries: BG, GE, DE, HN, MD, UA, GB, US. Premium proxy countries: AF, AL, DZ, AO, AG, AR, AM, AW, AU, AT, AZ, BS, BH, BD, BB, BY, BE, BZ, BJ, BT, BO, BQ, BA, BW, BR, BN, BG, BF, BI, CV, KH, CM, CA, KY, CF, TD, CL, CN, CO, KM, CG, CR, CI, HR, CU, CW, CY, CZ, CD, DK, DJ, DM, DO, EC, EG, SV, GQ, EE, SZ, ET, FO, FJ, FI, FR, GF, PF, GA, GM, GE, DE, GH, GI, GR, GL, GD, GP, GU, GT, GG, GN, GW, GY, HT, HN, HK, HU, IS, IN, ID, IR, IQ, IE, IL, IT, JM, JP, JE, JO, KZ, KE, XK, KW, KG, LA, LV, LB, LS, LR, LY, LT, MO, MG, MW, MY, MV, ML, MT, MQ, MR, MU, YT, MX, MD, MN, ME, MA, MZ, MM, NA, NP, NL, NC, NZ, NI, NE, NG, MK, NO, OM, PK, PS, PA, PG, PY, PE, PH, PL, PT, PR, QA, RE, RO, RU, RW, KN, LC, VC, WS, SA, SN, RS, SC, SL, SG, SK, SI, SB, SO, ZA, KR, SS, ES, LK, SD, SR, SE, CH, SY, TW, TJ, TZ, TH, TL, TG, TO, TT, TN, TR, TM, UG, UA, AE, GB, US, UY, UZ, VE, VN, YE, ZM, ZW. */
+            country?: string | undefined;
+            /** Allows injecting custom CSS code into the page before rendering. Pass the CSS code directly as a string. */
+            css?: string | undefined;
+            /** Allows loading external CSS into the page. Provide a URL pointing to the CSS file. */
+            css_url?: string | undefined;
+            /** Custom HTML to render instead of loading a URL. Overrides the url option. Use for capturing specific HTML structures or dynamic content. */
+            custom_html?: string | undefined;
+            /** When set to `true`, websites that support prefers-color-scheme: dark will render in dark mode. */
+            dark_mode?: boolean | undefined;
+            /** Wait period in milliseconds before capture. Allows animations, API responses, and dynamic elements to finish rendering. */
+            delay?: number | undefined;
+            /** If `true`, screenshot/PDF is not stored on server and must be downloaded immediately. */
+            destroy_screenshot?: boolean | undefined;
+            /** Duration of scrolling action in seconds (0-60). Higher = longer video. Default: null (full page scroll). */
+            duration?: number | undefined;
+            /** Stores the render in cache for reuse on subsequent identical requests. */
+            enable_caching?: boolean | undefined;
+            /** Enables private/incognito browsing. Each render starts with a clean slate - no cookies, cache, or session data persisted. */
+            enable_incognito?: boolean | undefined;
+            /** Returns rendered HTML as a .html file (includes JS-executed DOM). Only available with output=json. */
+            extract_html?: boolean | undefined;
+            /** Extracts rendered page content as a structured .md (Markdown) file. Preserves headings, lists, links. Only with output=json. */
+            extract_markdown?: boolean | undefined;
+            /** Strips all HTML and returns visible text as a .txt file. Ideal for text analysis, indexing, or AI pipelines. Only with output=json. */
+            extract_text?: boolean | undefined;
+            /** If `true`, returns an error when the target page responds with 4xx or 5xx status. */
+            fail_on_error?: boolean | undefined;
+            /** Output format. PNG (lossless, transparency), JPEG (compressed, smaller size), WebP (modern, efficient), PDF (document). For scrolling captures: MP4, GIF, WebM. Scrolling capture formats: WEBM (web-optimized), MP4 (widely compatible, default), GIF (short loops). */
+            file_type?: Item.FileType | undefined;
+            /** Response format: json (default). */
+            format?: Item.Format | undefined;
+            /** If `true`, bypasses cache and captures a fresh render. If `false`, returns cached version when available. */
+            fresh?: boolean | undefined;
+            /** Captures the entire webpage from top to bottom, including scrollable content outside the viewport. Ideal for long-form pages. */
+            full_page?: boolean | undefined;
+            /** Extracts all image URLs from the rendered DOM and returns them in structured format. Only with output=json. */
+            get_image_urls?: boolean | undefined;
+            /** Renders the page with a GPU, including WebGL and canvas content. Adds 20 credits per request. */
+            gpu?: boolean | undefined;
+            /** Applies a grayscale filter to the screenshot. Requires a value from 0 (no effect) to 100 (fully grayscale). */
+            grayscale?: number | undefined;
+            /** Custom HTTP headers to include as key=value pairs. Use a semicolon to separate multiple headers (e.g., `key1=value1;key2=value2`). */
+            headers?: string | undefined;
+            /** Viewport height in pixels. Controls how much vertical area is visible. Max: 4320. */
+            height?: number | undefined;
+            /** Compression level for JPEG output (0-100). Lower = smaller file, higher = better quality. Only applies to JPEG. */
+            image_quality?: number | undefined;
+            /** Allows injecting custom JavaScript code into the page before rendering. Pass the JavaScript code directly as a string. */
+            js?: string | undefined;
+            /** Allows loading external JavaScript into the page. Provide a URL pointing to the script file. */
+            js_url?: string | undefined;
+            /** Specify latitude for the browser Geolocation API. Provide a numeric value. Default: null (not set). */
+            latitude?: number | undefined;
+            /** Automatically scrolls the page to trigger lazy-loaded images and components. Ensures complete content capture. */
+            lazy_load?: boolean | undefined;
+            /** Specify longitude for the browser Geolocation API. Provide a numeric value. Default: null (not set). */
+            longitude?: number | undefined;
+            /** Markdown to render instead of loading a URL. Works like custom_html, so you can capture a README or notes without hosting a page. */
+            markdown?: string | undefined;
+            /** Hides or blocks cookie consent banners and popups before capture. */
+            no_cookie_banners?: boolean | undefined;
+            /** Recognition model used by the captcha solver: mini-ocr-v1 (default) or ocr-v1. */
+            ocr_model?: Item.OcrModel | undefined;
+            /** Replaces simple white/plain backgrounds with transparency for a cut-out effect. Only works with PNG output. */
+            omit_background?: boolean | undefined;
+            /** Set the output format. `json` returns metadata with a hosted file URL. `image` streams the raw file bytes directly. */
+            output?: Item.Output | undefined;
+            /** PDF output options. Applies when file_type is PDF. */
+            pdf_options?: Item.PdfOptions | undefined;
+            /** Loads the page through a residential proxy. Adds 200 credits per request. Used instead of classic_proxy. */
+            premium_proxy?: boolean | undefined;
+            /** Allows defining a proxy for the connection. Provide a JSON string with keys: server (include port number), username, and password. */
+            proxy?: string | undefined;
+            /** CSS selectors to remove before capture. Deletes matched elements from DOM. Ideal for cleaning ads, popups, sidebars. Multiple selectors supported. Default: empty. */
+            remove_selector?: string | undefined;
+            /** Custom name for the output file. Helps with organized storage and retrieval. Note: non-unique names may overwrite existing files. */
+            result_file_name?: string | undefined;
+            /** Captures at 2x resolution for sharper, high-DPI output. Increases file size. */
+            retina?: boolean | undefined;
+            /** If `true`, scrolls to bottom then back to top, creating a seamless loop. */
+            scroll_back?: boolean | undefined;
+            /** Delay in milliseconds between scroll steps when `lazy_load` is enabled. Use higher values for heavy pages. */
+            scroll_delay?: number | undefined;
+            /** Scrolling speed: fast, normal (default), or slow. Affects render time and output pacing. */
+            scroll_speed?: Item.ScrollSpeed | undefined;
+            /** Scrolls the page to bring the specified CSS selector into view before capture. Ideal for below-the-fold content. Default: empty. */
+            scroll_to_element?: string | undefined;
+            /** Enables scrolling screenshot mode to capture a video (webm, gif, mp4) of the webpage. */
+            scrolling_screenshot?: boolean | undefined;
+            /** CSS selector to capture a specific element. Only that element is rendered. Falls back to full page if not found. Default: empty. */
+            selector?: string | undefined;
+            /** CSS selector for an element to click before capturing the screenshot. Useful for opening dropdowns, modals, or triggering content. */
+            selector_to_click?: string | undefined;
+            /** Solves a captcha made of text drawn in a picture, then takes the screenshot. Requires captcha_image and captcha_input. Adds 20 credits per request. */
+            solve_captcha?: boolean | undefined;
+            /** Starts recording immediately without waiting for full page load. */
+            start_immediately?: boolean | undefined;
+            /** Makes the browser look like a regular visitor for pages that block automated traffic. No extra credits. */
+            stealth?: boolean | undefined;
+            /** Specifies the width of the thumbnail in pixels. Default value is 0 (meaning no specific value is set, and the screenshot is returned at its original resolution). */
+            thumbnail_width?: number | undefined;
+            /** Maximum wait in milliseconds for page load before aborting. Adjust for slow/heavy pages. Default: 100000 (100s). */
+            timeout?: number | undefined;
+            /** IANA timezone the browser uses while rendering, such as Asia/Karachi or Europe/London. Useful for clocks and localized dates. */
+            timezone?: string | undefined;
+            /** Time in seconds the render stays cached before auto-invalidation. Use higher values for static pages, lower for dynamic content. Default: 2592000 (30 days). */
+            ttl?: number | undefined;
+            /** Custom User-Agent string sent in the request headers. */
+            user_agent?: string | undefined;
+            /** Records visible viewport only for a specified duration. Use with `duration` parameter. Ideal for dashboards and animations. */
+            video?: boolean | undefined;
+            /** Controls when rendering starts based on page load lifecycle. `load` (all resources), `domcontentloaded` (HTML parsed), `networkidle` (no network activity for 500ms). */
+            wait_for_event?: Item.WaitForEvent | undefined;
+            /** Viewport width in pixels. Simulates device screen sizes. Max: 7680. */
+            width?: number | undefined;
             /** Accepts any additional properties */
             [key: string]: any;
+        }
+
+        export namespace Item {
+            /** Output format. PNG (lossless, transparency), JPEG (compressed, smaller size), WebP (modern, efficient), PDF (document). For scrolling captures: MP4, GIF, WebM. Scrolling capture formats: WEBM (web-optimized), MP4 (widely compatible, default), GIF (short loops). */
+            export const FileType = {
+                Png: "PNG",
+                Jpeg: "JPEG",
+                Webp: "WEBP",
+                Pdf: "PDF",
+                Mp4: "MP4",
+                Gif: "GIF",
+                Webm: "WEBM",
+            } as const;
+            export type FileType = (typeof FileType)[keyof typeof FileType];
+            /** Response format: json (default). */
+            export const Format = {
+                Json: "json",
+            } as const;
+            export type Format = (typeof Format)[keyof typeof Format];
+            /** Recognition model used by the captcha solver: mini-ocr-v1 (default) or ocr-v1. */
+            export const OcrModel = {
+                MiniOcrV1: "mini-ocr-v1",
+                OcrV1: "ocr-v1",
+            } as const;
+            export type OcrModel = (typeof OcrModel)[keyof typeof OcrModel];
+            /** Set the output format. `json` returns metadata with a hosted file URL. `image` streams the raw file bytes directly. */
+            export const Output = {
+                Json: "json",
+                Image: "image",
+            } as const;
+            export type Output = (typeof Output)[keyof typeof Output];
+
+            /**
+             * PDF output options. Applies when file_type is PDF.
+             */
+            export interface PdfOptions {
+                /** Paper size of the PDF. Applies when file_type is PDF. Without it, width and height are used if set, otherwise the page renders as one long page: A0, A1, A2, A3, A4, A5, A6, Letter, Legal, Tabloid, or Ledger. */
+                format?: PdfOptions.Format | undefined;
+                /** Renders the PDF in landscape orientation, swapping the width and height of the paper size. Applies when file_type is PDF. */
+                landscape?: boolean | undefined;
+                /** Pages to keep in the PDF, as start-end, for example 1-3 or 5-5. Pages are rendered first and then trimmed. Has no effect on a single-page PDF. Applies when file_type is PDF. */
+                page_range?: string | undefined;
+                /** CSS media type used to render the PDF: print or screen. */
+                media?: PdfOptions.Media | undefined;
+                /** Includes background colors and images in the PDF. Applies when file_type is PDF. */
+                print_background?: boolean | undefined;
+            }
+
+            export namespace PdfOptions {
+                /** Paper size of the PDF. Applies when file_type is PDF. Without it, width and height are used if set, otherwise the page renders as one long page: A0, A1, A2, A3, A4, A5, A6, Letter, Legal, Tabloid, or Ledger. */
+                export const Format = {
+                    A0: "A0",
+                    A1: "A1",
+                    A2: "A2",
+                    A3: "A3",
+                    A4: "A4",
+                    A5: "A5",
+                    A6: "A6",
+                    Letter: "Letter",
+                    Legal: "Legal",
+                    Tabloid: "Tabloid",
+                    Ledger: "Ledger",
+                } as const;
+                export type Format = (typeof Format)[keyof typeof Format];
+                /** CSS media type used to render the PDF: print or screen. */
+                export const Media = {
+                    Print: "print",
+                    Screen: "screen",
+                } as const;
+                export type Media = (typeof Media)[keyof typeof Media];
+            }
+
+            /** Scrolling speed: fast, normal (default), or slow. Affects render time and output pacing. */
+            export const ScrollSpeed = {
+                Normal: "normal",
+                Fast: "fast",
+                Slow: "slow",
+            } as const;
+            export type ScrollSpeed = (typeof ScrollSpeed)[keyof typeof ScrollSpeed];
+            /** Controls when rendering starts based on page load lifecycle. `load` (all resources), `domcontentloaded` (HTML parsed), `networkidle` (no network activity for 500ms). */
+            export const WaitForEvent = {
+                Load: "load",
+                Domcontentloaded: "domcontentloaded",
+                Networkidle: "networkidle",
+            } as const;
+            export type WaitForEvent = (typeof WaitForEvent)[keyof typeof WaitForEvent];
         }
     }
 }

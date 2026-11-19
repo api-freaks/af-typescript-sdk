@@ -6,8 +6,7 @@ import type * as ApifreaksApi from "../../index.js";
  * @example
  *     {
  *         apiKey: "apiKey",
- *         country: "country",
- *         region: "region"
+ *         country: "country"
  *     }
  */
 export interface ZipcodeSearchByRegionRequest {
@@ -17,8 +16,10 @@ export interface ZipcodeSearchByRegionRequest {
     format?: ApifreaksApi.ZipcodeSearchByRegionRequestFormat;
     /** Country code in ISO 3166-1 alpha-2 format. */
     country: string;
-    /** Name of the region, state or province associated with the country. */
-    region: string;
+    /** Name of the region, state or province associated with the country. Either region or region_code is required; region_code takes priority if both are given. */
+    region?: string;
     /** Page no. to retrieve paginated results. */
     page?: number;
+    /** ISO code of the region, state, or province associated with the country. Either region or region_code is required. region_code takes priority if both are given. */
+    region_code?: string;
 }

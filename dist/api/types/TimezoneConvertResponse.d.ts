@@ -1,7 +1,7 @@
 export interface TimezoneConvertResponse {
-    /** Original time before conversion */
+    /** Original time before conversion (format YYYY-MM-DD HH:mm:ss, not ISO 8601). */
     original_time: string;
-    /** Time after conversion */
+    /** Time after conversion (format YYYY-MM-DD HH:mm:ss, not ISO 8601). */
     converted_time: string;
     /** Difference in hours */
     diff_hour: number;

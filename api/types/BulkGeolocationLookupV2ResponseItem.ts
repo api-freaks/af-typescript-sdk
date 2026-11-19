@@ -45,6 +45,8 @@ export type BulkGeolocationLookupV2ResponseItem =
                     connection_type?: string | undefined;
                     route?: string | undefined;
                     is_anycast?: boolean | undefined;
+                    cdn_provider_name?: string | undefined;
+                    is_cdn?: boolean | undefined;
                 }
               | undefined;
           asn?:
@@ -80,6 +82,9 @@ export type BulkGeolocationLookupV2ResponseItem =
                     proxy_provider_names?: string[] | undefined;
                     proxy_confidence_score: number;
                     proxy_last_seen?: string | undefined;
+                    proxy_days_seen_30d?: number | undefined;
+                    proxy_days_seen_7d?: number | undefined;
+                    proxy_provider_count_30d?: number | undefined;
                     is_residential_proxy: boolean;
                     is_vpn: boolean;
                     vpn_provider_names?: string[] | undefined;
@@ -93,6 +98,14 @@ export type BulkGeolocationLookupV2ResponseItem =
                     is_spam: boolean;
                     is_cloud_provider: boolean;
                     cloud_provider_name?: string | undefined;
+                    bot_confidence_score?: number | undefined;
+                    bot_last_seen?: string | undefined;
+                    bot_operator_name?: string | undefined;
+                    bot_type?: string | undefined;
+                    corporate_gateway_provider_name?: string | undefined;
+                    corporate_gateway_type?: string | undefined;
+                    is_corporate_gateway?: boolean | undefined;
+                    is_known_good_bot?: boolean | undefined;
                 }
               | undefined;
           abuse?:

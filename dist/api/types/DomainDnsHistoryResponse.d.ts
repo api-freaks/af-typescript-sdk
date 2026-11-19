@@ -1,15 +1,17 @@
 export interface DomainDnsHistoryResponse {
-    totalRecords: number;
-    totalPages: number;
-    currentPage: number;
-    historicalDnsRecords: DomainDnsHistoryResponse.HistoricalDnsRecords.Item[];
+    totalRecords?: number | undefined;
+    totalPages?: number | undefined;
+    currentPage?: number | undefined;
+    historicalDnsRecords?: DomainDnsHistoryResponse.HistoricalDnsRecords.Item[] | undefined;
 }
 export declare namespace DomainDnsHistoryResponse {
     type HistoricalDnsRecords = HistoricalDnsRecords.Item[];
     namespace HistoricalDnsRecords {
         interface Item {
+            /** Timestamp when the query was executed (format YYYY-MM-DD HH:mm:ss, not ISO 8601). */
             queryTime: string;
             domainName: string;
+            domainRegistered?: boolean | undefined;
             dnsTypes: Item.DnsTypes;
             dnsRecords: Item.DnsRecords.Item[];
         }
@@ -23,6 +25,7 @@ export declare namespace DomainDnsHistoryResponse {
                 SOA?: number | undefined;
                 TXT?: number | undefined;
                 SPF?: number | undefined;
+                PTR?: number | undefined;
             }
             type DnsRecords = DnsRecords.Item[];
             namespace DnsRecords {
@@ -37,20 +40,20 @@ export declare namespace DomainDnsHistoryResponse {
                 } | {
                     name: string;
                     type: number;
-                    dnsType: "CNAME";
-                    ttl: number;
-                    rawText: string;
-                    rRsetType: number;
-                    target: string;
-                } | {
-                    name: string;
-                    type: number;
                     dnsType: "MX";
                     ttl: number;
                     rawText: string;
                     rRsetType: number;
                     target: string;
                     priority: number;
+                } | {
+                    name: string;
+                    type: number;
+                    dnsType: "CNAME";
+                    ttl: number;
+                    rawText: string;
+                    rRsetType: number;
+                    target: string;
                 } | {
                     name: string;
                     type: number;

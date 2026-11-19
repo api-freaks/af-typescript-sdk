@@ -1,15 +1,17 @@
 export interface DomainDnsLookupResponse {
     /** Indicates whether the query was processed successfully. */
     status: boolean;
-    /** Time at which the query was made (Format:YYYY-MM-DD HH:mm:ss). */
+    /** Timestamp when the query was executed (format YYYY-MM-DD HH:mm:ss, not ISO 8601). */
     queryTime: string;
     /** Queried domain. */
-    domainName: string;
+    domainName?: string | undefined;
     /** Indicates whether the domain is registered. */
-    domainRegistered: boolean;
+    domainRegistered?: boolean | undefined;
     dnsTypes: DomainDnsLookupResponse.DnsTypes;
     /** List of DNS records, each based on its type. */
     dnsRecords: DomainDnsLookupResponse.DnsRecords.Item[];
+    /** IP address queried (present when ipAddress parameter is used instead of host-name). */
+    ipAddress?: string | undefined;
 }
 export declare namespace DomainDnsLookupResponse {
     interface DnsTypes {
@@ -21,6 +23,7 @@ export declare namespace DomainDnsLookupResponse {
         SOA?: number | undefined;
         TXT?: number | undefined;
         SPF?: number | undefined;
+        PTR?: number | undefined;
     }
     type DnsRecords = DnsRecords.Item[];
     namespace DnsRecords {
@@ -35,14 +38,6 @@ export declare namespace DomainDnsLookupResponse {
         } | {
             name: string;
             type: number;
-            dnsType: "CNAME";
-            ttl: number;
-            rawText: string;
-            rRsetType: number;
-            target: string;
-        } | {
-            name: string;
-            type: number;
             dnsType: "MX";
             ttl: number;
             rawText: string;
@@ -52,7 +47,15 @@ export declare namespace DomainDnsLookupResponse {
         } | {
             name: string;
             type: number;
-            dnsType: "NS";
+            dnsType: "CNAME";
+            ttl: number;
+            rawText: string;
+            rRsetType: number;
+            target: string;
+        } | {
+            name: string;
+            type: number;
+            dnsType: "NS" | "PTR";
             ttl: number;
             rawText: string;
             rRsetType: number;

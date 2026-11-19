@@ -1,5 +1,5 @@
 export interface ZipcodeDistanceMatchResponse {
-    /** Number of matching ZIP/postal code pairs returned */
+    /** Number of matching ZIP/postal code pairs returned. Zero when no pairs fall within the threshold. */
     result_count?: number | undefined;
     results?: ZipcodeDistanceMatchResponse.Results.Item[] | undefined;
 }

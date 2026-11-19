@@ -34,6 +34,7 @@ export namespace BulkDomainDnsLookupResponse {
                 SOA?: number | undefined;
                 TXT?: number | undefined;
                 SPF?: number | undefined;
+                PTR?: number | undefined;
             }
 
             export type DnsRecords = DnsRecords.Item[];
@@ -52,15 +53,6 @@ export namespace BulkDomainDnsLookupResponse {
                     | {
                           name: string;
                           type: number;
-                          dnsType: "CNAME";
-                          ttl: number;
-                          rawText: string;
-                          rRsetType: number;
-                          target: string;
-                      }
-                    | {
-                          name: string;
-                          type: number;
                           dnsType: "MX";
                           ttl: number;
                           rawText: string;
@@ -71,7 +63,16 @@ export namespace BulkDomainDnsLookupResponse {
                     | {
                           name: string;
                           type: number;
-                          dnsType: "NS";
+                          dnsType: "CNAME";
+                          ttl: number;
+                          rawText: string;
+                          rRsetType: number;
+                          target: string;
+                      }
+                    | {
+                          name: string;
+                          type: number;
+                          dnsType: "NS" | "PTR";
                           ttl: number;
                           rawText: string;
                           rRsetType: number;

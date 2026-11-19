@@ -16,6 +16,6 @@ export interface GetAdminUnitsRequest {
     format?: ApifreaksApi.GetAdminUnitsRequestFormat;
     /** Country code in ISO 3166-1 alpha-2 format. */
     country: string;
-    /** Comma-separated list to filter results by one or more administrative levels. */
-    adminLevels?: string | string[];
+    /** Filter results by one or more administrative level names (e.g. `land`, `state`, `province`), sent as a comma-separated list. Use the admin levels endpoint to list the levels a country has. */
+    admin_level?: string | string[];
 }

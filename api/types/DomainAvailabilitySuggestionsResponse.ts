@@ -4,17 +4,15 @@ export type DomainAvailabilitySuggestionsResponse =
     /**
      * Returned when `sug=false` — availability for the queried domain only, no suggestions. */
     | {
-          domain?: string | undefined;
-          domainAvailability?: boolean | undefined;
+          domain: string;
+          domainAvailability: boolean;
       }
     /**
      * Returned when `sug` is omitted or `true` — the queried domain plus suggested alternatives. */
     | {
-          domain_available_response?:
-              | {
-                    domain?: string | undefined;
-                    domainAvailability?: boolean | undefined;
-                    message?: string | undefined;
-                }[]
-              | undefined;
+          domain_available_response: {
+              domain: string;
+              domainAvailability: boolean;
+              message?: string | undefined;
+          }[];
       };

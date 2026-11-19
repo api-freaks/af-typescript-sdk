@@ -4,5 +4,4 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.MarineWeatherRequestFormat = void 0;
 exports.MarineWeatherRequestFormat = {
     Json: "json",
-    Xml: "xml",
 };

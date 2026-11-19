@@ -2,9 +2,12 @@
 
 import type * as core from "../../core/index.js";
 import * as errors from "../../errors/index.js";
+import type * as ApifreaksApi from "../index.js";
 
 export class GatewayTimeoutError extends errors.ApifreaksApiError {
-    constructor(body?: unknown, rawResponse?: core.RawResponse) {
+    public declare readonly body: ApifreaksApi.GatewayTimeoutErrorBody;
+
+    constructor(body: ApifreaksApi.GatewayTimeoutErrorBody, rawResponse?: core.RawResponse) {
         super({
             message: "GatewayTimeoutError",
             statusCode: 504,
@@ -16,6 +19,6 @@ export class GatewayTimeoutError extends errors.ApifreaksApiError {
             Error.captureStackTrace(this, this.constructor);
         }
 
-        this.name = this.constructor.name;
+        this.name = "GatewayTimeoutError";
     }
 }

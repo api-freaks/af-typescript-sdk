@@ -2,8 +2,12 @@
 
 export interface VatSupportedCountriesResponse {
     VAT_Supported_Countries_And_States?:
-        | VatSupportedCountriesResponse.VatSupportedCountriesAndStates.Item[]
+        | Record<string, VatSupportedCountriesResponse.VatSupportedCountriesAndStates.Item>[]
         | undefined;
+    /** Array of countries supported by the IBAN Validation API. */
+    IBAN_Supported_Countries?: VatSupportedCountriesResponse.IbanSupportedCountries.Item[] | undefined;
+    /** Array of countries supported by the SWIFT/BIC Code Lookup and Finder APIs. */
+    SWIFT_Supported_Countries?: VatSupportedCountriesResponse.SwiftSupportedCountries.Item[] | undefined;
 }
 
 export namespace VatSupportedCountriesResponse {
@@ -11,9 +15,38 @@ export namespace VatSupportedCountriesResponse {
 
     export namespace VatSupportedCountriesAndStates {
         export interface Item {
+            /** ISO 3166-1 alpha-2 country code, lowercase. */
             code: string;
+            /** Sub-national regions with their own VAT data, keyed by name (e.g. `california`: `us:ca`). */
+            states?: Record<string, string> | undefined;
+        }
+    }
+
+    export type IbanSupportedCountries = IbanSupportedCountries.Item[];
+
+    export namespace IbanSupportedCountries {
+        /**
+         * A single country supported by the IBAN Validation API.
+         */
+        export interface Item {
+            /** ISO 3166-1 alpha-2 country code. */
+            countryCode: string;
+            /** Full country name. */
             name: string;
-            states: string[];
+        }
+    }
+
+    export type SwiftSupportedCountries = SwiftSupportedCountries.Item[];
+
+    export namespace SwiftSupportedCountries {
+        /**
+         * A single country supported by the SWIFT/BIC Code Lookup and Finder APIs.
+         */
+        export interface Item {
+            /** Full country name. */
+            name: string;
+            /** ISO 3166-1 alpha-2 country code. */
+            countryCode: string;
         }
     }
 }

@@ -15,10 +15,7 @@ export interface BulkDomainDnsLookupRequest {
     apiKey: string;
     /** Format of the response. */
     format?: ApifreaksApi.BulkDomainDnsLookupRequestFormat;
-    /**
-     * A comma-separated list of DNS record types for lookup.
-     * Possible values: A, AAAA, MX, NS, SOA, SPF, TXT, CNAME, or all
-     */
+    /** DNS record types to look up, sent as a comma-separated list (e.g. `A,MX`). Possible values: A, AAAA, MX, NS, SOA, SPF, TXT, CNAME, or all. */
     type?: string | string[];
     /** List of hostnames to lookup DNS records for */
     domainNames: string[];

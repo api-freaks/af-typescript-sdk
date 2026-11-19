@@ -10,6 +10,6 @@ export interface VatSupportedCountriesRequest {
     apiKey: string;
     /** Format of the response. Default is JSON. */
     format?: ApifreaksApi.VatSupportedCountriesRequestFormat;
-    /** Type of supported country. Supported values: IBAN, SWIFT, VAT. By default, it returns all supported countries for all types. */
+    /** Which list to return: VAT (`VAT_Supported_Countries_And_States`), IBAN (`IBAN_Supported_Countries`) or SWIFT (`SWIFT_Supported_Countries`). Each value returns only its own list. If omitted (or unknown), all three lists are returned. */
     type?: ApifreaksApi.VatSupportedCountriesRequestType;
 }

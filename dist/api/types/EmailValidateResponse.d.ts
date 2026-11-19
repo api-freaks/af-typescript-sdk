@@ -8,15 +8,18 @@ export interface EmailValidateResponse {
     domain: EmailValidateResponse.Domain;
     account: EmailValidateResponse.Account;
     dns: EmailValidateResponse.Dns;
-    ipAddress?: string | undefined;
+    ip?: string | undefined;
     address?: EmailValidateResponse.Address | undefined;
 }
 export declare namespace EmailValidateResponse {
     const ValidEmail: {
         readonly Valid: "valid";
-        readonly Invalid: "Invalid";
-        readonly Unknown: "Unknown";
-        readonly Risky: "Risky";
+        readonly AcceptAll: "accept_all";
+        readonly Invalid: "invalid";
+        readonly InvalidEmail: "INVALID_EMAIL";
+        readonly Unknown: "unknown";
+        readonly Risky: "risky";
+        readonly AppServerBlocked: "app_server_blocked";
     };
     type ValidEmail = (typeof ValidEmail)[keyof typeof ValidEmail];
     interface Domain {
@@ -24,7 +27,7 @@ export declare namespace EmailValidateResponse {
         disposable: boolean;
         spam: boolean;
         free: boolean;
-        catchAll: boolean;
+        catchAll?: boolean | undefined;
         validDomain: boolean;
     }
     interface Account {
@@ -32,9 +35,9 @@ export declare namespace EmailValidateResponse {
         fullMailBox?: boolean | undefined;
     }
     interface Dns {
-        mxRecords: string[];
+        mxRecord: string[];
         /** Collection of A (Address) records for the domain. */
-        aRecords: string[];
+        aRecord?: string[] | undefined;
     }
     interface Address {
         security?: Address.Security | undefined;

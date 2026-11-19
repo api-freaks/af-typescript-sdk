@@ -6,8 +6,11 @@ var EmailValidateResponse;
 (function (EmailValidateResponse) {
     EmailValidateResponse.ValidEmail = {
         Valid: "valid",
-        Invalid: "Invalid",
-        Unknown: "Unknown",
-        Risky: "Risky",
+        AcceptAll: "accept_all",
+        Invalid: "invalid",
+        InvalidEmail: "INVALID_EMAIL",
+        Unknown: "unknown",
+        Risky: "risky",
+        AppServerBlocked: "app_server_blocked",
     };
 })(EmailValidateResponse || (exports.EmailValidateResponse = EmailValidateResponse = {}));
