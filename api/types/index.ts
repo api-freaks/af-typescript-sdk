@@ -183,8 +183,6 @@ export * from "./MethodNotAllowedErrorBody.js";
 export * from "./NoResponseErrorBody.js";
 export * from "./NotAcceptableErrorBody.js";
 export * from "./NotFoundErrorBody.js";
-export * from "./OcrPredictRequestModel.js";
-export * from "./OcrPredictResponse.js";
 export * from "./PaymentRequiredErrorBody.js";
 export * from "./PdfCompressRequestCompressionLevel.js";
 export * from "./PdfCompressRequestFormat.js";
