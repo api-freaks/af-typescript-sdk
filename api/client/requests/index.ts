@@ -78,7 +78,6 @@ export type { IbanValidateRequest } from "./IbanValidateRequest.js";
 export type { IpSecurityLookupRequest } from "./IpSecurityLookupRequest.js";
 export type { IpWhoisLookupRequest } from "./IpWhoisLookupRequest.js";
 export type { MarineWeatherRequest } from "./MarineWeatherRequest.js";
-export type { OcrPredictRequest } from "./OcrPredictRequest.js";
 export type { PdfCompressRequest } from "./PdfCompressRequest.js";
 export type { PdfConvertToBmpRequest } from "./PdfConvertToBmpRequest.js";
 export type { PdfConvertToGifRequest } from "./PdfConvertToGifRequest.js";

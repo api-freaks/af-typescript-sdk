@@ -199,8 +199,6 @@ __exportStar(require("./MethodNotAllowedErrorBody.js"), exports);
 __exportStar(require("./NoResponseErrorBody.js"), exports);
 __exportStar(require("./NotAcceptableErrorBody.js"), exports);
 __exportStar(require("./NotFoundErrorBody.js"), exports);
-__exportStar(require("./OcrPredictRequestModel.js"), exports);
-__exportStar(require("./OcrPredictResponse.js"), exports);
 __exportStar(require("./PaymentRequiredErrorBody.js"), exports);
 __exportStar(require("./PdfCompressRequestCompressionLevel.js"), exports);
 __exportStar(require("./PdfCompressRequestFormat.js"), exports);
